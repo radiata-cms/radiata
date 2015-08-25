@@ -4,3 +4,7 @@
 # RUN `build` COMMAND AFTER ADDING/REMOVING MODULES.
 
 class_name: UnitTester
+modules:
+    enabled:
+        - \tests\codeception\common\Helper\MigratorHelper
+        - \tests\codeception\common\Helper\ConfiguratorHelper

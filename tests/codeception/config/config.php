@@ -14,7 +14,11 @@ return [
     ],
     'components' => [
         'db' => [
-            'dsn' => 'mysql:host=localhost;dbname=yii2_advanced_tests',
+            'dsn' => 'mysql:host=localhost;dbname=radiata_advanced_tests',
+            'username' => 'radiata_advanced',
+            'password' => '',
+            'charset' => 'utf8',
+            'tablePrefix' => 'radiata_',
         ],
         'mailer' => [
             'useFileTransport' => true,

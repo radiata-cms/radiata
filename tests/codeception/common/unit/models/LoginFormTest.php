@@ -51,6 +51,7 @@ class LoginFormTest extends DbTestCase
 
     public function testLoginWrongPassword()
     {
+
         $model = new LoginForm([
             'username' => 'bayer.hudson',
             'password' => 'wrong_password',
