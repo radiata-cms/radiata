@@ -13,16 +13,27 @@ modules:
     enabled:
         - PhpBrowser
         - tests\codeception\common\_support\FixtureHelper
-# you can use WebDriver instead of PhpBrowser to test javascript and ajax.
-# This will require you to install selenium. See http://codeception.com/docs/04-AcceptanceTests#Selenium
-# "restart" option is used by the WebDriver to start each time per test-file new session and cookies,
-# it is useful if you want to login in your app in each test.
-#        - WebDriver
     config:
         PhpBrowser:
-# PLEASE ADJUST IT TO THE ACTUAL ENTRY POINT WITHOUT PATH INFO
-            url: http://localhost:8080
-#        WebDriver:
-#            url: http://localhost:8080
-#            browser: firefox
-#            restart: true
+            url: http://rdev.local/index-test.php
+        WebDriver:
+            url: http://rdev.local/index-test.php
+            browser: 'firefox'
+            restart: true
+env:
+    php:
+        modules:
+            enabled:
+                - PhpBrowser
+        config:
+              PhpBrowser:
+                  url: http://rdev.local/index-test.php
+    firefox:
+        modules:
+            enabled:
+                - WebDriver
+        config:
+              WebDriver:
+                  url: http://rdev.local/index-test.php
+                  browser: 'firefox'
+                  restart: true

@@ -13,7 +13,8 @@
 namespace common\modules\radiata;
 
 use Yii;
-use \common\modules\radiata\components\Migrator;
+use common\modules\radiata\components\Migrator;
+use common\modules\radiata\models\Lang;
 
 /**
  * Class Radiata
@@ -31,19 +32,14 @@ class Radiata extends \yii\base\Module
     public $availableLanguages = [];
 
     /**
-     * @var string App default language
+     * @var Lang App default language
      */
-    protected $defaultLanguage;
+    public $defaultLanguage;
 
     /**
-     * @var string App active language
+     * @var Lang App active language
      */
-    protected $activeLanguage;
-
-    /**
-     * @var string App backend default language
-     */
-    protected $defaultBackendLanguage;
+    public $activeLanguage;
 
     /**
      * @var string App backend default layout
@@ -51,60 +47,73 @@ class Radiata extends \yii\base\Module
     public $backendLayout = 'main';
 
     /**
-     *
+     * Init method
      */
     public function init()
     {
         parent::init();
 
-        // more
-    }
-
-    /**
-     *
-     */
-    public function getLanguages()
-    {
-        $languages = Yii::$app->cache->get('languages');
-        if (!$languages) {
-
-
-        }
-        $this->availableLanguages = $languages;
+        $this->initLanguages();
     }
 
     /**
      * Get default language from available languages
      *
-     * @return string Language code
+     * @return void
      */
     public function getDefaultLanguage()
     {
-        return reset(array_keys($this->availableLanguages));
-    }
-
-    /**
-     * Get default language from available languages. Can be overwritten manually
-     *
-     * @return string Language code
-     */
-    public function getDefaultBackendLanguage()
-    {
-        return $this->defaultBackendLanguage ? $this->defaultBackendLanguage : reset(array_keys($this->availableLanguages));
+        foreach ($this->availableLanguages as $availableLanguage) {
+            if ($availableLanguage->default == 1) {
+                $this->defaultLanguage = $availableLanguage;
+            }
+        }
     }
 
     /**
      * Get active language from URL
      *
-     * @return void
+     * @param string $url
+     *
+     * return void
      */
-    public function getActiveLanguage()
+    public function getActiveLanguageByUrl($url)
     {
-        $url = Yii::$app->request->pathInfo;
-
         $possibleLang = substr($url, 1, 2);
 
-        $this->activeLanguage = isset($this->availableLanguages[$possibleLang]) ? $this->availableLanguages[$possibleLang] : $this->defaultLanguage;
+        $this->activeLanguage = $this->getLanguageByCode($possibleLang);
+
+        if (!$this->activeLanguage) $this->activeLanguage = $this->defaultLanguage;
+    }
+
+    /**
+     * Get language by code
+     *
+     * @param $code
+     *
+     * @return Lang|null
+     */
+    public function getLanguageByCode($code)
+    {
+        foreach ($this->availableLanguages as $availableLanguage) {
+            if ($code == $availableLanguage->code) {
+                return $availableLanguage;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Init all languages data
+     *
+     * return void
+     */
+    public function initLanguages()
+    {
+        $this->availableLanguages = Lang::getLanguages();
+
+        $this->getDefaultLanguage();
     }
 
     /**

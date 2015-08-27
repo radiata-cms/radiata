@@ -87,11 +87,11 @@ trait UnitTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
-     * @param array $configurationPaths
+     * @param array $configPaths
      * @return Configurator
      * @see \tests\codeception\common\Helper\ConfiguratorHelper::setConfigurator()
      */
-    public function setConfigurator($configurationPaths = null)
+    public function setConfigurator($configPaths = null)
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('setConfigurator', func_get_args()));
     }

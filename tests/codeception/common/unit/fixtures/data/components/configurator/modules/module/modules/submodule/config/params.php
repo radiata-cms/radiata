@@ -1,4 +1,4 @@
 <?php
 return [
-    'adminName' => 'Admin',
+    'adminNameFake' => 'Admin',
 ];

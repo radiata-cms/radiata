@@ -1,6 +1,8 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'sourceLanguage' => 'en-US',
+    'language' => 'en-US',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache'
@@ -9,6 +11,16 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
+            'class' => 'common\modules\radiata\components\LangUrlManager',
+        ],
+        'request' => [
+            'class' => 'common\modules\radiata\components\LangRequestManager'
         ],
     ],
+    'modules' => [
+        'radiata' => [
+            'class' => 'common\modules\radiata\Radiata',
+        ],
+    ],
+    'bootstrap' => ['radiata'],
 ];

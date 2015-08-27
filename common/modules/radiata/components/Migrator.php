@@ -152,20 +152,7 @@ class Migrator extends \yii\base\Object
 
         $formattedMigration['name'] = $name;
 
-        $exploded = preg_split('/(\/|\\\)/', $path);
-        if (count($exploded) > 0) {
-            foreach ($exploded as $explodedPart) {
-                if ($explodedPart == $this->migrationDir) break;
-                if (empty($formattedMigration['module']) && $explodedPart == $this->modulesDir || !empty($formattedMigration['module'])) {
-                    if (empty($formattedMigration['module'])) {
-                        $formattedMigration['module'] = $explodedPart;
-                    } else {
-                        $formattedMigration['module'] .= '/' . $explodedPart;
-                    }
-                }
-            }
-            $formattedMigration['module'] = str_replace($this->modulesDir . '/', '', $formattedMigration['module']);
-        }
+        $formattedMigration['module'] = PathHelper::getModuleAlias($path, $this->migrationDir, $this->modulesDir);
 
         return $formattedMigration;
     }

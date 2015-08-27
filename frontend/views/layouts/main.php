@@ -57,6 +57,7 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
+        <?= common\modules\radiata\widgets\LangSwitcherWidget::widget(); ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -67,7 +68,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left" id="copyright"><?= Yii::t('c/radiata', 'copyright', ['year' => date('Y')]) ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

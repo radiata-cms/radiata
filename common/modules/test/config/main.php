@@ -4,10 +4,5 @@ $params = array_merge(
 );
 
 return [
-    'components' => [
-        'errorHandler' => [
-            'errorAction' => 'site/errorTest',
-        ],
-    ],
     'params' => $params,
 ];

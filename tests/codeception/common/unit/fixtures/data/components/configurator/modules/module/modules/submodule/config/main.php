@@ -4,11 +4,5 @@ $params = array_merge(
 );
 
 return [
-    'components' => [
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-            'keyPrefix' => 'radiata',
-        ],
-    ],
     'params' => $params,
 ];

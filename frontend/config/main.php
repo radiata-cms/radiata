@@ -7,7 +7,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'radiata',
+    'id' => 'radiata-fronend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',

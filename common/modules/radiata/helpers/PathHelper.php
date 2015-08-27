@@ -85,4 +85,34 @@ class PathHelper
         return $configPaths;
     }
 
+    /**
+     * Get module alias by full directory path
+     *
+     * @param string $path
+     * @param string $breakDirName
+     * @param string $modulesDirName
+     * @return string
+     */
+    static function getModuleAlias($path, $breakDirName, $modulesDirName)
+    {
+        $moduleAlias = '';
+
+        $exploded = preg_split('/(\/|\\\)/', $path);
+        if (count($exploded) > 0) {
+            foreach ($exploded as $explodedPart) {
+                if ($explodedPart == $breakDirName) break;
+                if (empty($moduleAlias) && $explodedPart == $modulesDirName || !empty($moduleAlias)) {
+                    if (empty($moduleAlias)) {
+                        $moduleAlias = $explodedPart;
+                    } else {
+                        $moduleAlias .= '/' . $explodedPart;
+                    }
+                }
+            }
+            $moduleAlias = str_replace($modulesDirName . '/', '', $moduleAlias);
+        }
+
+        return $moduleAlias;
+    }
+
 }
