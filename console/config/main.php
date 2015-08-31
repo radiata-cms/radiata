@@ -20,6 +20,12 @@ return [
                 ],
             ],
         ],
+        'request' => [
+            'class' => 'yii\console\Request'
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'params' => $params,
 ];

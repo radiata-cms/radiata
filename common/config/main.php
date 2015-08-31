@@ -17,10 +17,4 @@ return [
             'class' => 'common\modules\radiata\components\LangRequestManager'
         ],
     ],
-    'modules' => [
-        'radiata' => [
-            'class' => 'common\modules\radiata\Radiata',
-        ],
-    ],
-    'bootstrap' => ['radiata'],
 ];

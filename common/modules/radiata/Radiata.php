@@ -53,6 +53,14 @@ class Radiata extends \yii\base\Module
     {
         parent::init();
 
+        /*
+        $migrator = new Migrator();
+        //$migrator->direction = 'down';
+        $migrator->migrate();
+        echo '<pre>',print_r($migrator->error);
+        exit();
+        */
+
         $this->initLanguages();
     }
 
