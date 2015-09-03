@@ -5,6 +5,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Pjax;
 use backend\assets\AdminLteAsset;
 
 AdminLteAsset::register($this);
@@ -22,7 +23,6 @@ backend\assets\AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
 <body class="hold-transition skin-<?= AdminLteAsset::ADMIN_LTE_SKIN ?> sidebar-mini">
 <?php $this->beginBody() ?>
 <div class="wrapper">
@@ -31,7 +31,10 @@ backend\assets\AppAsset::register($this);
     <? echo $this->render('_main/_center.php', ['content' => $content]); ?>
     <? echo $this->render('_main/_footer.php'); ?>
     </div>
-<div class="lockscreen-container" data-url="<?= Url::to(['radiata/lock-screen']); ?>"></div>
+<div class="lockscreen-container"
+     data-url="<?= Url::to(['/radiata/radiata/lock-screen', 'id' => Yii::$app->user->id]); ?>"></div>
+<?php Pjax::begin(['id' => 'pjax_container']); ?><?php Pjax::end(); ?>
+
 <?php $this->endBody() ?>
 </body>
 </html>

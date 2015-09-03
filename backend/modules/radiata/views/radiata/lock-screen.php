@@ -1,46 +1,68 @@
 <?php
 /* @var $this \yii\web\View */
+/* @var $user common\models\User */
+/* @var $successLogin boolean */
+
+use yii\helpers\Url;
+use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
+use backend\widgets\Errors;
+
 ?>
 
 <!-- Automatic element centering -->
 <div class="lockscreen lockscreen-wrapper">
     <div class="lockscreen-logo">
-        <a href="#"><b>Admin</b>LTE</a>
+        <b><?= Yii::t('c/radiata', 'CMS') ?></b>
     </div>
-    <!-- User name -->
-    <div class="lockscreen-name">John Doe</div>
 
-    <!-- START LOCK SCREEN ITEM -->
-    <div class="lockscreen-item">
-        <!-- lockscreen image -->
-        <div class="lockscreen-image">
-            <img src="img/lte-admin/user1-128x128.jpg" alt="User Image">
-        </div>
-        <!-- /.lockscreen-image -->
+    <?php Pjax::begin(['id' => 'login_form', 'enablePushState' => false]); ?>
 
-        <!-- lockscreen credentials (contains the form) -->
-        <form class="lockscreen-credentials">
+    <? if ($successLogin) { ?>
+
+        <?php
+        $this->registerJs('$("div.lockscreen-container").html("").hide();');
+        ?>
+
+    <? } else { ?>
+        <?php echo Errors::widget(['models' => [$model], 'errorClass' => 'lockscreen-errors']); ?>
+
+        <!-- User name -->
+        <div class="lockscreen-name"><?= $user->first_name . ' ' . $user->last_name ?></div>
+        <!-- START LOCK SCREEN ITEM -->
+        <div class="lockscreen-item">
+            <!-- lockscreen image -->
+            <div class="lockscreen-image">
+                <img src="/img/lte-admin/user1-128x128.jpg" alt="User Image">
+                </div>
+            <!-- /.lockscreen-image -->
+
+            <!-- lockscreen credentials (contains the form) -->
+            <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true, 'class' => 'lockscreen-credentials', 'autocomplete' => 'off']]); ?>
             <div class="input-group">
-                <input type="password" class="form-control" placeholder="password">
+                <?= Html::activeHiddenInput($model, 'user_id', ['value' => $user->id]); ?>
+
+                <?= Html::activePasswordInput($model, 'user_password', ['class' => 'form-control', 'placeholder' => 'password', 'autocomplete' => 'off']); ?>
 
                 <div class="input-group-btn">
-                    <button class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
+                    <?= Html::submitButton('<i class="fa fa-arrow-right text-muted"></i>', ['class' => 'btn']) ?>
                 </div>
             </div>
-        </form>
-        <!-- /.lockscreen credentials -->
+            <?php ActiveForm::end(); ?>
+            <!-- /.lockscreen credentials -->
+        </div>
+        <!-- /.lockscreen-item -->
+    <? } ?>
 
-    </div>
-    <!-- /.lockscreen-item -->
+    <?php Pjax::end(); ?>
+
     <div class="help-block text-center">
-        Enter your password to retrieve your session
+        <?= Yii::t('b/radiata/login', 'Enter lockscreen password') ?>
     </div>
     <div class="text-center">
-        <a href="#">Or sign in as a different user</a>
+        <a href="<?= Url::to(['radiata/login']) ?>"><?= Yii::t('b/radiata/login', 'Or sign in as a different user') ?></a>
     </div>
-    <div class="lockscreen-footer text-center">
-        Copyright &copy; 2014-2015 <b><a href="http://almsaeedstudio.com" class="text-black">Almsaeed Studio</a></b><br>
-        All rights reserved
-    </div>
+    <div class="lockscreen-footer text-center"></div>
 </div><!-- /.center -->
 

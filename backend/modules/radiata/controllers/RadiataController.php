@@ -4,7 +4,10 @@ namespace backend\modules\radiata\controllers;
 use Yii;
 use backend\modules\radiata\components\BackendController;
 use common\models\LoginForm;
+use common\models\User;
+use backend\modules\radiata\models\LockScreenLoginForm;
 use backend\modules\radiata\events\AdminLogEvent;
+use yii\web\ForbiddenHttpException;
 
 /**
  * Radiata controller
@@ -60,11 +63,30 @@ class RadiataController extends BackendController
         return $this->goHome();
     }
 
-    public function actionLockScreen()
+    public function actionLockScreen($id)
     {
-        $user = Yii::$app->user->identity;
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->user->logout();
+        }
 
-        return $this->renderAjax('lock-screen', ['user' => $user]);
+        $user = User::findOne($id);
+
+        if ($user) {
+            $successLogin = false;
+            $model = new LockScreenLoginForm();
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->login()) {
+                    $this->trigger(AdminLogEvent::EVENT_SUCCESS_AUTH);
+                    $successLogin = true;
+                } else {
+                    $this->trigger(AdminLogEvent::EVENT_WRONG_AUTH);
+                }
+            }
+
+            return $this->renderAjax('lock-screen', ['user' => $user, 'model' => $model, 'successLogin' => $successLogin]);
+        } else {
+            throw new ForbiddenHttpException();
+        }
     }
 
     /**

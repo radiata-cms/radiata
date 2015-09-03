@@ -91,42 +91,42 @@ $this->title = 'My Yii Application';
                         <div class="box-body no-padding">
                             <ul class="users-list clearfix">
                                 <li>
-                                    <img src="img/lte-admin/user1-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user1-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Alexander Pierce</a>
                                     <span class="users-list-date">Today</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user8-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user8-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Norman</a>
                                     <span class="users-list-date">Yesterday</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user7-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user7-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Jane</a>
                                     <span class="users-list-date">12 Jan</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user6-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user6-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">John</a>
                                     <span class="users-list-date">12 Jan</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user2-160x160.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user2-160x160.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Alexander</a>
                                     <span class="users-list-date">13 Jan</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user5-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user5-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Sarah</a>
                                     <span class="users-list-date">14 Jan</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user4-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user4-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Nora</a>
                                     <span class="users-list-date">15 Jan</span>
                                 </li>
                                 <li>
-                                    <img src="img/lte-admin/user3-128x128.jpg" alt="User Image">
+                                    <img src="/img/lte-admin/user3-128x128.jpg" alt="User Image">
                                     <a class="users-list-name" href="#">Nadia</a>
                                     <span class="users-list-date">15 Jan</span>
                                 </li>
@@ -160,7 +160,7 @@ $this->title = 'My Yii Application';
                             <ul class="products-list product-list-in-box">
                                 <li class="item">
                                     <div class="product-img">
-                                        <img src="img/lte-admin/default-50x50.gif" alt="Product Image">
+                                        <img src="/img/lte-admin/default-50x50.gif" alt="Product Image">
                                     </div>
                                     <div class="product-info">
                                         <a href="javascript::;" class="product-title">Samsung TV <span
@@ -172,7 +172,7 @@ $this->title = 'My Yii Application';
                                 <!-- /.item -->
                                 <li class="item">
                                     <div class="product-img">
-                                        <img src="img/lte-admin/default-50x50.gif" alt="Product Image">
+                                        <img src="/img/lte-admin/default-50x50.gif" alt="Product Image">
                                     </div>
                                     <div class="product-info">
                                         <a href="javascript::;" class="product-title">Bicycle <span
@@ -184,7 +184,7 @@ $this->title = 'My Yii Application';
                                 <!-- /.item -->
                                 <li class="item">
                                     <div class="product-img">
-                                        <img src="img/lte-admin/default-50x50.gif" alt="Product Image">
+                                        <img src="/img/lte-admin/default-50x50.gif" alt="Product Image">
                                     </div>
                                     <div class="product-info">
                                         <a href="javascript::;" class="product-title">Xbox One <span
@@ -196,7 +196,7 @@ $this->title = 'My Yii Application';
                                 <!-- /.item -->
                                 <li class="item">
                                     <div class="product-img">
-                                        <img src="img/lte-admin/default-50x50.gif" alt="Product Image">
+                                        <img src="/img/lte-admin/default-50x50.gif" alt="Product Image">
                                     </div>
                                     <div class="product-info">
                                         <a href="javascript::;" class="product-title">PlayStation 4 <span

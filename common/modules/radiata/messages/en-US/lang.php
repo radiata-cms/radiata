@@ -10,4 +10,5 @@ return [
     'Create Date' => 'Create Date',
 
     'Choose lang' => 'Choose lang',
+    'Nav title' => 'Site languages',
 ];

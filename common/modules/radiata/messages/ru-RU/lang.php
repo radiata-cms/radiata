@@ -10,4 +10,5 @@ return [
     'Create Date' => 'Дата создания',
 
     'Choose lang' => 'Выберите язык',
+    'Nav title' => 'Языки сайта',
 ];

@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/additional.css',
+        'css/flags.css',
     ];
     public $js = [
         'js/additional.js',

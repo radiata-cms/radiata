@@ -9,4 +9,7 @@ return [
     'Register a new member' => 'Register a new member',
     'Sign out' => 'Sign out',
     'Member since' => 'Member since',
+    'Enter lockscreen password' => 'Enter your password to retrieve your session',
+    'Or sign in as a different user' => 'Or sign in as a different user',
+    'password' => 'password',
 ];

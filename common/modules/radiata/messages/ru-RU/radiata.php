@@ -5,4 +5,5 @@ return [
     'Module name' => 'Radiata. Ядро CMS',
     'copyright' => 'Radiata CMS. {year} год',
     'Navigation' => 'Навигация',
+    'Dashboard' => 'Админ-панель',
 ];

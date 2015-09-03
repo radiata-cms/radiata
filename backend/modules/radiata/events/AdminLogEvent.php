@@ -3,6 +3,7 @@ namespace backend\modules\radiata\events;
 
 use Yii;
 use yii\base\Event;
+use common\models\User;
 use backend\modules\radiata\models\AdminLog;
 
 class AdminLogEvent extends Event
@@ -12,6 +13,10 @@ class AdminLogEvent extends Event
 
     const EVENT_SUCCESS_AUTH = 'successAuth';
 
+    const EVENT_WRONG_AUTH_LOCK_SCREEN = 'wrongAuthLockScreen';
+
+    const EVENT_SUCCESS_AUTH_LOCK_SCREEN = 'successAuthLockScreen';
+
     const EVENT_CREATE_ITEM = 'createItem';
 
     const EVENT_UPDATE_ITEM = 'updateItem';
@@ -20,12 +25,34 @@ class AdminLogEvent extends Event
 
     public function wrongAuth($event)
     {
-        AdminLogEvent::saveEvent($event, 'wrongAuth', $event->sender->module->module->request->post('LoginForm')['username']);
+        $value = $event->sender->module->module->request->post('LoginForm')['email'];
+        $user = User::findByEmail($value);
+
+        AdminLogEvent::saveEvent($event, 'wrongAuth', $user ? $user->email : $value);
     }
 
     public function successAuth($event)
     {
-        AdminLogEvent::saveEvent($event, 'successAuth', $event->sender->module->module->request->post('LoginForm')['username']);
+        $value = $event->sender->module->module->request->post('LoginForm')['email'];
+        $user = User::findByEmail($value);
+
+        AdminLogEvent::saveEvent($event, 'successAuth', $user ? $user->email : $value);
+    }
+
+    public function wrongAuthLockScreen($event)
+    {
+        $value = $event->sender->module->module->request->post('LockScreenLoginForm')['user_id'];
+        $user = User::findById($value);
+
+        AdminLogEvent::saveEvent($event, 'wrongAuthLockScreen', $user ? $user->email : $value);
+    }
+
+    public function successAuthLockScreen($event)
+    {
+        $value = $event->sender->module->module->request->post('LockScreenLoginForm')['user_id'];
+        $user = User::findById($value);
+
+        AdminLogEvent::saveEvent($event, 'successAuthLockScreen', $user ? $user->email : $value);
     }
 
     public function createItem($event)

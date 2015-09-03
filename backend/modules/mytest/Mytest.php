@@ -1,16 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Алекс
- * Date: 31.08.2015
- * Time: 18:10
- */
-
 namespace backend\modules\mytest;
 
+use common\modules\radiata\components\BaseRadiataModule;
 
-class Mytest extends \yii\base\Module
+class Mytest extends \yii\base\Module implements BaseRadiataModule
 {
+    public function getModuleIcon()
+    {
+        return 'fa fa-facebook';
+    }
 
+    public function getModuleMessages()
+    {
+        return 'b/mytest';
+    }
 
+    public function getPublic()
+    {
+        return true;
+    }
+
+    public function getBackendNavigation()
+    {
+        return [];
+    }
 }

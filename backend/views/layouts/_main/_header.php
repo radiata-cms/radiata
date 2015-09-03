@@ -25,14 +25,14 @@ use yii\helpers\Url;
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="img/lte-admin/user2-160x160.jpg" class="user-image" alt="User Image">
+                        <img src="/img/lte-admin/user2-160x160.jpg" class="user-image" alt="User Image">
                         <span
                             class="hidden-xs"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="img/lte-admin/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            <img src="/img/lte-admin/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                             <p>
                                 <?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?>
@@ -54,6 +54,9 @@ use yii\helpers\Url;
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>
+
+                <?= backend\modules\radiata\widgets\LangSwitcherWidget::widget(); ?>
+
             </ul>
         </div>
     </nav>

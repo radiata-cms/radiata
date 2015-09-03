@@ -9,4 +9,7 @@ return [
     'Register a new member' => 'Регистрация нового пользователя',
     'Sign out' => 'Выйти',
     'Member since' => 'На сайте с',
+    'Enter lockscreen password' => 'Введите пароль, чтобы восстановить сессию',
+    'Or sign in as a different user' => 'Или авторизируйтесь под другим аккаунтом',
+    'password' => 'пароль',
 ];

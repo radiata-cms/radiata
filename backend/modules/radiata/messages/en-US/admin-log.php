@@ -8,4 +8,6 @@ return [
     'Create Date' => 'Create Date',
     'User ID' => 'User',
     'Data' => 'Additional info',
+
+    'Nav title' => 'Admin log',
 ];

@@ -22,6 +22,7 @@ return [
         'mytest' => [
             'class' => 'backend\modules\mytest\Mytest',
             'controllerNamespace' => 'backend\modules\mytest\controllers',
+            'layoutPath' => '@backend/views/layouts',
         ],
     ],
     'components' => [
@@ -45,7 +46,10 @@ return [
         'urlManager' => [
             'rules' => [
                 '/' => '/radiata/radiata/index',
-                '<controller:\w+>/<action:[\w-]+>' => 'radiata/<controller>/<action>'
+                '<controller:\w+>/<action:[\w-]+>/<id:\d+>' => 'radiata/<controller>/<action>',
+                '<controller:\w+>/<action:[\w-]+>' => 'radiata/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:[\w-]+>/<id:\d+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:[\w-]+>' => '<module>/<controller>/<action>',
             ],
         ],
         'urlManagerFrontEnd' => [

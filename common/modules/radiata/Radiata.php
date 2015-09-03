@@ -15,11 +15,13 @@ namespace common\modules\radiata;
 use Yii;
 use common\modules\radiata\components\Migrator;
 use common\modules\radiata\models\Lang;
+use yii\helpers\Url;
+use common\modules\radiata\components\BaseRadiataModule;
 
 /**
  * Class Radiata
  */
-class Radiata extends \yii\base\Module
+class Radiata extends \yii\base\Module implements BaseRadiataModule
 {
     /**
      * @var string Version
@@ -47,21 +49,6 @@ class Radiata extends \yii\base\Module
     public $backendLayout = 'main';
 
     /**
-     * @var string Module icon
-     */
-    public $moduleIcon = 'fa fa-tree';
-
-    /**
-     * @var string Module messages
-     */
-    public $moduleMessages = 'c/radiata';
-
-    /**
-     * @var boolean Public module
-     */
-    public $public = true;
-
-    /**
      * Init method
      */
     public function init()
@@ -77,6 +64,59 @@ class Radiata extends \yii\base\Module
         */
 
         $this->initLanguages();
+    }
+
+    public function getModuleIcon()
+    {
+        return 'fa fa-tree';
+    }
+
+    public function getModuleMessages()
+    {
+        return 'c/radiata';
+    }
+
+    public function getPublic()
+    {
+        return true;
+    }
+
+    /**
+     * Backend navigation menu for module
+     *
+     * @return array
+     */
+    public function getBackendNavigation()
+    {
+        return [
+            [
+                'title' => Yii::t('b/radiata/admin-log', 'Nav title'),
+                'icon' => 'fa fa-history',
+                'link' => Url::to(['/radiata/admin-log/index']),
+            ],
+            [
+                'title' => Yii::t('c/radiata/lang', 'Nav title'),
+                'icon' => 'fa fa-language',
+                'link' => Url::to(['/radiata/langs/index']),
+            ],
+            [
+                'title' => Yii::t('b/radiata/users', 'Nav title'),
+                'icon' => 'fa fa-user',
+                'link' => Url::to(['/radiata/users/index']),
+                'children' => [
+                    [
+                        'title' => Yii::t('b/radiata/users', 'Nav list'),
+                        'icon' => 'fa fa-users',
+                        'link' => Url::to(['/radiata/users/index']),
+                    ],
+                    [
+                        'title' => Yii::t('b/radiata/users', 'Nav create'),
+                        'icon' => 'fa fa-user-plus',
+                        'link' => Url::to(['/radiata/users/create']),
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -173,5 +213,4 @@ class Radiata extends \yii\base\Module
             ];
         }
     }
-
 }

@@ -12,3 +12,8 @@ div.lockscreen-container {
     background: #d2d6de;
     display: none;
 }
+
+div.lockscreen-errors {
+    text-align: center;
+
+}
