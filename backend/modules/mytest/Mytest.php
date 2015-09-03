@@ -1,9 +1,9 @@
 <?php
 namespace backend\modules\mytest;
 
-use common\modules\radiata\components\BaseRadiataModule;
+use common\modules\radiata\interfaces\RadiataModuleInterface;
 
-class Mytest extends \yii\base\Module implements BaseRadiataModule
+class Mytest extends \yii\base\Module implements RadiataModuleInterface
 {
     public function getModuleIcon()
     {

@@ -16,12 +16,12 @@ use Yii;
 use common\modules\radiata\components\Migrator;
 use common\modules\radiata\models\Lang;
 use yii\helpers\Url;
-use common\modules\radiata\components\BaseRadiataModule;
+use common\modules\radiata\interfaces\RadiataModuleInterface;
 
 /**
  * Class Radiata
  */
-class Radiata extends \yii\base\Module implements BaseRadiataModule
+class Radiata extends \yii\base\Module implements RadiataModuleInterface
 {
     /**
      * @var string Version
@@ -89,6 +89,11 @@ class Radiata extends \yii\base\Module implements BaseRadiataModule
     public function getBackendNavigation()
     {
         return [
+            [
+                'title' => Yii::t('c/radiata', 'Dashboard'),
+                'icon' => 'fa fa-dashboard',
+                'link' => Url::to(['/radiata/radiata/index']),
+            ],
             [
                 'title' => Yii::t('b/radiata/admin-log', 'Nav title'),
                 'icon' => 'fa fa-history',

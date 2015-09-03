@@ -1,7 +1,7 @@
 <?php
-namespace common\modules\radiata\components;
+namespace common\modules\radiata\interfaces;
 
-interface BaseRadiataModule
+interface RadiataModuleInterface
 {
     function getModuleIcon();
 

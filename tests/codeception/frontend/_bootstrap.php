@@ -17,7 +17,7 @@ require_once(YII_APP_BASE_PATH . '/frontend/config/bootstrap.php');
 // the entry script file path for functional and acceptance tests
 $_SERVER['SCRIPT_FILENAME'] = FRONTEND_ENTRY_FILE;
 $_SERVER['SCRIPT_NAME'] = FRONTEND_ENTRY_URL;
-$_SERVER['SERVER_NAME'] =  parse_url(\Codeception\Configuration::config()['config']['test_entry_url'], PHP_URL_HOST);
-$_SERVER['SERVER_PORT'] =  parse_url(\Codeception\Configuration::config()['config']['test_entry_url'], PHP_URL_PORT) ?: '80';
+$_SERVER['SERVER_NAME'] = parse_url(\Codeception\Configuration::config()['config']['test_entry_url'], PHP_URL_HOST);
+$_SERVER['SERVER_PORT'] = parse_url(\Codeception\Configuration::config()['config']['test_entry_url'], PHP_URL_PORT) ?: '80';
 
 Yii::setAlias('@tests', dirname(dirname(__DIR__)));

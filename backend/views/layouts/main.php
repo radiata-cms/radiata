@@ -30,7 +30,7 @@ backend\assets\AppAsset::register($this);
     <? echo $this->render('_main/_left.php'); ?>
     <? echo $this->render('_main/_center.php', ['content' => $content]); ?>
     <? echo $this->render('_main/_footer.php'); ?>
-    </div>
+</div>
 <div class="lockscreen-container"
      data-url="<?= Url::to(['/radiata/radiata/lock-screen', 'id' => Yii::$app->user->id]); ?>"></div>
 <?php Pjax::begin(['id' => 'pjax_container']); ?><?php Pjax::end(); ?>

@@ -35,10 +35,10 @@ class Alert extends \yii\bootstrap\Widget
      * - $value is the bootstrap alert type (i.e. danger, success, info, warning)
      */
     public $alertTypes = [
-        'error'   => 'alert-danger',
-        'danger'  => 'alert-danger',
+        'error' => 'alert-danger',
+        'danger' => 'alert-danger',
         'success' => 'alert-success',
-        'info'    => 'alert-info',
+        'info' => 'alert-info',
         'warning' => 'alert-warning'
     ];
 
@@ -57,7 +57,7 @@ class Alert extends \yii\bootstrap\Widget
 
         foreach ($flashes as $type => $data) {
             if (isset($this->alertTypes[$type])) {
-                $data = (array) $data;
+                $data = (array)$data;
                 foreach ($data as $i => $message) {
                     echo '<div class="alert ' . $this->alertTypes[$type] . $appendCss . ' alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

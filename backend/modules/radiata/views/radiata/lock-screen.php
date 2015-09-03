@@ -35,7 +35,7 @@ use backend\widgets\Errors;
             <!-- lockscreen image -->
             <div class="lockscreen-image">
                 <img src="/img/lte-admin/user1-128x128.jpg" alt="User Image">
-                </div>
+            </div>
             <!-- /.lockscreen-image -->
 
             <!-- lockscreen credentials (contains the form) -->

@@ -24,7 +24,7 @@ class RadiataController extends BackendController
 
     public function beforeAction($action)
     {
-        if (in_array($action->id, ['error', 'login'])) {
+        if (in_array($action->id, ['login'])) {
             $this->layout = 'forbidden';
         }
 

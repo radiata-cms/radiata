@@ -6,6 +6,8 @@ use yii\widgets\Pjax;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+$this->params['breadcrumbs'][] = 'test';
+
 ?>
 
 <section class="content">
