@@ -19,6 +19,10 @@ return [
             'viewPath' => '@backend/modules/radiata/views',
             'defaultRoute' => 'radiata',
         ],
+        'mytest' => [
+            'class' => 'backend\modules\mytest\Mytest',
+            'controllerNamespace' => 'backend\modules\mytest\controllers',
+        ],
     ],
     'components' => [
         'user' => [
@@ -41,11 +45,15 @@ return [
         'urlManager' => [
             'rules' => [
                 '/' => '/radiata/radiata/index',
-                '<controller:\w+>/<action:\w+>' => 'radiata/<controller>/<action>'
+                '<controller:\w+>/<action:[\w-]+>' => 'radiata/<controller>/<action>'
             ],
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
+        'urlManagerFrontEnd' => [
+            'class' => 'common\modules\radiata\components\LangUrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'baseUrl' => 'http://' . str_replace('admin.', '', $_SERVER['HTTP_HOST']) . '/',
         ],
     ],
     'params' => $params,
@@ -59,5 +67,5 @@ return [
         'allowedActionsLoggedIn' => [
             'radiata/radiata/logout',
         ]
-    ]
+    ],
 ];

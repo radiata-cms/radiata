@@ -47,6 +47,21 @@ class Radiata extends \yii\base\Module
     public $backendLayout = 'main';
 
     /**
+     * @var string Module icon
+     */
+    public $moduleIcon = 'fa fa-tree';
+
+    /**
+     * @var string Module messages
+     */
+    public $moduleMessages = 'c/radiata';
+
+    /**
+     * @var boolean Public module
+     */
+    public $public = true;
+
+    /**
      * Init method
      */
     public function init()

@@ -3,12 +3,10 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use backend\assets\AppAsset;
 use yii\helpers\Html;
-use yii\bootstrap\NavBar;
-use common\widgets\Alert;
+use backend\assets\AdminLteAsset;
 
-AppAsset::register($this);
+AdminLteAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -21,35 +19,29 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+<body class="hold-transition login-page">
 <?php $this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company (FORBIDDEN LAYOUT)',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Alert::widget() ?>
+<div class="login-box">
+    <div class="login-logo">
+        <b><?= Yii::t('c/radiata', 'CMS') ?></b>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
         <?= $content ?>
     </div>
+    <!-- /.login-box-body -->
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
+<!-- /.login-box -->
 <?php $this->endBody() ?>
+<script>
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-<?=AdminLteAsset::ADMIN_LTE_SKIN?>',
+            radioClass: 'iradio_square-<?=AdminLteAsset::ADMIN_LTE_SKIN?>',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -11,6 +11,8 @@ use Yii;
 class SignupForm extends Model
 {
     public $username;
+    public $first_name;
+    public $last_name;
     public $email;
     public $password;
 
@@ -20,10 +22,10 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
+            [['username', 'first_name', 'last_name'], 'filter', 'filter' => 'trim'],
+            [['username', 'first_name', 'last_name'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            [['username', 'first_name', 'last_name'], 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -43,14 +45,25 @@ class SignupForm extends Model
      */
     public function signup()
     {
+        $transaction = Yii::$app->db->beginTransaction();
+
         if ($this->validate()) {
             $user = new User();
             $user->username = $this->username;
+            $user->first_name = $this->first_name;
+            $user->last_name = $this->last_name;
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
             if ($user->save()) {
+                $userRole = Yii::$app->authManager->getRole('user');
+                Yii::$app->authManager->assign($userRole, $user->id);
+
+                $transaction->commit();
+
                 return $user;
+            } else {
+                $transaction->rollBack();
             }
         }
 

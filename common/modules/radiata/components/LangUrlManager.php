@@ -13,6 +13,13 @@ class LangUrlManager extends UrlManager
             $langPrefix = '/' . Yii::$app->getModule('radiata')->activeLanguage->code;
         }
         $url = parent::createUrl($params);
-        return $langPrefix . $url;
+
+        $parsedUrl = parse_url($url);
+
+        if ($parsedUrl['scheme'] != '') {
+            return str_replace($parsedUrl['path'], $langPrefix . $parsedUrl['path'], $url);
+        } else {
+            return $langPrefix . $url;
+        }
     }
 }

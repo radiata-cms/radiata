@@ -127,7 +127,7 @@ class Configurator extends \yii\base\Object
 
                         if (!$categoryName) {
                             foreach ($this->configPaths as $configPath) {
-                                if (strpos(substr($configPath, 1), $realPath) !== false) {
+                                if (strpos($realPath, substr($configPath, 1)) !== false) {
                                     $categoryPrefix = substr($configPath, 1, 1);
                                     break;
                                 }

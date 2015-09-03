@@ -4,13 +4,21 @@ namespace backend\modules\radiata\controllers;
 use Yii;
 use backend\modules\radiata\components\BackendController;
 use common\models\LoginForm;
-use yii\helpers\Url;
+use backend\modules\radiata\events\AdminLogEvent;
 
 /**
  * Radiata controller
  */
 class RadiataController extends BackendController
 {
+    public function init()
+    {
+        parent::init();
+
+        $this->on(AdminLogEvent::EVENT_WRONG_AUTH, [AdminLogEvent::className(), 'wrongAuth']);
+        $this->on(AdminLogEvent::EVENT_SUCCESS_AUTH, [AdminLogEvent::className(), 'successAuth']);
+    }
+
     public function beforeAction($action)
     {
         if (in_array($action->id, ['error', 'login'])) {
@@ -32,13 +40,17 @@ class RadiataController extends BackendController
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack(Yii::$app->request->pathInfo);
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->login()) {
+                $this->trigger(AdminLogEvent::EVENT_SUCCESS_AUTH);
+                return $this->goBack(Yii::$app->request->pathInfo);
+            } else {
+                $this->trigger(AdminLogEvent::EVENT_WRONG_AUTH);
+            }
         }
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
 
     public function actionLogout()
@@ -46,6 +58,13 @@ class RadiataController extends BackendController
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionLockScreen()
+    {
+        $user = Yii::$app->user->identity;
+
+        return $this->renderAjax('lock-screen', ['user' => $user]);
     }
 
     /**

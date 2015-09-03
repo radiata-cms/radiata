@@ -7,29 +7,38 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = Yii::t('b/radiata/login', 'Page title');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+<p class="login-box-msg"><?= Yii::t('b/radiata/login', 'Form title') ?></p>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+<?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                <?= $form->field($model, 'username') ?>
+<?= $form->field($model, 'email') ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+<?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+<div class="row">
+    <div class="col-xs-8">
+        <div class="checkbox icheck">
+            <?= $form->field($model, 'rememberMe')->checkbox() ?>
         </div>
     </div>
+    <div class="col-xs-4">
+        <?= Html::submitButton(Yii::t('b/radiata/login', 'Sign in'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+    </div>
 </div>
+
+<?php ActiveForm::end(); ?>
+
+<div class="social-auth-links text-center">
+    <p>- <?= Yii::t('b/radiata/login', 'OR') ?> -</p>
+    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i
+            class="fa fa-facebook"></i> <?= Yii::t('b/radiata/login', 'Sign in using Facebook') ?></a>
+</div>
+
+<a href="<?= Yii::$app->urlManagerFrontEnd->createUrl(['user/request-password-reset']) ?>"><?= Yii::t('b/radiata/login', 'I forgot my password') ?></a>
+<br>
+<a href="<?= Yii::$app->urlManagerFrontEnd->createUrl(['user/signup']) ?>"
+   class="text-center"><?= Yii::t('b/radiata/login', 'Register a new member') ?></a>

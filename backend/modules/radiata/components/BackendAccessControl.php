@@ -62,7 +62,7 @@ class BackendAccessControl extends \yii\base\ActionFilter
             }
 
             $userGroups = Yii::$app->authManager->getAssignments($user->id);
-            if (isset($userGroups['admin'])) {
+            if (isset($userGroups['admin']) || isset($userGroups['developer'])) {
 
                 // full access
 

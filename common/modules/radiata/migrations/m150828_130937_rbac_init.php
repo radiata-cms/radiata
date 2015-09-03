@@ -39,42 +39,58 @@ class m150828_130937_rbac_init extends Migration
             'CASCADE'
         );
 
+        $developerRole = $authManager->createRole('developer');
         $adminRole = $authManager->createRole('admin');
         $managerRole = $authManager->createRole('manager');
         $userRole = $authManager->createRole('user');
 
+        $authManager->add($developerRole);
         $authManager->add($adminRole);
         $authManager->add($managerRole);
         $authManager->add($userRole);
 
         $authManager->addChild($managerRole, $userRole);
         $authManager->addChild($adminRole, $managerRole);
+        $authManager->addChild($developerRole, $adminRole);
+
+        $user = new User();
+        $user->username = 'developer';
+        $user->first_name = 'Developer';
+        $user->last_name = 'Developer';
+        $user->email = 'developer@site.dev';
+        $user->setPassword('developer^^');
+        $user->generateAuthKey();
+        $user->save();
+        $authManager->assign($developerRole, $user->id);
 
         $user = new User();
         $user->username = 'admin';
-        $user->email = 'admin@test.dev';
+        $user->first_name = 'Admin';
+        $user->last_name = 'Admin';
+        $user->email = 'admin@site.dev';
         $user->setPassword('admin^^');
         $user->generateAuthKey();
         $user->save();
-
         $authManager->assign($adminRole, $user->id);
 
         $user = new User();
         $user->username = 'manager';
-        $user->email = 'manager@test.dev';
+        $user->first_name = 'Manager';
+        $user->last_name = 'Manager';
+        $user->email = 'manager@site.dev';
         $user->setPassword('manager^^');
         $user->generateAuthKey();
         $user->save();
-
         $authManager->assign($managerRole, $user->id);
 
         $user = new User();
         $user->username = 'user';
-        $user->email = 'user@test.dev';
+        $user->first_name = 'User';
+        $user->last_name = 'User';
+        $user->email = 'user@site.dev';
         $user->setPassword('user^^');
         $user->generateAuthKey();
         $user->save();
-
         $authManager->assign($userRole, $user->id);
     }
 

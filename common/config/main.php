@@ -16,5 +16,8 @@ return [
         'request' => [
             'class' => 'common\modules\radiata\components\LangRequestManager'
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
 ];
