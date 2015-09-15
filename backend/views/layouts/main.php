@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 use backend\assets\AdminLteAsset;
+use backend\modules\radiata\widgets\I18nSettingsWidget;
 
 AdminLteAsset::register($this);
 backend\assets\AppAsset::register($this);
@@ -31,11 +32,17 @@ backend\assets\AppAsset::register($this);
     <? echo $this->render('_main/_center.php', ['content' => $content]); ?>
     <? echo $this->render('_main/_footer.php'); ?>
 </div>
+
 <div class="lockscreen-container"
      data-url="<?= Url::to(['/radiata/radiata/lock-screen', 'id' => Yii::$app->user->id]); ?>"></div>
 <?php Pjax::begin(['id' => 'pjax_container']); ?><?php Pjax::end(); ?>
 
+<script type="application/javascript"><?= I18nSettingsWidget::widget() ?></script>
+
 <?php $this->endBody() ?>
+
+<? echo $this->render('_common/_icheck.php'); ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

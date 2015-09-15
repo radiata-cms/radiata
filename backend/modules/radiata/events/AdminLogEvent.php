@@ -3,7 +3,7 @@ namespace backend\modules\radiata\events;
 
 use Yii;
 use yii\base\Event;
-use common\models\User;
+use common\models\user\User;
 use backend\modules\radiata\models\AdminLog;
 
 class AdminLogEvent extends Event

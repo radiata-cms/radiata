@@ -1,6 +1,6 @@
 <?php
 /* @var $this \yii\web\View */
-/* @var $user common\models\User */
+/* @var $user common\models\user\User */
 /* @var $successLogin boolean */
 
 use yii\helpers\Url;

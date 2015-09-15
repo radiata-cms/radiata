@@ -27,7 +27,7 @@ return [
     ],
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\user\User',
             'loginUrl' => '/radiata/radiata/login',
             'enableAutoLogin' => true,
         ],

@@ -29,6 +29,11 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
     const VERSION = '0.1.0';
 
     /**
+     * @var string Version
+     */
+    const BACKEND_PERMISSION = 'Radiata Module';
+
+    /**
      * @var array App languages
      */
     public $availableLanguages = [];
@@ -90,34 +95,50 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
     {
         return [
             [
-                'title' => Yii::t('c/radiata', 'Dashboard'),
-                'icon' => 'fa fa-dashboard',
-                'link' => Url::to(['/radiata/radiata/index']),
-            ],
-            [
-                'title' => Yii::t('b/radiata/admin-log', 'Nav title'),
-                'icon' => 'fa fa-history',
-                'link' => Url::to(['/radiata/admin-log/index']),
-            ],
-            [
-                'title' => Yii::t('c/radiata/lang', 'Nav title'),
-                'icon' => 'fa fa-language',
-                'link' => Url::to(['/radiata/langs/index']),
-            ],
-            [
-                'title' => Yii::t('b/radiata/users', 'Nav title'),
-                'icon' => 'fa fa-user',
-                'link' => Url::to(['/radiata/users/index']),
+                'title' => Yii::t($this->moduleMessages, 'Module name'),
+                'icon' => $this->moduleIcon,
+                'link' => Url::to(['/']),
+                'permission' => self::BACKEND_PERMISSION,
+                'isModule' => true,
                 'children' => [
                     [
-                        'title' => Yii::t('b/radiata/users', 'Nav list'),
-                        'icon' => 'fa fa-users',
-                        'link' => Url::to(['/radiata/users/index']),
+                        'title' => Yii::t('c/radiata', 'Dashboard'),
+                        'icon' => 'fa fa-dashboard',
+                        'link' => Url::to(['/radiata/radiata/index']),
+                        'permission' => \backend\modules\radiata\controllers\RadiataController::BACKEND_PERMISSION,
                     ],
                     [
-                        'title' => Yii::t('b/radiata/users', 'Nav create'),
-                        'icon' => 'fa fa-user-plus',
-                        'link' => Url::to(['/radiata/users/create']),
+                        'title' => Yii::t('b/radiata/admin-log', 'Nav title'),
+                        'icon' => 'fa fa-history',
+                        'link' => Url::to(['/radiata/admin-log/index']),
+                        'permission' => 'Radiata Module. Admin Log',
+                    ],
+                    [
+                        'title' => Yii::t('c/radiata/lang', 'Nav title'),
+                        'icon' => 'fa fa-language',
+                        'link' => Url::to(['/radiata/lang/index']),
+                        'permission' => 'Fake permission',
+                    ],
+                    [
+                        'title' => Yii::t('b/radiata/user', 'Nav title'),
+                        'icon' => 'fa fa-user',
+                        'link' => Url::to(['/radiata/user/index']),
+                        'permission' => \backend\modules\radiata\controllers\UserController::BACKEND_PERMISSION,
+                        'isActiveUrlPart' => '/user/',
+                        'children' => [
+                            [
+                                'title' => Yii::t('b/radiata/user', 'Nav list'),
+                                'icon' => 'fa fa-users',
+                                'link' => Url::to(['/radiata/user/index']),
+                                'isActiveUrlPart' => '/user/index',
+                            ],
+                            [
+                                'title' => Yii::t('b/radiata/user', 'Nav create'),
+                                'icon' => 'fa fa-user-plus',
+                                'link' => Url::to(['/radiata/user/create']),
+                                'isActiveUrlPart' => '/user/create',
+                            ],
+                        ],
                     ],
                 ],
             ],

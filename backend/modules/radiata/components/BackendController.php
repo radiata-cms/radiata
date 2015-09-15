@@ -5,6 +5,7 @@ use Yii;
 
 class BackendController extends \yii\web\Controller
 {
+    public $accessPermission = '';
 
     /**
      * @inheritdoc

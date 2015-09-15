@@ -1,7 +1,7 @@
 <?php
-namespace frontend\models;
+namespace frontend\models\user;
 
-use common\models\User;
+use common\models\user\User;
 use yii\base\Model;
 use Yii;
 
@@ -24,14 +24,14 @@ class SignupForm extends Model
         return [
             [['username', 'first_name', 'last_name'], 'filter', 'filter' => 'trim'],
             [['username', 'first_name', 'last_name'], 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\user\User', 'message' => Yii::t('b/radiata/user', 'This username has already been taken.')],
             [['username', 'first_name', 'last_name'], 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\user\User', 'message' => Yii::t('b/radiata/user', 'This email address has already been taken.')],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -46,7 +46,6 @@ class SignupForm extends Model
     public function signup()
     {
         $transaction = Yii::$app->db->beginTransaction();
-
         if ($this->validate()) {
             $user = new User();
             $user->username = $this->username;

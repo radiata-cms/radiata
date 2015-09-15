@@ -5,7 +5,6 @@ use Yii;
 use yii\web\User;
 use yii\di\Instance;
 use yii\web\ForbiddenHttpException;
-use yii\helpers\Url;
 
 class BackendAccessControl extends \yii\base\ActionFilter
 {
@@ -62,14 +61,18 @@ class BackendAccessControl extends \yii\base\ActionFilter
             }
 
             $userGroups = Yii::$app->authManager->getAssignments($user->id);
-            if (isset($userGroups['admin']) || isset($userGroups['developer'])) {
+            if (self::checkFullAccess()) {
 
-                // full access
+                return true;
 
             } elseif (isset($userGroups['manager'])) {
 
-                if ($user->can($action->controller->module)) {
+                if ($action->controller->id == 'radiata' && isset($userGroups['manager'])) {
                     return true;
+                } elseif (defined(get_class($action->controller) . '::BACKEND_PERMISSION') && $user->can(constant(get_class($action->controller) . '::BACKEND_PERMISSION'))) {
+                    return true;
+                } else {
+                    throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
                 }
 
             } else {
@@ -77,6 +80,14 @@ class BackendAccessControl extends \yii\base\ActionFilter
             }
         }
 
-        return true;
+        return false;
+    }
+
+    public static function checkFullAccess($userId = '')
+    {
+        if (!$userId) $userId = Yii::$app->user->identity->getId();
+        $userGroups = Yii::$app->authManager->getAssignments($userId);
+
+        return (isset($userGroups['admin']) || isset($userGroups['developer']));
     }
 }

@@ -15,5 +15,21 @@ div.lockscreen-container {
 
 div.lockscreen-errors {
     text-align: center;
+}
 
+div.html-tree ul {
+    list-style: none;
+    padding-left: 25px;
+}
+
+div.html-tree ul:first-child {
+    padding-left: 0px;
+}
+
+div.html-tree li {
+    padding-top: 5px;
+}
+
+div.html-tree li span {
+    padding-left: 5px;
 }

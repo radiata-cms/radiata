@@ -33,15 +33,9 @@ AdminLteAsset::register($this);
 </div>
 <!-- /.login-box -->
 <?php $this->endBody() ?>
-<script>
-    $(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-<?=AdminLteAsset::ADMIN_LTE_SKIN?>',
-            radioClass: 'iradio_square-<?=AdminLteAsset::ADMIN_LTE_SKIN?>',
-            increaseArea: '20%' // optional
-        });
-    });
-</script>
+
+<? echo $this->render('_common/_icheck.php'); ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

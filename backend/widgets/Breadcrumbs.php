@@ -3,6 +3,7 @@ namespace backend\widgets;
 
 use Yii;
 use yii\base\Widget;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 class Breadcrumbs extends Widget
@@ -40,7 +41,11 @@ class Breadcrumbs extends Widget
                 } else {
                     $lines[] = '<li>';
                 }
-                $lines[] = $value;
+                if (is_array($value)) {
+                    $lines[] = Html::a($value['label'], $value['url']);
+                } else {
+                    $lines[] = $value;
+                }
                 $lines[] = '</li>';
             }
         }

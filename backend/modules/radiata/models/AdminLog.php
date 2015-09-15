@@ -5,7 +5,7 @@ namespace backend\modules\radiata\models;
 use Yii;
 
 use yii\behaviors\TimestampBehavior;
-use common\models\User;
+use common\models\user\User;
 
 
 /**

@@ -13,6 +13,6 @@ use backend\widgets\Breadcrumbs;
     </section>
     <!-- Main content -->
 
-    <?= $content; ?>
+    <section class="content"><?= $content; ?></section>
 </div>
 <!-- /.content-wrapper -->

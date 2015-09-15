@@ -3,7 +3,7 @@ namespace backend\modules\radiata\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
+use common\models\user\User;
 
 /**
  * Login form

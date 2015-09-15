@@ -3,8 +3,8 @@ namespace backend\modules\radiata\controllers;
 
 use Yii;
 use backend\modules\radiata\components\BackendController;
-use common\models\LoginForm;
-use common\models\User;
+use common\models\user\LoginForm;
+use common\models\user\User;
 use backend\modules\radiata\models\LockScreenLoginForm;
 use backend\modules\radiata\events\AdminLogEvent;
 use yii\web\ForbiddenHttpException;
@@ -14,6 +14,8 @@ use yii\web\ForbiddenHttpException;
  */
 class RadiataController extends BackendController
 {
+    const BACKEND_PERMISSION = 'Radiata Module. Dashboard';
+
     public function init()
     {
         parent::init();
@@ -25,6 +27,8 @@ class RadiataController extends BackendController
     public function beforeAction($action)
     {
         if (in_array($action->id, ['login'])) {
+            $this->layout = 'forbidden';
+        } elseif (in_array($action->id, ['error']) && Yii::$app->errorHandler->exception->statusCode == 403) {
             $this->layout = 'forbidden';
         }
 

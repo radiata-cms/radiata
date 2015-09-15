@@ -1,6 +1,6 @@
 <?php
 
-use common\models\User;
+use common\models\user\User;
 use yii\db\Migration;
 
 class m150828_130937_rbac_init extends Migration
@@ -52,6 +52,26 @@ class m150828_130937_rbac_init extends Migration
         $authManager->addChild($managerRole, $userRole);
         $authManager->addChild($adminRole, $managerRole);
         $authManager->addChild($developerRole, $adminRole);
+
+        $permitionRadiataModule = $authManager->createPermission('Radiata Module');
+        $authManager->add($permitionRadiataModule);
+
+        $permitionRadiataModuleDashboard = $authManager->createPermission('Radiata Module. Dashboard');
+        $authManager->add($permitionRadiataModuleDashboard);
+        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleDashboard);
+
+        $permitionRadiataModuleAdminLog = $authManager->createPermission('Radiata Module. Admin Log');
+        $authManager->add($permitionRadiataModuleAdminLog);
+        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleAdminLog);
+
+        $permitionRadiataModuleLangs = $authManager->createPermission('Radiata Module. Languages');
+        $authManager->add($permitionRadiataModuleLangs);
+        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleLangs);
+
+        $permitionRadiataModuleUsers = $authManager->createPermission('Radiata Module. Users');
+        $authManager->add($permitionRadiataModuleUsers);
+        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleUsers);
+
 
         $user = new User();
         $user->username = 'developer';
