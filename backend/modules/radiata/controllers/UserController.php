@@ -6,8 +6,8 @@ use Yii;
 use common\models\user\User;
 use common\models\user\UserSearch;
 use backend\modules\radiata\components\BackendController;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\bootstrap\ActiveForm;
 

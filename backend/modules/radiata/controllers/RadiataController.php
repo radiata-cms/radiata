@@ -1,12 +1,15 @@
 <?php
 namespace backend\modules\radiata\controllers;
 
+use common\modules\radiata\components\Migrator;
 use Yii;
 use backend\modules\radiata\components\BackendController;
 use common\models\user\LoginForm;
 use common\models\user\User;
 use backend\modules\radiata\models\LockScreenLoginForm;
 use backend\modules\radiata\events\AdminLogEvent;
+use yii\web\Response;
+use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 
 /**
@@ -23,6 +26,24 @@ class RadiataController extends BackendController
         $this->on(AdminLogEvent::EVENT_WRONG_AUTH, [AdminLogEvent::className(), 'wrongAuth']);
         $this->on(AdminLogEvent::EVENT_SUCCESS_AUTH, [AdminLogEvent::className(), 'successAuth']);
     }
+
+    /*
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['applyMigrations'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'ajax' => true,
+                    ],
+                ],
+            ],
+        ];
+    }
+    */
 
     public function beforeAction($action)
     {
@@ -90,6 +111,25 @@ class RadiataController extends BackendController
             return $this->renderAjax('lock-screen', ['user' => $user, 'model' => $model, 'successLogin' => $successLogin]);
         } else {
             throw new ForbiddenHttpException();
+        }
+    }
+
+    public function actionApplyMigrations()
+    {
+        if(Yii::$app->request->isAjax) {
+            $migrator = new Migrator();
+            $migrator->migrate();
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            $result = [];
+            if($migrator->error) {
+                $result['error'] = $migrator->error;
+            } else {
+                $result['success'] = Yii::t('b/radiata/common', 'Migrations were applied successfully');
+            }
+
+            return $result;
         }
     }
 

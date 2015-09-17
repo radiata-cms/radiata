@@ -11,10 +11,10 @@ use common\models\user\User;
 class LockScreenLoginForm extends Model
 {
     public $user_id;
+
     public $user_password;
 
     private $_user;
-
 
     /**
      * @inheritdoc
@@ -42,7 +42,7 @@ class LockScreenLoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->user_password)) {
-                $this->addError($attribute, 'Incorrect password.');
+                $this->addError($attribute, Yii::t('b/radiata/user', 'Incorrect password.'));
             }
         }
     }

@@ -22,6 +22,7 @@ class AppAsset extends AssetBundle
         'css/flags.css',
     ];
     public $js = [
+        'js/radiata.js',
         'js/additional.js',
     ];
 

@@ -28,10 +28,8 @@ return [
     'Create Date' => 'Create Date',
     'Avatar' => 'Avatar',
 
-    'Detailed search form' => 'Detailed search form',
     'status0' => 'Not active',
     'status10' => 'Active',
-    'Choose value' => 'Choose value',
 
     'This username has already been taken.' => 'This username has already been taken.',
     'This email address has already been taken.' => 'This email address has already been taken.',
@@ -51,4 +49,8 @@ return [
     'roles_admin' => 'Admin',
     'roles_manager' => 'Manager',
     'roles_user' => 'User',
+
+    'Latest Members' => 'Latest Members',
+    'View All Users' => 'View All Users',
+
 ];

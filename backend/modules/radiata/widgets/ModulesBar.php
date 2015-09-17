@@ -1,5 +1,5 @@
 <?php
-namespace backend\widgets;
+namespace backend\modules\radiata\widgets;
 
 use backend\modules\radiata\components\BackendAccessControl;
 use Yii;

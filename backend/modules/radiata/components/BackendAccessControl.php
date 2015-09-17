@@ -85,9 +85,27 @@ class BackendAccessControl extends \yii\base\ActionFilter
 
     public static function checkFullAccess($userId = '')
     {
+        return (self::checkRoleAccess('admin', $userId) || self::checkRoleAccess('developer', $userId));
+    }
+
+    public static function checkRoleAccess($role, $userId = '')
+    {
         if (!$userId) $userId = Yii::$app->user->identity->getId();
         $userGroups = Yii::$app->authManager->getAssignments($userId);
 
-        return (isset($userGroups['admin']) || isset($userGroups['developer']));
+        return isset($userGroups[$role]);
+    }
+
+    public static function checkPermissionAccess($permission, $userId = '')
+    {
+        if(!$userId) {
+            $userId = Yii::$app->user->identity->getId();
+        }
+
+        if(self::checkFullAccess($userId)) {
+            return true;
+        } else {
+            return Yii::$app->user->can($permission);
+        }
     }
 }

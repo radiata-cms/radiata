@@ -56,7 +56,7 @@ class AuthHelper
         return $tree;
     }
 
-    public static function buildHtmlTree($model, $attribute, $data)
+    public static function buildHtmlTreeInput($model, $attribute, $data)
     {
         $value = $model->$attribute;
         $lines = [];
@@ -72,6 +72,30 @@ class AuthHelper
                 ]);
                 $lines[] = '</div>';
 
+                if(is_array($v)) {
+                    $lines[] = self::buildHtmlTreeInput($model, $attribute, $v);
+                }
+                $lines[] = '</li>';
+            }
+            $lines[] = '</ul>';
+        }
+
+        return join("\n", $lines);
+    }
+
+    public static function buildHtmlTree($model, $attribute, $data)
+    {
+        $value = $model->$attribute;
+        $lines = [];
+        if(is_array($data) && count($data) > 0) {
+            $lines[] = '<ul>';
+            foreach ($data as $k => $v) {
+                $lines[] = '<li>';
+                $lines[] = '<span>';
+                if(isset($value[$k])) {
+                    $lines[] = '<i class="fa fa-check bg-green"></i> ';
+                }
+                $lines[] = (Yii::t('b/radiata/user', $attribute . '_' . $k) != $attribute . '_' . $k ? Yii::t('b/radiata/user', $attribute . '_' . $k) : $k) . '</span>';
                 if (is_array($v)) $lines[] = self::buildHtmlTree($model, $attribute, $v);
                 $lines[] = '</li>';
             }

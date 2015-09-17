@@ -4,39 +4,51 @@ $(document).bind('keydown.ctrl_l', function () {
     });
 });
 
+$('#stats-bar-fa-database').click(function (event) {
+    event.preventDefault();
+    $.getJSON($('#stats-bar-fa-database').attr('href'), function (data) {
+        if (typeof(data.success) != 'undefined') {
+            $('#stats-bar-fa-database').parent().parent().remove();
+            radiata.createAlert('success', data.success);
+        } else if (typeof(data.error) != 'undefined') {
+            radiata.createAlert('danger', data.error);
+        }
+    });
+});
+
 $('.daterange-object').each(function () {
     $(this).daterangepicker({
         "maxDate": new Date(),
         "format": i18n.dateFormat,
         "locale": {
             "separator": " - ",
-            "applyLabel": i18n.Apply,
-            "cancelLabel": i18n.Cancel,
-            "fromLabel": i18n.From,
-            "toLabel": i18n.To,
-            "customRangeLabel": i18n.Custom,
+            "applyLabel": radiata.i18n.Apply,
+            "cancelLabel": radiata.i18n.Cancel,
+            "fromLabel": radiata.i18n.From,
+            "toLabel": radiata.i18n.To,
+            "customRangeLabel": radiata.i18n.Custom,
             "daysOfWeek": [
-                i18n.Su,
-                i18n.Mo,
-                i18n.Tu,
-                i18n.We,
-                i18n.Th,
-                i18n.Fr,
-                i18n.Sa
+                radiata.i18n.Su,
+                radiata.i18n.Mo,
+                radiata.i18n.Tu,
+                radiata.i18n.We,
+                radiata.i18n.Th,
+                radiata.i18n.Fr,
+                radiata.i18n.Sa
             ],
             "monthNames": [
-                i18n.January,
-                i18n.February,
-                i18n.March,
-                i18n.April,
-                i18n.May,
-                i18n.June,
-                i18n.July,
-                i18n.August,
-                i18n.September,
-                i18n.October,
-                i18n.November,
-                i18n.December
+                radiata.i18n.January,
+                radiata.i18n.February,
+                radiata.i18n.March,
+                radiata.i18n.April,
+                radiata.i18n.May,
+                radiata.i18n.June,
+                radiata.i18n.July,
+                radiata.i18n.August,
+                radiata.i18n.September,
+                radiata.i18n.October,
+                radiata.i18n.November,
+                radiata.i18n.December
             ],
             "firstDay": 1
         }

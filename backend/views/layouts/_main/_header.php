@@ -2,6 +2,7 @@
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use backend\modules\radiata\widgets\LangSwitcherWidget;
 
 /* @var $this yii\web\View */
 ?>
@@ -25,18 +26,13 @@ use yii\helpers\Url;
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <? if (Yii::$app->user->identity->image) { ?>
-                            <?= Html::img(Yii::$app->user->identity->getThumbFileUrl('image', 'avatar'), ['class' => 'user-image']) ?>
-                        <? } ?>
-                        <span
-                            class="hidden-xs"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?></span>
+                        <?= Html::img(Yii::$app->user->identity->getThumbFileUrl('image', 'avatar'), ['class' => 'user-image']) ?>
+                        <span class="hidden-xs"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <? if (Yii::$app->user->identity->image) { ?>
-                                <?= Html::img(Yii::$app->user->identity->getThumbFileUrl('image', 'avatar'), ['class' => 'img-circle']) ?>
-                            <? } ?>
+                            <?= Html::img(Yii::$app->user->identity->getThumbFileUrl('image', 'avatar'), ['class' => 'img-circle']) ?>
                             <p>
                                 <?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?>
                                 <small><?= Yii::t('b/radiata/login', 'Member since') ?> <?= Yii::$app->formatter->asDate(Yii::$app->user->identity->created_at, "medium") ?></small>
@@ -53,13 +49,10 @@ use yii\helpers\Url;
                         </li>
                     </ul>
                 </li>
-                <!-- Control Sidebar Toggle Button -->
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>
-
-                <?= backend\modules\radiata\widgets\LangSwitcherWidget::widget(); ?>
-
+                <?= LangSwitcherWidget::widget(); ?>
             </ul>
         </div>
     </nav>

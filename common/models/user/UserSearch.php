@@ -2,6 +2,8 @@
 
 namespace common\models\user;
 
+use backend\forms\helpers\FieldHelper;
+use backend\modules\radiata\helpers\RadiataHelper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -45,13 +47,7 @@ class UserSearch extends User
             'status' => $this->status,
         ]);
 
-        if (preg_match("/([0-9]{2}[\\/|\\.]{1}[0-9]{2}[\\/|\\.]{1}[0-9]{4}) \\- ([0-9]{2}[\\/|\\.]{1}[0-9]{2}[\\/|\\.]{1}[0-9]{4})/", $this->created_at, $mm)) {
-            $from = strtotime($mm[1]);
-            $to = strtotime($mm[2]) + 3600 * 24;
-        } else {
-            $from = null;
-            $to = null;
-        }
+        list($from, $to) = FieldHelper::getDateFromRange($this->created_at);
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'first_name', $this->first_name])

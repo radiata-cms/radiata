@@ -1,6 +1,7 @@
 <?php
 namespace common\models\user;
 
+use backend\modules\radiata\behaviors\AdminLogBehavior;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -66,6 +67,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+            [
+                'class'          => AdminLogBehavior::className(),
+                'titleAttribute' => 'email',
+                'icon'           => 'fa-user bg-blue',
+            ],
             [
                 'class' => ImageUploadBehavior::className(),
                 'attribute' => 'image',
@@ -355,5 +361,13 @@ class User extends ActiveRecord implements IdentityInterface
                 Yii::$app->authManager->assign($rbacPermission, $this->id);
             }
         }
+    }
+
+    /**
+     * Get user full name
+     */
+    public function getFullName()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
     }
 }

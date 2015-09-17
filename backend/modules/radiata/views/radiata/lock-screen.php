@@ -34,7 +34,7 @@ use backend\widgets\Errors;
         <div class="lockscreen-item">
             <!-- lockscreen image -->
             <div class="lockscreen-image">
-                <img src="/img/lte-admin/user1-128x128.jpg" alt="User Image">
+                <?= Html::img($user->getThumbFileUrl('image', 'avatar')) ?>
             </div>
             <!-- /.lockscreen-image -->
 

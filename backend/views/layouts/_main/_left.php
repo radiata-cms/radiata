@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 
-use backend\widgets\ModulesBar;
+use backend\modules\radiata\widgets\ModulesBar;
 
 ?>
 <!-- Left side column. contains the logo and sidebar -->

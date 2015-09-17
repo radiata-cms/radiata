@@ -77,18 +77,17 @@ class AdminLogEvent extends Event
 
         if (get_parent_class($event->sender) == 'yii\db\ActiveRecord') {
             $adminLog->model = get_class($event->sender);
-            if (isset($event->sender->attributes[$event->data])) {
-                $adminLog->data = $event->sender->attributes[$event->data];
+            if(isset($event->sender->attributes[$event->data['title']])) {
+                $adminLog->data = $event->sender->attributes[$event->data['title']];
             }
         } else {
             $adminLog->data = $data;
         }
 
+        $adminLog->icon = $event->data['icon'];
         $adminLog->action = $action;
         $adminLog->user_id = Yii::$app->user->getId();
 
-        if ($adminLog->save()) {
-            //ok
-        }
+        $adminLog->save();
     }
 }

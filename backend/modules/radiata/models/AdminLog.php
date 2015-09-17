@@ -6,6 +6,7 @@ use Yii;
 
 use yii\behaviors\TimestampBehavior;
 use common\models\user\User;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -37,7 +38,9 @@ class AdminLog extends \yii\db\ActiveRecord
         return [
             [
                 'class' => TimestampBehavior::className(),
-                'attributes' => ['created_at'],
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
             ]
         ];
     }
@@ -48,10 +51,11 @@ class AdminLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['action', 'user_id'], 'required'],
-            [['user_id', 'created_at'], 'integer'],
+            [['action'], 'required'],
+            [['user_id'], 'integer'],
             [['data'], 'string'],
             [['action'], 'string', 'max' => 32],
+            [['icon'], 'string', 'max' => 50],
             [['module'], 'string', 'max' => 255],
             [['model'], 'string', 'max' => 255],
         ];
@@ -79,14 +83,5 @@ class AdminLog extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return AdminLogQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new AdminLogQuery(get_called_class());
     }
 }

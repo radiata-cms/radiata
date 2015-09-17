@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\forms\helpers\DataOutputHelper;
 
 /**
  * @var yii\web\View $this
@@ -45,6 +46,16 @@ $this->params['breadcrumbs'][] = '<span style="text-decoration: underline;">' . 
                 'label' => Yii::t('b/radiata/user', 'Avatar'),
                 'format' => 'raw',
                 'value' => Html::img($model->getThumbFileUrl('image', 'avatar')),
+            ],
+            [
+                'label'  => Yii::t('b/radiata/user', 'Roles'),
+                'format' => 'raw',
+                'value'  => DataOutputHelper::userRolesOutput($model, 'roles'),
+            ],
+            [
+                'label'  => Yii::t('b/radiata/user', 'Permissions'),
+                'format' => 'raw',
+                'value'  => DataOutputHelper::userPermissionsOutput($model, 'permissions'),
             ],
         ],
     ]) ?>

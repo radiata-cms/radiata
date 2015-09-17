@@ -12,7 +12,7 @@ use backend\forms\RadiataField;
 ?>
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
-        <h3 class="box-title"><?= Yii::t('b/radiata/user', 'Detailed search form') ?></h3>
+        <h3 class="box-title"><?= Yii::t('b/radiata/forms', 'Detailed search form') ?></h3>
 
         <div class="box-tools pull-right">
             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
@@ -36,7 +36,7 @@ use backend\forms\RadiataField;
 
         <?= $form->field($model, 'created_at')->dateRangeInput(['class' => 'pull-right']) ?>
 
-        <?= $form->field($model, 'status')->dropDownList($model->getStatusesList(), ['prompt' => Yii::t('b/radiata/user', 'Choose value')]); ?>
+        <?= $form->field($model, 'status')->dropDownList($model->getStatusesList(), ['prompt' => Yii::t('b/radiata/forms', 'Choose value')]); ?>
     </div>
     <!-- /.box-body -->
 

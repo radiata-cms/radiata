@@ -14,7 +14,8 @@ return [
             'class' => 'common\modules\radiata\components\LangUrlManager',
         ],
         'request' => [
-            'class' => 'common\modules\radiata\components\LangRequestManager'
+            'class'               => 'common\modules\radiata\components\LangRequestManager',
+            'cookieValidationKey' => 'OgBZUGfC9ZJbeT4hDfjSHhBx-IEsKKK4',
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

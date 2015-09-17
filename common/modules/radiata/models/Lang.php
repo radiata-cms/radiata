@@ -68,6 +68,7 @@ class Lang extends \yii\db\ActiveRecord
             [
                 'class' => AdminLogBehavior::className(),
                 'titleAttribute' => 'name',
+                'icon' => 'fa-language bg-teal',
             ],
             ClearCacheBehavior::className(),
 

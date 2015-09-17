@@ -22,6 +22,7 @@ class m150831_135846_admin_log extends Migration
             'user_id' => $this->integer(),
             'data' => $this->text(),
             'created_at' => $this->integer()->notNull(),
+            'icon' => $this->string(50)
         ], $tableOptions);
 
         //fk

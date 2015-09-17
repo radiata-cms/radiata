@@ -47,7 +47,7 @@ class RadiataField extends ActiveField
     {
         $input = '';
         $input .= '<div class="html-tree">';
-        $input .= AuthHelper::buildHtmlTree($this->model, $this->attribute, AuthHelper::getRoles());
+        $input .= AuthHelper::buildHtmlTreeInput($this->model, $this->attribute, AuthHelper::getRoles());
         $input .= '</div>';
 
         $this->parts['{input}'] = $input;
@@ -63,7 +63,7 @@ class RadiataField extends ActiveField
     {
         $input = '';
         $input .= '<div class="html-tree">';
-        $input .= AuthHelper::buildHtmlTree($this->model, $this->attribute, AuthHelper::getPermissions());
+        $input .= AuthHelper::buildHtmlTreeInput($this->model, $this->attribute, AuthHelper::getPermissions());
         $input .= '</div>';
 
         $this->parts['{input}'] = $input;

@@ -32,9 +32,12 @@ AdminLteAsset::register($this);
     <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
+
+<?= $this->render('_common/_i18n.php'); ?>
+
 <?php $this->endBody() ?>
 
-<? echo $this->render('_common/_icheck.php'); ?>
+<?= $this->render('_common/_icheck.php'); ?>
 
 </body>
 </html>

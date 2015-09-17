@@ -27,4 +27,6 @@ return [
     'December' => 'December',
 
     'dateFormat' => 'MM/DD/YYYY',
+
+    'Alert' => 'Alert!',
 ];

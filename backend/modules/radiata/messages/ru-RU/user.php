@@ -28,10 +28,8 @@ return [
     'Create Date' => 'Дата создания',
     'Avatar' => 'Аватар',
 
-    'Detailed search form' => 'Детальная форма поиска',
     'status0' => 'Неактивен',
     'status10' => 'Активен',
-    'Choose value' => 'Укажите значение',
 
     'This username has already been taken.' => 'Этот никнейм занят',
     'This email address has already been taken.' => 'Этот email занят',
@@ -51,4 +49,8 @@ return [
     'roles_admin' => 'Админ',
     'roles_manager' => 'Менеджер',
     'roles_user' => 'Пользователь',
+
+    'Latest Members' => 'Новые участники',
+    'View All Users' => 'Все пользователи',
+
 ];

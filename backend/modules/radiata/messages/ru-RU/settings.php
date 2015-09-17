@@ -27,4 +27,6 @@ return [
     'December' => 'Декабрь',
 
     'dateFormat' => 'DD.MM.YYYY',
+
+    'Alert' => 'Сообщение!',
 ];
