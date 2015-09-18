@@ -5,8 +5,7 @@
     <div class="hidden-xs">
         Developed by here
     </div>
-</footer>
-<!-- Control Sidebar -->
+</footer><!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -27,8 +26,7 @@
                             <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
 
                             <p>
-                                Will be 23 on April 24th
-                            </p>
+                                Will be 23 on April 24th </p>
                         </div>
                     </a>
                 </li>
@@ -40,8 +38,7 @@
                             <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
 
                             <p>
-                                New phone +1(800)555-1234
-                            </p>
+                                New phone +1(800)555-1234 </p>
                         </div>
                     </a>
                 </li>
@@ -53,8 +50,7 @@
                             <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
 
                             <p>
-                                nora@example.com
-                            </p>
+                                nora@example.com </p>
                         </div>
                     </a>
                 </li>
@@ -66,8 +62,7 @@
                             <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
 
                             <p>
-                                Execution time 5 seconds
-                            </p>
+                                Execution time 5 seconds </p>
                         </div>
                     </a>
                 </li>
@@ -82,8 +77,7 @@
                         </h4>
 
                         <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-danger" style="width: 70%">
-                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
                         </div>
                     </a>
                 </li>
@@ -94,8 +88,7 @@
                         </h4>
 
                         <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-success" style="width: 95%">
-                            </div>
+                            <div class="progress-bar progress-bar-success" style="width: 95%"></div>
                         </div>
                     </a>
                 </li>
@@ -106,8 +99,7 @@
                         </h4>
 
                         <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-warning" style="width: 50%">
-                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
                         </div>
                     </a>
                 </li>
@@ -118,8 +110,7 @@
                         </h4>
 
                         <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-primary" style="width: 68%">
-                            </div>
+                            <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
                         </div>
                     </a>
                 </li>
@@ -138,8 +129,7 @@
                     </label>
 
                     <p>
-                        Some information about this general settings option
-                    </p>
+                        Some information about this general settings option </p>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
@@ -148,8 +138,7 @@
                     </label>
 
                     <p>
-                        Other sets of options are available
-                    </p>
+                        Other sets of options are available </p>
                 </div>
                 <!-- /.form-group -->
                 <div class="form-group">
@@ -158,8 +147,7 @@
                     </label>
 
                     <p>
-                        Allow the user to show his name in blog posts
-                    </p>
+                        Allow the user to show his name in blog posts </p>
                 </div>
                 <!-- /.form-group -->
                 <h3 class="control-sidebar-heading">Chat Settings</h3>
@@ -178,8 +166,8 @@
                 <!-- /.form-group -->
                 <div class="form-group">
                     <label class="control-sidebar-subheading">
-                        Delete chat history <a href="javascript::;" class="text-red pull-right"><i
-                                class="fa fa-trash-o"></i></a>
+                        Delete chat history
+                        <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
                     </label>
                 </div>
                 <!-- /.form-group -->
@@ -187,8 +175,6 @@
         </div>
         <!-- /.tab-pane -->
     </div>
-</aside>
-<!-- /.control-sidebar -->
-<!-- Add the sidebar's background. This div must be placed
+</aside><!-- /.control-sidebar --><!-- Add the sidebar's background. This div must be placed
      immediately after the control sidebar -->
 <div class="control-sidebar-bg"></div>

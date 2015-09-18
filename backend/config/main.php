@@ -7,31 +7,26 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'radiata-backend',
-    'basePath' => dirname(__DIR__),
+    'id'         => 'radiata-backend',
+    'basePath'   => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', 'radiata'],
-    'modules' => [
+    'bootstrap'  => ['log', 'radiata'],
+    'modules'    => [
         'radiata' => [
-            'class' => 'common\modules\radiata\Radiata',
+            'class'        => 'common\modules\radiata\Radiata',
             'controllerNamespace' => 'backend\modules\radiata\controllers',
-            'layoutPath' => '@backend/views/layouts',
-            'viewPath' => '@backend/modules/radiata/views',
+            'layoutPath'   => '@backend/views/layouts',
+            'viewPath'     => '@backend/modules/radiata/views',
             'defaultRoute' => 'radiata',
-        ],
-        'mytest' => [
-            'class' => 'backend\modules\mytest\Mytest',
-            'controllerNamespace' => 'backend\modules\mytest\controllers',
-            'layoutPath' => '@backend/views/layouts',
         ],
     ],
     'components' => [
-        'user' => [
+        'user'               => [
             'identityClass' => 'common\models\user\User',
-            'loginUrl' => '/radiata/radiata/login',
+            'loginUrl'      => '/radiata/radiata/login',
             'enableAutoLogin' => true,
         ],
-        'log' => [
+        'log'                => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
@@ -40,30 +35,30 @@ return [
                 ],
             ],
         ],
-        'errorHandler' => [
+        'errorHandler'       => [
             'errorAction' => 'radiata/radiata/error',
         ],
-        'urlManager' => [
+        'urlManager'         => [
             'rules' => [
-                '/' => '/radiata/radiata/index',
-                '<controller:\w+>/<action:[\w-]+>/<id:\d+>' => 'radiata/<controller>/<action>',
-                '<controller:\w+>/<action:[\w-]+>' => 'radiata/<controller>/<action>',
+                '/'                                             => '/radiata/radiata/index',
+                '<controller:\w+>/<action:[\w-]+>/<id:\d+>'     => 'radiata/<controller>/<action>',
+                '<controller:\w+>/<action:[\w-]+>'              => 'radiata/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:[\w-]+>/<id:\d+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:[\w-]+>' => '<module>/<controller>/<action>',
             ],
         ],
         'urlManagerFrontEnd' => [
-            'class' => 'common\modules\radiata\components\LangUrlManager',
+            'class'           => 'common\modules\radiata\components\LangUrlManager',
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName'  => false,
             'enableStrictParsing' => false,
-            'baseUrl' => 'http://' . str_replace('admin.', '', $_SERVER['HTTP_HOST']) . '/',
+            'baseUrl'         => 'http://' . str_replace('admin.', '', $_SERVER['HTTP_HOST']) . '/',
         ],
     ],
-    'params' => $params,
+    'params'     => $params,
 
-    'as access' => [
-        'class' => 'backend\modules\radiata\components\BackendAccessControl',
+    'as access'  => [
+        'class'          => 'backend\modules\radiata\components\BackendAccessControl',
         'allowedActions' => [
             'radiata/radiata/login',
             'radiata/radiata/error',

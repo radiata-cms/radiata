@@ -18,12 +18,12 @@ class ModulesBar extends Widget
         $modules = Yii::$app->getModules();
 
         foreach ($modules as $module) {
-            if (!isset($module->id)) {
+            if(!isset($module->id)) {
                 $exploded = explode('\\', $module['class']);
                 $moduleId = $exploded[count($exploded) - 2];
                 $module = Yii::$app->getModule($moduleId);
             }
-            if (method_exists($module, 'getPublic') && $module->public) {
+            if(method_exists($module, 'getPublic') && $module->public) {
                 $lines = array_merge($lines, $this->subNavigation($module->id, $module->getBackendNavigation(), true));
             }
         }
@@ -34,15 +34,17 @@ class ModulesBar extends Widget
     public function subNavigation($moduleId, $children, $isRoot = false)
     {
         $lines = [];
-        if (count($children) > 0) {
-            if (!$isRoot) $lines[] = '<ul class="treeview-menu">';
+        if(count($children) > 0) {
+            if(!$isRoot) {
+                $lines[] = '<ul class="treeview-menu">';
+            }
             foreach ($children as $child) {
-                if ($this->canAccess($child, $moduleId)) {
+                if($this->canAccess($child, $moduleId)) {
                     $class = '';
-                    if (count($child['children']) > 0) {
+                    if(count($child['children']) > 0) {
                         $class .= ' treeview';
                     }
-                    if (
+                    if(
                         isset($child['isModule'])
                         &&
                         $this->currentModule->id == $moduleId
@@ -61,19 +63,21 @@ class ModulesBar extends Widget
                     $lines[] = '<li ' . ($class ? ' class="' . $class . '"' : '') . '>';
                     $lines[] = '<a href="' . $child['link'] . '">';
                     $lines[] = '<i class="' . $child['icon'] . '"></i><span>' . $child['title'] . '</span>';
-                    if (count($child['children']) > 0) {
+                    if(count($child['children']) > 0) {
                         $lines[] = '<i class="fa fa-angle-left pull-right"></i>';
                     }
                     $lines[] = '</a>';
 
-                    if (count($child['children']) > 0) {
+                    if(count($child['children']) > 0) {
                         $lines = array_merge($lines, $this->subNavigation($moduleId, $child['children']));
                     }
 
                     $lines[] = '</li>';
                 }
             }
-            if (!$isRoot) $lines[] = '</ul>';
+            if(!$isRoot) {
+                $lines[] = '</ul>';
+            }
         }
 
         return $lines;
@@ -83,11 +87,11 @@ class ModulesBar extends Widget
 
     public function canAccess($child, $moduleId)
     {
-        if (BackendAccessControl::checkFullAccess()) {
+        if(BackendAccessControl::checkFullAccess()) {
 
             return true;
 
-        } elseif ($child['isModule']
+        } elseif($child['isModule']
             &&
             defined(get_class(Yii::$app->getModule($moduleId)) . '::BACKEND_PERMISSION')
             &&
@@ -96,13 +100,13 @@ class ModulesBar extends Widget
 
             return true;
 
-        } elseif ($child['permission'] && Yii::$app->user->can($child['permission'])) {
+        } elseif($child['permission'] && Yii::$app->user->can($child['permission'])) {
 
             return true;
 
-        } elseif (isset($child['children'])) {
+        } elseif(isset($child['children'])) {
             foreach ($child['children'] as $subChild) {
-                if ($this->canAccess($subChild, $moduleId)) {
+                if($this->canAccess($subChild, $moduleId)) {
                     return true;
                 }
             }

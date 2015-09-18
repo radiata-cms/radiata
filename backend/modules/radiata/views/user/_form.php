@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use backend\forms\RadiataField;
 use backend\forms\widgets\FileInputWidget;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
@@ -15,7 +15,7 @@ use backend\forms\widgets\FileInputWidget;
 <div class="user-form">
 
     <?php $form = ActiveForm::begin([
-        'layout' => 'horizontal',
+        'layout'  => 'horizontal',
         'fieldClass' => RadiataField::className(),
         'options' => ['enctype' => 'multipart/form-data'],
     ]); ?>

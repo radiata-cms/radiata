@@ -11,6 +11,18 @@ radiata = (function ($) {
             html += text;
             html += '</div>';
             $('section.content').prepend(html);
+        },
+
+        reloadOnSort: function (id) {
+            if ($('#' + id).length > 0) {
+                $('#' + id).on('sortableSuccess', function () {
+                    $('#' + id).fadeOut();
+                    $.pjax.reload({container: '#' + id + 'Pjax'});
+                    $(document).on('pjax:complete', function () {
+                        radiata.reloadOnSort(id);
+                    });
+                });
+            }
         }
     }
 

@@ -1,9 +1,9 @@
 <?php
 namespace backend\forms;
 
+use backend\forms\helpers\AuthHelper;
 use yii\bootstrap\ActiveField;
 use yii\helpers\Html;
-use backend\forms\helpers\AuthHelper;
 
 
 class RadiataField extends ActiveField
@@ -22,7 +22,9 @@ class RadiataField extends ActiveField
      */
     public function dateRangeInput($options = [])
     {
-        if (isset($options['class'])) $options['class'] = $this->inputOptions['class'] . ' ' . $options['class'];
+        if(isset($options['class'])) {
+            $options['class'] = $this->inputOptions['class'] . ' ' . $options['class'];
+        }
 
         $options = array_merge($this->inputOptions, $options);
         $options['class'] .= ' daterange-object';
@@ -35,6 +37,7 @@ class RadiataField extends ActiveField
         $input .= '</div>';
 
         $this->parts['{input}'] = $input;
+
         return $this;
     }
 
@@ -51,6 +54,7 @@ class RadiataField extends ActiveField
         $input .= '</div>';
 
         $this->parts['{input}'] = $input;
+
         return $this;
     }
 
@@ -67,6 +71,7 @@ class RadiataField extends ActiveField
         $input .= '</div>';
 
         $this->parts['{input}'] = $input;
+
         return $this;
     }
 }

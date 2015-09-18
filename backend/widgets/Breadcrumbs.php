@@ -20,8 +20,8 @@ class Breadcrumbs extends Widget
         $lines[] = '<li><a href="' . Url::to(['/radiata/radiata/index']) . '"><i class="fa fa-dashboard"></i>' . Yii::t('c/radiata', 'Dashboard') . '</a></li>';
 
         $module = Yii::$app->controller->module;
-        if ($module->id != 'radiata') {
-            if (count($this->breadcrumbs) > 0) {
+        if($module->id != 'radiata') {
+            if(count($this->breadcrumbs) > 0) {
                 $lines[] = '<li>';
                 $lines[] = '<a href="' . Url::to(['/' . $module->id . '/' . $module->defaultRoute . '/' . $module->module->controller->defaultAction]) . '">';
                 $lines[] = '<i class="' . $module->moduleIcon . '"></i>' . Yii::t($module->moduleMessages, 'Module name');
@@ -33,15 +33,15 @@ class Breadcrumbs extends Widget
             $lines[] = '</li>';
         }
 
-        if (count($this->breadcrumbs) > 0) {
+        if(count($this->breadcrumbs) > 0) {
             foreach ($this->breadcrumbs as $i => $value) {
-                if ($i == count($this->breadcrumbs) - 1) {
+                if($i == count($this->breadcrumbs) - 1) {
                     // last
                     $lines[] = '<li class="active">';
                 } else {
                     $lines[] = '<li>';
                 }
-                if (is_array($value)) {
+                if(is_array($value)) {
                     $lines[] = Html::a($value['label'], $value['url']);
                 } else {
                     $lines[] = $value;

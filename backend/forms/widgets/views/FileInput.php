@@ -1,6 +1,6 @@
 <?
-use yii\helpers\Html;
 use kartik\file\FileInput;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
@@ -15,9 +15,9 @@ use kartik\file\FileInput;
 <?= Html::hiddenInput($imageDeletedInputId, '', ['id' => $imageDeletedInputId]); ?>
 
 <?= FileInput::widget([
-    'model' => $model,
+    'model'     => $model,
     'attribute' => $attribute,
-    'options' => $options,
+    'options'   => $options,
     'pluginOptions' => $pluginOptions,
 ]); ?>
 

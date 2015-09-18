@@ -45,8 +45,8 @@ class FileUploadBehavior extends \yii\base\Behavior
             ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeValidate',
             ActiveRecord::EVENT_BEFORE_INSERT => 'beforeSave',
             ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeSave',
-            ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
-            ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
+            ActiveRecord::EVENT_AFTER_INSERT  => 'afterSave',
+            ActiveRecord::EVENT_AFTER_UPDATE  => 'afterSave',
             ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
         ];
     }
@@ -56,17 +56,18 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function beforeValidate()
     {
-        if ($this->owner->{$this->attribute} instanceof UploadedFile) {
+        if($this->owner->{$this->attribute} instanceof UploadedFile) {
             $this->file = $this->owner->{$this->attribute};
+
             return;
         }
         $this->file = UploadedFile::getInstance($this->owner, $this->attribute);
 
-        if (empty($this->file)) {
+        if(empty($this->file)) {
             $this->file = UploadedFile::getInstanceByName($this->attribute);
         }
 
-        if ($this->file instanceof UploadedFile) {
+        if($this->file instanceof UploadedFile) {
             $this->owner->{$this->attribute} = $this->file;
         }
     }
@@ -78,22 +79,22 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function beforeSave()
     {
-        if ($this->file instanceof UploadedFile) {
-            if (!$this->owner->isNewRecord) {
+        if($this->file instanceof UploadedFile) {
+            if(!$this->owner->isNewRecord) {
                 /** @var static $oldModel */
                 $oldModel = $this->owner->findOne($this->owner->primaryKey);
                 $oldModel->cleanFiles();
             }
             $this->owner->{$this->attribute} = $this->file->baseName . '.' . $this->file->extension;
         } else { // Fix html forms bug, when we have empty file field
-            if (!$this->owner->isNewRecord && empty($this->owner->{$this->attribute})) {
-                if (Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
+            if(!$this->owner->isNewRecord && empty($this->owner->{$this->attribute})) {
+                if(Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
                     $this->cleanFiles();
                     $this->owner->{$this->attribute} = null;
                 } else {
                     $this->owner->{$this->attribute} = ArrayHelper::getValue($this->owner->oldAttributes, $this->attribute, null);
                 }
-            } elseif (Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
+            } elseif(Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
                 $this->cleanFiles();
                 $this->owner->{$this->attribute} = null;
             }
@@ -140,22 +141,26 @@ class FileUploadBehavior extends \yii\base\Behavior
                     return Yii::getAlias('@web');
                 case 'model':
                     $r = new \ReflectionClass($this->owner->className());
+
                     return lcfirst($r->getShortName());
                 case 'attribute':
                     return lcfirst($this->attribute);
                 case 'id':
                 case 'pk':
                     $pk = implode('_', $this->owner->getPrimaryKey(true));
+
                     return lcfirst($pk);
                 case 'id_path':
                     return static::makeIdPath($this->owner->getPrimaryKey());
                 case 'parent_id':
                     return $this->owner->{$this->parentRelationAttribute};
             }
-            if (preg_match('|^attribute_(\w+)$|', $name, $am)) {
+            if(preg_match('|^attribute_(\w+)$|', $name, $am)) {
                 $attribute = $am[1];
+
                 return $this->owner->{$attribute};
             }
+
             return '[[' . $name . ']]';
         }, $path);
     }
@@ -170,6 +175,7 @@ class FileUploadBehavior extends \yii\base\Behavior
         $result = [];
         $result[] = substr($id, 0, 2);
         $result[] = substr($id, 2);
+
         return implode('/', $result);
     }
 
@@ -178,10 +184,10 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function afterSave()
     {
-        if ($this->file instanceof UploadedFile) {
+        if($this->file instanceof UploadedFile) {
             $path = $this->getUploadedFilePath($this->attribute);
             FileHelper::createDirectory(pathinfo($path, PATHINFO_DIRNAME), 0775, true);
-            if (!$this->file->saveAs($path)) {
+            if(!$this->file->saveAs($path)) {
                 throw new Exception('File saving error.');
             }
             $this->owner->trigger(static::EVENT_AFTER_FILE_SAVE);
@@ -197,8 +203,10 @@ class FileUploadBehavior extends \yii\base\Behavior
     public function getUploadedFilePath($attribute)
     {
         $behavior = static::getInstance($this->owner, $attribute);
-        if (!$this->owner->{$attribute})
+        if(!$this->owner->{$attribute}) {
             return '';
+        }
+
         return $behavior->resolvePath($behavior->filePath);
     }
 
@@ -212,8 +220,9 @@ class FileUploadBehavior extends \yii\base\Behavior
     public static function getInstance(ActiveRecord $model, $attribute)
     {
         foreach ($model->behaviors as $behavior) {
-            if ($behavior instanceof self && $behavior->attribute == $attribute)
+            if($behavior instanceof self && $behavior->attribute == $attribute) {
                 return $behavior;
+            }
         }
 
         throw new InvalidCallException('Missing behavior for attribute ' . VarDumper::dumpAsString($attribute));
@@ -235,10 +244,12 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function getUploadedFileUrl($attribute)
     {
-        if (!$this->owner->{$attribute})
+        if(!$this->owner->{$attribute}) {
             return null;
+        }
 
         $behavior = static::getInstance($this->owner, $attribute);
+
         return $behavior->resolvePath($behavior->fileUrl);
     }
 }

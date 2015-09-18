@@ -2,10 +2,9 @@
 
 namespace backend\modules\radiata\models;
 
-use Yii;
-
-use yii\behaviors\TimestampBehavior;
 use common\models\user\User;
+use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 
@@ -67,12 +66,12 @@ class AdminLog extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('b/radiata/admin-log', 'ID'),
-            'module' => Yii::t('b/radiata/admin-log', 'Module'),
-            'model' => Yii::t('b/radiata/admin-log', 'Model'),
-            'action' => Yii::t('b/radiata/admin-log', 'Action'),
+            'id'      => Yii::t('b/radiata/admin-log', 'ID'),
+            'module'  => Yii::t('b/radiata/admin-log', 'Module'),
+            'model'   => Yii::t('b/radiata/admin-log', 'Model'),
+            'action'  => Yii::t('b/radiata/admin-log', 'Action'),
             'user_id' => Yii::t('b/radiata/admin-log', 'User ID'),
-            'data' => Yii::t('b/radiata/admin-log', 'Data'),
+            'data'    => Yii::t('b/radiata/admin-log', 'Data'),
             'created_at' => Yii::t('b/radiata/admin-log', 'Create Date'),
         ];
     }

@@ -11,12 +11,11 @@ class ClearCacheEvent extends Event
 
     public function clearCache($event)
     {
-        if (method_exists($event->sender, 'tableName')) {
+        if(method_exists($event->sender, 'tableName')) {
             $tagName = $event->sender->tableName();
         } else {
             $tagName = join('', array_slice(explode('\\', get_class($event->sender)), -1));
         }
-
         CacheHelper::delete($tagName);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace backend\modules\radiata\controllers;
 
-use Yii;
+use backend\modules\radiata\components\BackendController;
 use common\models\user\User;
 use common\models\user\UserSearch;
-use backend\modules\radiata\components\BackendController;
+use Yii;
+use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii\bootstrap\ActiveForm;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -66,16 +66,17 @@ class UserController extends BackendController
     {
         $user = new User(['scenario' => User::SCENARIO_CREATE]);
 
-        if (Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
+        if(Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+
             return ActiveForm::validate($user);
         }
 
         $transaction = Yii::$app->db->beginTransaction();
-        if ($user->load(Yii::$app->request->post()) && $user->validate()) {
+        if($user->load(Yii::$app->request->post()) && $user->validate()) {
             $user->setPassword($user->new_password);
             $user->generateAuthKey();
-            if ($user->save()) {
+            if($user->save()) {
 
                 $user->saveUserRbac($user);
 
@@ -104,17 +105,18 @@ class UserController extends BackendController
 
         $user->scenario = User::SCENARIO_UPDATE;
 
-        if (Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
+        if(Yii::$app->request->isAjax && $user->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+
             return ActiveForm::validate($user);
         }
 
         $transaction = Yii::$app->db->beginTransaction();
-        if ($user->load(Yii::$app->request->post()) && $user->validate()) {
-            if ($user->new_password) {
+        if($user->load(Yii::$app->request->post()) && $user->validate()) {
+            if($user->new_password) {
                 $user->setPassword($user->new_password);
             }
-            if ($user->save()) {
+            if($user->save()) {
 
                 $user->saveUserRbac($user);
 
@@ -153,7 +155,7 @@ class UserController extends BackendController
      */
     protected function findModel($id)
     {
-        if (($model = User::makeUser(['id' => $id])) !== null) {
+        if(($model = User::makeUser(['id' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

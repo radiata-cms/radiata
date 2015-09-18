@@ -1,10 +1,10 @@
 <?php
 namespace backend\modules\radiata\events;
 
+use backend\modules\radiata\models\AdminLog;
+use common\models\user\User;
 use Yii;
 use yii\base\Event;
-use common\models\user\User;
-use backend\modules\radiata\models\AdminLog;
 
 class AdminLogEvent extends Event
 {
@@ -28,7 +28,10 @@ class AdminLogEvent extends Event
         $value = $event->sender->module->module->request->post('LoginForm')['email'];
         $user = User::findByEmail($value);
 
-        AdminLogEvent::saveEvent($event, 'wrongAuth', $user ? $user->email : $value);
+        AdminLogEvent::saveEvent($event, 'wrongAuth', [
+            'data' => $user ? $user->email : $value,
+            'icon' => 'fa-user bg-blue',
+        ]);
     }
 
     public function successAuth($event)
@@ -36,7 +39,10 @@ class AdminLogEvent extends Event
         $value = $event->sender->module->module->request->post('LoginForm')['email'];
         $user = User::findByEmail($value);
 
-        AdminLogEvent::saveEvent($event, 'successAuth', $user ? $user->email : $value);
+        AdminLogEvent::saveEvent($event, 'successAuth', [
+            'data' => $user ? $user->email : $value,
+            'icon' => 'fa-user bg-blue',
+        ]);
     }
 
     public function wrongAuthLockScreen($event)
@@ -44,7 +50,10 @@ class AdminLogEvent extends Event
         $value = $event->sender->module->module->request->post('LockScreenLoginForm')['user_id'];
         $user = User::findById($value);
 
-        AdminLogEvent::saveEvent($event, 'wrongAuthLockScreen', $user ? $user->email : $value);
+        AdminLogEvent::saveEvent($event, 'wrongAuthLockScreen', [
+            'data' => $user ? $user->email : $value,
+            'icon' => 'fa-user bg-blue',
+        ]);
     }
 
     public function successAuthLockScreen($event)
@@ -52,7 +61,10 @@ class AdminLogEvent extends Event
         $value = $event->sender->module->module->request->post('LockScreenLoginForm')['user_id'];
         $user = User::findById($value);
 
-        AdminLogEvent::saveEvent($event, 'successAuthLockScreen', $user ? $user->email : $value);
+        AdminLogEvent::saveEvent($event, 'successAuthLockScreen', [
+            'data' => $user ? $user->email : $value,
+            'icon' => 'fa-user bg-blue',
+        ]);
     }
 
     public function createItem($event)
@@ -70,21 +82,21 @@ class AdminLogEvent extends Event
         AdminLogEvent::saveEvent($event, 'deleteItem');
     }
 
-    public static function saveEvent($event, $action, $data = '')
+    public static function saveEvent($event, $action, $data = [])
     {
         $adminLog = new AdminLog();
         $adminLog->module = Yii::$app->controller->module->id;
 
-        if (get_parent_class($event->sender) == 'yii\db\ActiveRecord') {
+        if(get_parent_class($event->sender) == 'yii\db\ActiveRecord') {
             $adminLog->model = get_class($event->sender);
             if(isset($event->sender->attributes[$event->data['title']])) {
                 $adminLog->data = $event->sender->attributes[$event->data['title']];
             }
         } else {
-            $adminLog->data = $data;
+            $adminLog->data = isset($data['data']) ? $data['data'] : '';
         }
 
-        $adminLog->icon = $event->data['icon'];
+        $adminLog->icon = $event->data['icon'] ? $event->data['icon'] : $data['icon'];
         $adminLog->action = $action;
         $adminLog->user_id = Yii::$app->user->getId();
 

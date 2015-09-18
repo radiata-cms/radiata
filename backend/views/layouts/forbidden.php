@@ -3,8 +3,8 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use yii\helpers\Html;
 use backend\assets\AdminLteAsset;
+use yii\helpers\Html;
 
 AdminLteAsset::register($this);
 ?>
@@ -33,11 +33,9 @@ AdminLteAsset::register($this);
 </div>
 <!-- /.login-box -->
 
-<?= $this->render('_common/_i18n.php'); ?>
+<?= $this->render('_common/_js.php'); ?>
 
 <?php $this->endBody() ?>
-
-<?= $this->render('_common/_icheck.php'); ?>
 
 </body>
 </html>

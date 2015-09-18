@@ -4,8 +4,8 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\user\LoginForm */
 
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 $this->title = Yii::t('b/radiata/login', 'Page title');
 $this->params['breadcrumbs'][] = $this->title;
@@ -34,11 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="social-auth-links text-center">
     <p>- <?= Yii::t('b/radiata/login', 'OR') ?> -</p>
-    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i
-            class="fa fa-facebook"></i> <?= Yii::t('b/radiata/login', 'Sign in using Facebook') ?></a>
+    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> <?= Yii::t('b/radiata/login', 'Sign in using Facebook') ?>
+    </a>
 </div>
 
 <a href="<?= Yii::$app->urlManagerFrontEnd->createUrl(['user/request-password-reset']) ?>"><?= Yii::t('b/radiata/login', 'I forgot my password') ?></a>
 <br>
-<a href="<?= Yii::$app->urlManagerFrontEnd->createUrl(['user/signup']) ?>"
-   class="text-center"><?= Yii::t('b/radiata/login', 'Register a new member') ?></a>
+<a href="<?= Yii::$app->urlManagerFrontEnd->createUrl(['user/signup']) ?>" class="text-center"><?= Yii::t('b/radiata/login', 'Register a new member') ?></a>

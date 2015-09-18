@@ -1,7 +1,6 @@
 <?php
 namespace backend\assets;
 
-use yii\base\Exception;
 use yii\web\AssetBundle;
 
 class AdminLteAsset extends AssetBundle
@@ -39,7 +38,7 @@ class AdminLteAsset extends AssetBundle
      */
     public function init()
     {
-        if (self::ADMIN_LTE_SKIN) {
+        if(self::ADMIN_LTE_SKIN) {
             $this->css[] = sprintf('dist/css/skins/skin-%s.min.css', self::ADMIN_LTE_SKIN);
             $this->css[] = sprintf('plugins/iCheck/square/%s.css', self::ADMIN_LTE_SKIN);
         }

@@ -1,8 +1,8 @@
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
 use backend\modules\radiata\helpers\RadiataHelper;
+use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\radiata\models\AdminLogSearch */
@@ -28,12 +28,11 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-history"></i> ' . $this->title
                 },
             ],
             [
-                'label'         => Yii::t('b/radiata/admin-log', 'User ID'),
-                'attribute'     => 'user_id',
-                'enableSorting' => false,
-                'format'        => 'raw',
-                'value'         => function ($model) {
-                    return $model->user->getFullName();
+                'label'     => Yii::t('b/radiata/admin-log', 'User ID'),
+                'attribute' => 'user_id',
+                'format'    => 'raw',
+                'value'     => function ($model) {
+                    return $model->user_id > 0 ? $model->user->getFullName() : '';
                 },
             ],
             [
@@ -43,16 +42,8 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-history"></i> ' . $this->title
                     return Html::tag('i', '', ['class' => 'fa ' . RadiataHelper::getActionAdditionalIconClass($model->action)]) . ' ' . RadiataHelper::getActionName($model->action);
                 },
             ],
-            [
-                'attribute'     => 'data',
-                'enableSorting' => false,
-                'format'        => 'ntext',
-            ],
-            [
-                'attribute'     => 'created_at',
-                'enableSorting' => false,
-                'format'        => 'datetime',
-            ],
+            'data:ntext',
+            'created_at:datetime',
         ],
     ]); ?>
 

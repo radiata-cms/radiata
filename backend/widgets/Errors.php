@@ -21,7 +21,7 @@ class Errors extends Widget
     {
         $lines = [];
 
-        if (count($this->models) > 0) {
+        if(count($this->models) > 0) {
             $lines[] = '<div class="' . $this->errorClass . '">';
             foreach ($this->models as $model) {
                 /* @var $model \yii\base\Model */

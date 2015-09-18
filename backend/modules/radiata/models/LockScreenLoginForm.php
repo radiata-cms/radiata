@@ -1,9 +1,9 @@
 <?php
 namespace backend\modules\radiata\models;
 
+use common\models\user\User;
 use Yii;
 use yii\base\Model;
-use common\models\user\User;
 
 /**
  * Login form
@@ -39,9 +39,9 @@ class LockScreenLoginForm extends Model
      */
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors()) {
+        if(!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->user_password)) {
+            if(!$user || !$user->validatePassword($this->user_password)) {
                 $this->addError($attribute, Yii::t('b/radiata/user', 'Incorrect password.'));
             }
         }
@@ -54,7 +54,7 @@ class LockScreenLoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate()) {
+        if($this->validate()) {
             return Yii::$app->user->login($this->getUser());
         } else {
             return false;
@@ -68,7 +68,7 @@ class LockScreenLoginForm extends Model
      */
     protected function getUser()
     {
-        if ($this->_user === null) {
+        if($this->_user === null) {
             $this->_user = User::findById($this->user_id);
         }
 

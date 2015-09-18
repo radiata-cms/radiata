@@ -2,12 +2,12 @@
 
 namespace backend\modules\radiata\models;
 
+use backend\forms\DateRangeValidator;
+use backend\forms\helpers\FieldHelper;
 use backend\modules\radiata\helpers\RadiataHelper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\forms\DateRangeValidator;
-use backend\forms\helpers\FieldHelper;
 
 /**
  * AdminLogSearch represents the model behind the search form about `backend\modules\radiata\models\AdminLog`.
@@ -44,10 +44,11 @@ class AdminLogSearch extends AdminLog
      */
     public function search($params)
     {
-        $query = AdminLog::find();
+        $query = AdminLog::find()->orderBy(['id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => false,
         ]);
 
         $this->load($params);
@@ -88,7 +89,9 @@ class AdminLogSearch extends AdminLog
         if(count($usersData) > 0) {
             $users = [];
             foreach ($usersData as $userData) {
-                $users[$userData['user']->id] = $userData['user']->getFullName();
+                if($userData['user']->id > 0) {
+                    $users[$userData['user']->id] = $userData['user']->getFullName();
+                }
             }
 
             return $users;

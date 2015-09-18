@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-users"></i> ' . $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [
+        'columns'     => [
             'first_name',
             'last_name',
             'username',

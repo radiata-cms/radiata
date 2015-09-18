@@ -44,3 +44,7 @@ i.grid-icon {
     border-radius: 50%;
     text-align: center;
 }
+
+.ui-sortable-handle {
+    cursor: move;
+}

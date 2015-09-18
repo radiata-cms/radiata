@@ -1,10 +1,10 @@
 <?php
 namespace backend\modules\radiata\widgets;
 
-use backend\modules\radiata\controllers\AdminLogController;
 use backend\modules\radiata\components\BackendAccessControl;
-use backend\modules\radiata\models\AdminLog;
+use backend\modules\radiata\controllers\AdminLogController;
 use backend\modules\radiata\helpers\RadiataHelper;
+use backend\modules\radiata\models\AdminLog;
 use Yii;
 
 class AdminLogWidget extends \yii\bootstrap\Widget
@@ -23,6 +23,7 @@ class AdminLogWidget extends \yii\bootstrap\Widget
             $logsFull = [];
 
             if($logs) {
+                $prevIcon = '';
                 foreach ($logs as $log) {
                     $logFull['additional_icon'] = RadiataHelper::getActionAdditionalIconClass($log['action']);
 
@@ -31,8 +32,12 @@ class AdminLogWidget extends \yii\bootstrap\Widget
                     if($log['user_id'] > 0) {
                         $logFull['user'] = $log['user']->getFullName();
                     }
-
-                    $logFull['icon'] = $log['icon'];
+                    if($prevIcon != $log['icon']) {
+                        $logFull['icon'] = $log['icon'];
+                        $prevIcon = $log['icon'];
+                    } else {
+                        $logFull['icon'] = '';
+                    }
                     $logFull['data'] = $log['data'];
                     $logFull['created_at'] = $log['created_at'];
                     $logFull['user_id'] = $log['user_id'];

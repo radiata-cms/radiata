@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'ID' => 'ID',
-    'Module' => 'Module',
-    'Model' => 'Model',
-    'Action' => 'Action',
+    'ID'        => 'ID',
+    'Module'    => 'Module',
+    'Model'     => 'Model',
+    'Action'    => 'Action',
     'Create Date'                  => 'Date/Time',
-    'User ID' => 'User',
-    'Data' => 'Additional info',
+    'User ID'   => 'User',
+    'Data'      => 'Additional info',
 
     'Nav title' => 'Admin log',
 

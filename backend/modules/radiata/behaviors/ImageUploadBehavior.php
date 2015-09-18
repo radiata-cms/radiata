@@ -59,12 +59,14 @@ class ImageUploadBehavior extends FileUploadBehavior
     public function resolveProfilePath($path, $profile)
     {
         $path = $this->resolvePath($path);
+
         return preg_replace_callback('|\[\[([\w\_/]+)\]\]|', function ($matches) use ($profile) {
             $name = $matches[1];
             switch ($name) {
                 case 'profile':
                     return $profile;
             }
+
             return '[[' . $name . ']]';
         }, $path);
     }
@@ -77,6 +79,7 @@ class ImageUploadBehavior extends FileUploadBehavior
     public function getThumbFilePath($attribute, $profile = 'thumb')
     {
         $behavior = static::getInstance($this->owner, $attribute);
+
         return $behavior->resolveProfilePath($behavior->thumbPath, $profile);
     }
 
@@ -88,8 +91,9 @@ class ImageUploadBehavior extends FileUploadBehavior
      */
     public function getImageFileUrl($attribute, $emptyUrl = null)
     {
-        if (!$this->owner->{$attribute})
+        if(!$this->owner->{$attribute}) {
             return $emptyUrl ? $emptyUrl : $this->defaultAvatar;
+        }
 
         return $this->getUploadedFileUrl($attribute, $emptyUrl);
     }
@@ -102,12 +106,15 @@ class ImageUploadBehavior extends FileUploadBehavior
      */
     public function getThumbFileUrl($attribute, $profile = 'thumb', $emptyUrl = null)
     {
-        if (!$this->owner->{$attribute})
+        if(!$this->owner->{$attribute}) {
             return $emptyUrl ? $emptyUrl : $this->defaultAvatar;
+        }
 
         $behavior = static::getInstance($this->owner, $attribute);
-        if ($behavior->createThumbsOnRequest)
+        if($behavior->createThumbsOnRequest) {
             $behavior->createThumbs();
+        }
+
         return $behavior->resolveProfilePath($behavior->thumbUrl, $profile);
     }
 
@@ -116,8 +123,9 @@ class ImageUploadBehavior extends FileUploadBehavior
      */
     public function afterFileSave()
     {
-        if ($this->createThumbsOnSave == true)
+        if($this->createThumbsOnSave == true) {
             $this->createThumbs();
+        }
     }
 
     /**
@@ -128,7 +136,7 @@ class ImageUploadBehavior extends FileUploadBehavior
         $path = $this->getUploadedFilePath($this->attribute);
         foreach ($this->thumbs as $profile => $config) {
             $thumbPath = static::getThumbFilePath($this->attribute, $profile);
-            if (!is_file($thumbPath)) {
+            if(!is_file($thumbPath)) {
                 /** @var GD $thumb */
                 $thumb = new GD($path);
                 $thumb->adaptiveResize($config['width'], $config['height']);

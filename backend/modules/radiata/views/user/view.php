@@ -1,8 +1,8 @@
 <?php
 
+use backend\forms\helpers\DataOutputHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use backend\forms\helpers\DataOutputHelper;
 
 /**
  * @var yii\web\View $this
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = '<span style="text-decoration: underline;">' . 
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model'      => $model,
         'attributes' => [
             'id',
             'username',

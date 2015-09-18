@@ -4,7 +4,7 @@ use yii\helpers\Html;
 ?>
 <div id="languages">
     <ul class="list-inline">
-        <li><?= Yii::t('c/radiata/lang', 'Choose lang') ?>:</li>
+        <li><?= Yii::t('c/radiata', 'Choose lang') ?>:</li>
         <? foreach ($languages as $lang) { ?>
             <li>
                 <i class="iconflags iconflags-<?= $lang->code ?>"></i>

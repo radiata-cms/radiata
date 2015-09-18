@@ -12,11 +12,11 @@
 
 namespace common\modules\radiata;
 
-use Yii;
 use common\modules\radiata\components\Migrator;
-use common\modules\radiata\models\Lang;
-use yii\helpers\Url;
 use common\modules\radiata\interfaces\RadiataModuleInterface;
+use common\modules\radiata\models\Lang;
+use Yii;
+use yii\helpers\Url;
 
 /**
  * Class Radiata
@@ -106,7 +106,7 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
                         'permission' => 'Radiata Module. Admin Log',
                     ],
                     [
-                        'title' => Yii::t('c/radiata/lang', 'Nav title'),
+                        'title' => Yii::t('b/radiata/lang', 'Nav title'),
                         'icon' => 'fa fa-language',
                         'link' => Url::to(['/radiata/lang/index']),
                         'permission' => 'Fake permission',

@@ -1,8 +1,7 @@
 <?php
-use yii\widgets\Breadcrumbs;
+use backend\modules\radiata\widgets\LangSwitcherWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use backend\modules\radiata\widgets\LangSwitcherWidget;
 
 /* @var $this yii\web\View */
 ?>
@@ -39,12 +38,8 @@ use backend\modules\radiata\widgets\LangSwitcherWidget;
                             </p>
                         </li>
                         <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div>
                             <div class="pull-right">
-                                <a href="<?= Url::to(['radiata/logout']) ?>"
-                                   class="btn btn-default btn-flat"><?= Yii::t('b/radiata/login', 'Sign out') ?></a>
+                                <a href="<?= Url::to(['radiata/logout']) ?>" class="btn btn-default btn-flat"><?= Yii::t('b/radiata/login', 'Sign out') ?></a>
                             </div>
                         </li>
                     </ul>

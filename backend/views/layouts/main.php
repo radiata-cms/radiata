@@ -3,10 +3,10 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use backend\assets\AdminLteAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
-use backend\assets\AdminLteAsset;
 
 AdminLteAsset::register($this);
 backend\assets\AppAsset::register($this);
@@ -35,11 +35,9 @@ backend\assets\AppAsset::register($this);
 <div class="lockscreen-container" data-url="<?= Url::to(['/radiata/radiata/lock-screen', 'id' => Yii::$app->user->id]); ?>"></div>
 <?php Pjax::begin(['id' => 'pjax_container']); ?><?php Pjax::end(); ?>
 
-<?= $this->render('_common/_i18n.php'); ?>
+<?= $this->render('_common/_js.php'); ?>
 
 <?php $this->endBody() ?>
-
-<?= $this->render('_common/_icheck.php'); ?>
 
 </body>
 </html>

@@ -2,9 +2,9 @@
 namespace backend\modules\radiata\components;
 
 use Yii;
-use yii\web\User;
 use yii\di\Instance;
 use yii\web\ForbiddenHttpException;
+use yii\web\User;
 
 class BackendAccessControl extends \yii\base\ActionFilter
 {
@@ -29,9 +29,10 @@ class BackendAccessControl extends \yii\base\ActionFilter
      */
     public function getUser()
     {
-        if (!$this->_user instanceof User) {
+        if(!$this->_user instanceof User) {
             $this->_user = Instance::ensure($this->_user, User::className());
         }
+
         return $this->_user;
     }
 
@@ -49,27 +50,27 @@ class BackendAccessControl extends \yii\base\ActionFilter
      */
     public function beforeAction($action)
     {
-        if (parent::beforeAction($action)) {
+        if(parent::beforeAction($action)) {
             $user = $this->getUser();
 
-            if (in_array($action->getUniqueId(), $this->allowedActions)) {
+            if(in_array($action->getUniqueId(), $this->allowedActions)) {
                 return true;
-            } elseif ($user->isGuest) {
+            } elseif($user->isGuest) {
                 return Yii::$app->response->redirect(['radiata/login']);
-            } elseif (in_array($action->getUniqueId(), $this->allowedActionsLoggedIn)) {
+            } elseif(in_array($action->getUniqueId(), $this->allowedActionsLoggedIn)) {
                 return true;
             }
 
             $userGroups = Yii::$app->authManager->getAssignments($user->id);
-            if (self::checkFullAccess()) {
+            if(self::checkFullAccess()) {
 
                 return true;
 
-            } elseif (isset($userGroups['manager'])) {
+            } elseif(isset($userGroups['manager'])) {
 
-                if ($action->controller->id == 'radiata' && isset($userGroups['manager'])) {
+                if($action->controller->id == 'radiata' && isset($userGroups['manager'])) {
                     return true;
-                } elseif (defined(get_class($action->controller) . '::BACKEND_PERMISSION') && $user->can(constant(get_class($action->controller) . '::BACKEND_PERMISSION'))) {
+                } elseif(defined(get_class($action->controller) . '::BACKEND_PERMISSION') && $user->can(constant(get_class($action->controller) . '::BACKEND_PERMISSION'))) {
                     return true;
                 } else {
                     throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
@@ -90,7 +91,9 @@ class BackendAccessControl extends \yii\base\ActionFilter
 
     public static function checkRoleAccess($role, $userId = '')
     {
-        if (!$userId) $userId = Yii::$app->user->identity->getId();
+        if(!$userId) {
+            $userId = Yii::$app->user->identity->getId();
+        }
         $userGroups = Yii::$app->authManager->getAssignments($userId);
 
         return isset($userGroups[$role]);

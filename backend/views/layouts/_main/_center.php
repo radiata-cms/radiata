@@ -14,5 +14,4 @@ use backend\widgets\Breadcrumbs;
     <!-- Main content -->
 
     <section class="content"><?= $content; ?></section>
-</div>
-<!-- /.content-wrapper -->
+</div><!-- /.content-wrapper -->

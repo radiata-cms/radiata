@@ -1,9 +1,9 @@
 <?php
 namespace backend\forms\widgets;
 
+use backend\modules\radiata\behaviors\FileUploadBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use backend\modules\radiata\behaviors\FileUploadBehavior;
 
 
 class FileInputWidget extends \yii\widgets\InputWidget

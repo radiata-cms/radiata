@@ -23,4 +23,6 @@ return [
     'seconds'   => 'seconds',
     'second'    => 'second',
     'Just now'  => 'Just now',
+
+    'Choose lang' => 'Choose lang',
 ];

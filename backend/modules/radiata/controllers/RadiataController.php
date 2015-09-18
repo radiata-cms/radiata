@@ -1,16 +1,15 @@
 <?php
 namespace backend\modules\radiata\controllers;
 
-use common\modules\radiata\components\Migrator;
-use Yii;
 use backend\modules\radiata\components\BackendController;
+use backend\modules\radiata\events\AdminLogEvent;
+use backend\modules\radiata\models\LockScreenLoginForm;
 use common\models\user\LoginForm;
 use common\models\user\User;
-use backend\modules\radiata\models\LockScreenLoginForm;
-use backend\modules\radiata\events\AdminLogEvent;
-use yii\web\Response;
-use yii\filters\AccessControl;
+use common\modules\radiata\components\Migrator;
+use Yii;
 use yii\web\ForbiddenHttpException;
+use yii\web\Response;
 
 /**
  * Radiata controller
@@ -47,9 +46,9 @@ class RadiataController extends BackendController
 
     public function beforeAction($action)
     {
-        if (in_array($action->id, ['login'])) {
+        if(in_array($action->id, ['login'])) {
             $this->layout = 'forbidden';
-        } elseif (in_array($action->id, ['error']) && Yii::$app->errorHandler->exception->statusCode == 403) {
+        } elseif(in_array($action->id, ['error']) && Yii::$app->errorHandler->exception->statusCode == 403) {
             $this->layout = 'forbidden';
         }
 
@@ -63,19 +62,21 @@ class RadiataController extends BackendController
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if(!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->login()) {
+        if($model->load(Yii::$app->request->post())) {
+            if($model->login()) {
                 $this->trigger(AdminLogEvent::EVENT_SUCCESS_AUTH);
+
                 return $this->goBack(Yii::$app->request->pathInfo);
             } else {
                 $this->trigger(AdminLogEvent::EVENT_WRONG_AUTH);
             }
         }
+
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -90,17 +91,17 @@ class RadiataController extends BackendController
 
     public function actionLockScreen($id)
     {
-        if (!Yii::$app->user->isGuest) {
+        if(!Yii::$app->user->isGuest) {
             Yii::$app->user->logout();
         }
 
         $user = User::findOne($id);
 
-        if ($user) {
+        if($user) {
             $successLogin = false;
             $model = new LockScreenLoginForm();
-            if ($model->load(Yii::$app->request->post())) {
-                if ($model->login()) {
+            if($model->load(Yii::$app->request->post())) {
+                if($model->login()) {
                     $this->trigger(AdminLogEvent::EVENT_SUCCESS_AUTH);
                     $successLogin = true;
                 } else {

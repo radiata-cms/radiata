@@ -3,11 +3,11 @@
 /* @var $user common\models\user\User */
 /* @var $successLogin boolean */
 
-use yii\helpers\Url;
-use yii\widgets\Pjax;
-use yii\widgets\ActiveForm;
-use yii\helpers\Html;
 use backend\widgets\Errors;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 ?>
 
@@ -19,7 +19,7 @@ use backend\widgets\Errors;
 
     <?php Pjax::begin(['id' => 'login_form', 'enablePushState' => false]); ?>
 
-    <? if ($successLogin) { ?>
+    <? if($successLogin) { ?>
 
         <?php
         $this->registerJs('$("div.lockscreen-container").html("").hide();');

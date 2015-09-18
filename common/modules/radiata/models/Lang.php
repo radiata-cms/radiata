@@ -5,6 +5,7 @@ namespace common\modules\radiata\models;
 use backend\modules\radiata\behaviors\AdminLogBehavior;
 use backend\modules\radiata\behaviors\ClearCacheBehavior;
 use common\modules\radiata\helpers\CacheHelper;
+use himiklab\sortablegrid\SortableGridBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -50,14 +51,14 @@ class Lang extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('c/radiata/lang', 'ID'),
-            'code' => Yii::t('c/radiata/lang', 'Language slug'),
-            'locale' => Yii::t('c/radiata/lang', 'Locale'),
-            'name' => Yii::t('c/radiata/lang', 'Name'),
-            'default' => Yii::t('c/radiata/lang', 'Default'),
-            'position' => Yii::t('c/radiata/lang', 'Position'),
-            'updated_at' => Yii::t('c/radiata/lang', 'Update Date'),
-            'created_at' => Yii::t('c/radiata/lang', 'Create Date'),
+            'id'         => Yii::t('b/radiata/lang', 'ID'),
+            'code'       => Yii::t('b/radiata/lang', 'Language slug'),
+            'locale'     => Yii::t('b/radiata/lang', 'Locale'),
+            'name'       => Yii::t('b/radiata/lang', 'Name'),
+            'default'    => Yii::t('b/radiata/lang', 'Default'),
+            'position'   => Yii::t('b/radiata/lang', 'Position'),
+            'updated_at' => Yii::t('b/radiata/lang', 'Update Date'),
+            'created_at' => Yii::t('b/radiata/lang', 'Create Date'),
         ];
     }
 
@@ -71,20 +72,23 @@ class Lang extends \yii\db\ActiveRecord
                 'icon' => 'fa-language bg-teal',
             ],
             ClearCacheBehavior::className(),
-
-            /**
-             * @todo-me add behavior for position
-             */
+            [
+                'class'             => SortableGridBehavior::className(),
+                'sortableAttribute' => 'position'
+            ],
         ];
     }
 
     /**
      * @inheritdoc
-     * @return LangQuery the active query used by this AR class.
      */
-    public static function find()
+    public function afterSave($insert, $changedAttributes)
     {
-        return new LangQuery(get_called_class());
+        if($this->default) {
+            $this->setLanguageDefault();
+        }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 
     /**
@@ -118,5 +122,12 @@ class Lang extends \yii\db\ActiveRecord
         return $link;
     }
 
-
+    /**
+     *
+     */
+    public function setLanguageDefault()
+    {
+        Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 0])->execute();
+        Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 1], 'id = :id')->bindValue(':id', $this->id)->execute();
+    }
 }
