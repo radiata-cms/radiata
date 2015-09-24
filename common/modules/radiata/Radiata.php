@@ -1,9 +1,6 @@
 <?php
 /**
- * Radiata файл класса.
- * Модуль radiata - основной модуль Radiata!
- *
- * Модуль Radiata содержит в себе все основные компоненты, которые используются другими модулями
+ * Radiata core module
  *
  * @author    a1exsnow <ash@bigmir.net>
  * @license   BSD http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F_BSD
@@ -103,13 +100,13 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
                         'title' => Yii::t('b/radiata/admin-log', 'Nav title'),
                         'icon' => 'fa fa-history',
                         'link' => Url::to(['/radiata/admin-log/index']),
-                        'permission' => 'Radiata Module. Admin Log',
+                        'permission' => \backend\modules\radiata\controllers\AdminLogController::BACKEND_PERMISSION,
                     ],
                     [
                         'title' => Yii::t('b/radiata/lang', 'Nav title'),
                         'icon' => 'fa fa-language',
                         'link' => Url::to(['/radiata/lang/index']),
-                        'permission' => 'Fake permission',
+                        'permission' => \backend\modules\radiata\controllers\LangController::BACKEND_PERMISSION,
                     ],
                     [
                         'title' => Yii::t('b/radiata/user', 'Nav title'),
@@ -223,7 +220,7 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
 
         if (is_object($migrator->error)) {
             return [
-                'error' => $migrator->error,
+                'error' => $migrator->error->getMessage(),
             ];
         } else {
             return [

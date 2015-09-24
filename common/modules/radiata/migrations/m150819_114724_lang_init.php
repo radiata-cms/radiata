@@ -1,7 +1,7 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m150819_114724_lang_init extends Migration
 {
@@ -22,6 +22,21 @@ class m150819_114724_lang_init extends Migration
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);
+
+        //index
+        $this->createIndex(
+            "in_lang_code",
+            '{{%radiata_lang}}',
+            'code'
+        );
+
+        //index
+        $this->createIndex(
+            "in_lang_locale",
+            '{{%radiata_lang}}',
+            'locale',
+            true
+        );
 
         $this->batchInsert('{{%radiata_lang}}', ['code', 'locale', 'name', 'default', 'position', 'updated_at', 'created_at'], [
             ['en', 'en-US', 'English', 1, 1, time(), time()],

@@ -48,3 +48,7 @@ i.grid-icon {
 .ui-sortable-handle {
     cursor: move;
 }
+
+form.form-horizontal .nav-tabs {
+    border-bottom: 0px;
+}

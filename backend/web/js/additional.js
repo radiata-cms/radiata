@@ -67,4 +67,13 @@ $(function () {
         radioClass: 'iradio_square-' + ADMIN_LTE_SKIN,
         increaseArea: '20%' // optional
     });
+
+    $('a.lang-tab-a').on('shown.bs.tab', function (e) {
+        var activeLang = $(e.target).attr('lang');
+        $('a.lang-tab-a[lang=' + activeLang + ']').each(function () {
+            if ($(this) != $(e.target)) {
+                $(this).tab('show');
+            }
+        });
+    })
 });

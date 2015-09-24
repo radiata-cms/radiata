@@ -1,11 +1,11 @@
 <?php
 namespace backend\modules\radiata\behaviors;
 
+use backend\modules\radiata\events\ClearCacheEvent;
 use yii\base\Behavior;
 use yii\db\BaseActiveRecord;
-use backend\modules\radiata\events\ClearCacheEvent;
 
-class ClearCacheBehavior extends Behavior
+class CacheBehavior extends Behavior
 {
     public function attach($owner)
     {

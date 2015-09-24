@@ -15,6 +15,8 @@ use yii\web\NotFoundHttpException;
  */
 class LangController extends BackendController
 {
+    const BACKEND_PERMISSION = 'Radiata Module. Languages';
+
     public function behaviors()
     {
         return [

@@ -18,4 +18,21 @@ class FieldHelper
 
         return [$from, $to];
     }
+
+    public static function showErrors($model)
+    {
+        $errors = '';
+        if($model->hasErrors()) {
+            $errors .= '<div class="callout callout-danger">';
+            $errors .= '<h4>' . Yii::t('yii', 'Please fix the following errors:') . '</h4>';
+            foreach ($model->getErrors() as $error) {
+                foreach ($error as $suberror) {
+                    $errors .= '<p>- ' . $suberror . '</p>';
+                }
+            }
+            $errors .= '</div>';
+        }
+
+        return $errors;
+    }
 }

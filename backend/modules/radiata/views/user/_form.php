@@ -1,5 +1,6 @@
 <?php
 
+use backend\forms\helpers\FieldHelper;
 use backend\forms\RadiataField;
 use backend\forms\widgets\FileInputWidget;
 use yii\bootstrap\ActiveForm;
@@ -19,6 +20,8 @@ use yii\helpers\Html;
         'fieldClass' => RadiataField::className(),
         'options' => ['enctype' => 'multipart/form-data'],
     ]); ?>
+
+    <?= FieldHelper::showErrors($model); ?>
 
     <?= $form->field($model, 'first_name')->textInput() ?>
 
@@ -57,7 +60,7 @@ use yii\helpers\Html;
 
     <?php
 
-    $jsCode = <<< JS
+    $jsCode = <<< 'JS'
         $(function () {
             checkPermissionsVisibility();
             $('input[name="User[roles][manager]"]').next().on("click", function(){

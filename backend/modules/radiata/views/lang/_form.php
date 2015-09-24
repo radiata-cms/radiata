@@ -1,5 +1,6 @@
 <?php
 
+use backend\forms\helpers\FieldHelper;
 use backend\modules\radiata\helpers\RadiataHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -12,6 +13,8 @@ use yii\widgets\ActiveForm;
 <div class="lang-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?= FieldHelper::showErrors($model); ?>
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 

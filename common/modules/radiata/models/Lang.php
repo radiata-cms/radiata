@@ -3,7 +3,7 @@
 namespace common\modules\radiata\models;
 
 use backend\modules\radiata\behaviors\AdminLogBehavior;
-use backend\modules\radiata\behaviors\ClearCacheBehavior;
+use backend\modules\radiata\behaviors\CacheBehavior;
 use common\modules\radiata\helpers\CacheHelper;
 use himiklab\sortablegrid\SortableGridBehavior;
 use Yii;
@@ -38,6 +38,7 @@ class Lang extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'locale', 'name'], 'required'],
+            [['code'], 'unique'],
             [['default', 'position', 'updated_at', 'created_at'], 'integer'],
             [['code'], 'string', 'max' => 2],
             [['locale'], 'string', 'max' => 20],
@@ -71,7 +72,7 @@ class Lang extends \yii\db\ActiveRecord
                 'titleAttribute' => 'name',
                 'icon' => 'fa-language bg-teal',
             ],
-            ClearCacheBehavior::className(),
+            CacheBehavior::className(),
             [
                 'class'             => SortableGridBehavior::className(),
                 'sortableAttribute' => 'position'
@@ -99,7 +100,7 @@ class Lang extends \yii\db\ActiveRecord
         $languages = CacheHelper::get('languages');
         if (!$languages) {
             $languages = self::find()->orderBy(['`position`' => SORT_ASC])->all();
-            CacheHelper::set('languages', $languages, self::tableName());
+            CacheHelper::set('languages', $languages, CacheHelper::getTag(self::className()));
         }
         return $languages;
     }

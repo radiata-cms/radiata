@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\modules\radiata\models\Lang */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('b/radiata/lang', 'Langs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '<i class="fa fa-language"></i> ' . Yii::t('b/radiata/lang', 'Langs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="lang-view">

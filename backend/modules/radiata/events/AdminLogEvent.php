@@ -91,6 +91,8 @@ class AdminLogEvent extends Event
             $adminLog->model = get_class($event->sender);
             if(isset($event->sender->attributes[$event->data['title']])) {
                 $adminLog->data = $event->sender->attributes[$event->data['title']];
+            } elseif(isset($event->sender->{$event->data['title']})) {
+                $adminLog->data = $event->sender->{$event->data['title']};
             }
         } else {
             $adminLog->data = isset($data['data']) ? $data['data'] : '';

@@ -38,6 +38,7 @@ class AdminLogWidget extends \yii\bootstrap\Widget
                     } else {
                         $logFull['icon'] = '';
                     }
+
                     $logFull['data'] = $log['data'];
                     $logFull['created_at'] = $log['created_at'];
                     $logFull['user_id'] = $log['user_id'];

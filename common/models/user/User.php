@@ -2,13 +2,12 @@
 namespace common\models\user;
 
 use backend\modules\radiata\behaviors\AdminLogBehavior;
+use backend\modules\radiata\behaviors\ImageUploadBehavior;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use backend\modules\radiata\behaviors\FileUploadBehavior;
-use backend\modules\radiata\behaviors\ImageUploadBehavior;
 
 /**
  * User model
@@ -361,6 +360,8 @@ class User extends ActiveRecord implements IdentityInterface
                 Yii::$app->authManager->assign($rbacPermission, $this->id);
             }
         }
+
+        Yii::$app->authManager->invalidateCache();
     }
 
     /**

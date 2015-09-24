@@ -53,25 +53,33 @@ class m150828_130937_rbac_init extends Migration
         $authManager->addChild($adminRole, $managerRole);
         $authManager->addChild($developerRole, $adminRole);
 
-        $permitionRadiataModule = $authManager->createPermission('Radiata Module');
-        $authManager->add($permitionRadiataModule);
+        $permissionRadiataModule = $authManager->createPermission('Radiata Module');
+        $authManager->add($permissionRadiataModule);
 
-        $permitionRadiataModuleDashboard = $authManager->createPermission('Radiata Module. Dashboard');
-        $authManager->add($permitionRadiataModuleDashboard);
-        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleDashboard);
+        $permissionRadiataModuleDashboard = $authManager->createPermission('Radiata Module. Dashboard');
+        $authManager->add($permissionRadiataModuleDashboard);
+        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleDashboard);
 
-        $permitionRadiataModuleAdminLog = $authManager->createPermission('Radiata Module. Admin Log');
-        $authManager->add($permitionRadiataModuleAdminLog);
-        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleAdminLog);
+        $permissionRadiataModuleAdminLog = $authManager->createPermission('Radiata Module. Admin Log');
+        $authManager->add($permissionRadiataModuleAdminLog);
+        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleAdminLog);
 
-        $permitionRadiataModuleLangs = $authManager->createPermission('Radiata Module. Languages');
-        $authManager->add($permitionRadiataModuleLangs);
-        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleLangs);
+        $permissionRadiataModuleLangs = $authManager->createPermission('Radiata Module. Languages');
+        $authManager->add($permissionRadiataModuleLangs);
+        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleLangs);
 
-        $permitionRadiataModuleUsers = $authManager->createPermission('Radiata Module. Users');
-        $authManager->add($permitionRadiataModuleUsers);
-        $authManager->addChild($permitionRadiataModule, $permitionRadiataModuleUsers);
+        $permissionRadiataModuleUsers = $authManager->createPermission('Radiata Module. Users');
+        $authManager->add($permissionRadiataModuleUsers);
+        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleUsers);
 
+
+        $permissionNewsModule = $authManager->createPermission('News Module');
+        $authManager->add($permissionNewsModule);
+
+        $permissionNewsModuleCategories = $authManager->createPermission('News Module. Categories');
+        $authManager->add($permissionNewsModuleCategories);
+        $authManager->addChild($permissionNewsModule, $permissionNewsModuleCategories);
+        
 
         $user = new User();
         $user->username = 'developer';
@@ -119,6 +127,7 @@ class m150828_130937_rbac_init extends Migration
         $this->originalMigration->down();
 
         $this->delete('{{%user}}', [
+            ['username' => 'developer'],
             ['username' => 'admin'],
             ['username' => 'manager'],
             ['username' => 'user'],

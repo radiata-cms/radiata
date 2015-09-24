@@ -29,7 +29,7 @@ class m150831_135846_admin_log extends Migration
             "fk_admin_log_user_id",
             '{{%radiata_admin_log}}',
             'user_id',
-            '{{%user}}',
+            '{{%radiata_user}}',
             'id',
             'CASCADE',
             'CASCADE'

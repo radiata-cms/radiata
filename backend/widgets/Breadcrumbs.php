@@ -24,11 +24,11 @@ class Breadcrumbs extends Widget
             if(count($this->breadcrumbs) > 0) {
                 $lines[] = '<li>';
                 $lines[] = '<a href="' . Url::to(['/' . $module->id . '/' . $module->defaultRoute . '/' . $module->module->controller->defaultAction]) . '">';
-                $lines[] = '<i class="' . $module->moduleIcon . '"></i>' . Yii::t($module->moduleMessages, 'Module name');
+                $lines[] = '<i class="' . $module->moduleIcon . '"></i> ' . Yii::t($module->moduleMessages, 'Module name');
                 $lines[] = '</a>';
             } else {
                 $lines[] = '<li class="active">';
-                $lines[] = '<i class="' . $module->moduleIcon . '"></i>' . Yii::t($module->moduleMessages, 'Module name');
+                $lines[] = '<i class="' . $module->moduleIcon . '"></i> ' . Yii::t($module->moduleMessages, 'Module name');
             }
             $lines[] = '</li>';
         }
