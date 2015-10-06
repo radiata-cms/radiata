@@ -147,14 +147,6 @@ class m150918_160000_news_init extends Migration
             'SET NULL'
         );
 
-        //uk
-        $this->createIndex(
-            "uk_news_category_position",
-            '{{%news_category}}',
-            ['parent_id', 'position'],
-            true
-        );
-
         $this->createTable('{{%news_category_translation}}', [
             'parent_id'        => Schema::TYPE_INTEGER . ' NOT NULL',
             'locale'           => Schema::TYPE_STRING . '(20) NOT NULL',

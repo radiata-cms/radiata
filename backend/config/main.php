@@ -25,12 +25,6 @@ return [
             'layoutPath'          => '@backend/views/layouts',
             'viewPath'            => '@backend/modules/news/views',
             'defaultRoute'        => 'news',
-            'controllerMap'       => [
-                'category-tree' => [
-                    'class'      => 'backend\modules\radiata\components\jstree\JSTreeController',
-                    'modelClass' => 'backend\modules\news\models\NewsCategory',
-                ],
-            ]
         ],
     ],
     'components' => [

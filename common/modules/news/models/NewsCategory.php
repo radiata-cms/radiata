@@ -53,7 +53,6 @@ class NewsCategory extends \yii\db\ActiveRecord
             [['status'], 'required'],
             [['parent_id'], 'default', 'value' => null],
             [['status', 'position', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            ['position', 'unique', 'targetAttribute' => ['parent_id', 'position']]
         ];
     }
 

@@ -29,4 +29,9 @@ return [
     'dateFormat' => 'MM/DD/YYYY',
 
     'Alert'     => 'Alert!',
+
+    'CreateChild' => 'Create child',
+    'EditChild'   => 'Edit child',
+    'DeleteChild' => 'Delete child',
+    'AreYouSure'  => 'Are you sure you want to delete this item?',
 ];

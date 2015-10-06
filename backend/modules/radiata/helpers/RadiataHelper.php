@@ -7,6 +7,7 @@
 
 namespace backend\modules\radiata\helpers;
 
+use backend\modules\radiata\behaviors\TreeBehavior;
 use ResourceBundle;
 use Yii;
 
@@ -61,5 +62,10 @@ class RadiataHelper
         }
 
         return $locales;
+    }
+
+    static function getTreeNodeItemId($id)
+    {
+        return str_replace(TreeBehavior::JST_PREFIX, '', $id);
     }
 }

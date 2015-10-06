@@ -18,16 +18,25 @@ class TreeBehavior extends Behavior
 
     public $structure = [];
 
+    const JST_PREFIX = 'jst';
+
     public function moveItem($parentId, $afterItemId = 0)
     {
+        $transaction = Yii::$app->db->beginTransaction();
         $this->changeItemParent($parentId);
         $this->changeItemPosition($afterItemId);
+        $this->shiftItemsPositionAfter($this->owner);
+        if($this->owner->save()) {
+            $transaction->commit();
+        } else {
+            $transaction->rollBack();
+        }
     }
 
     public function changeItemParent($parentId)
     {
         if($this->checkItemExists($parentId) && $this->owner->{$this->parentFieldName} != $parentId) {
-            $this->owner->setAttribute($this->parentFieldName, $parentId)->save();
+            $this->owner->setAttribute($this->parentFieldName, $parentId);
         }
     }
 
@@ -44,23 +53,21 @@ class TreeBehavior extends Behavior
     {
         if($this->checkItemExists($afterItemId)) {
             if($afterItemId > 0) {
-                Yii::$app->db->transaction(function () use ($afterItemId) {
-                    $this->shiftItemsPositionAfter($afterItemId);
-                    $this->positionItemAfter($afterItemId);
-                });
+                $this->positionItemAfter($afterItemId);
             } else {
-                $this->positionItemToEnd();
+                $this->positionItemToBeginning();
             }
         }
     }
 
-    protected function shiftItemsPositionAfter($afterItemId)
+    protected function shiftItemsPositionAfter($afterItem)
     {
-        $afterItem = $this->owner->findOne($afterItemId);
+        $position = $afterItem->{$this->positionFieldName};
         $shiftedItems = $this->getShiftItems($afterItem);
         if($shiftedItems) {
             foreach ($shiftedItems as $shiftedItem) {
-                $this->owner->setAttribute($shiftedItem->positionFieldName, $shiftedItem->positionFieldName + 1)->save();
+                $shiftedItem->setAttribute($this->positionFieldName, ++$position);
+                $shiftedItem->save();
             }
         }
     }
@@ -68,8 +75,10 @@ class TreeBehavior extends Behavior
     protected function getShiftItems($afterItem)
     {
         return $this->owner->find()
-            ->where([$this->positionFieldName > $afterItem->{$this->positionFieldName}])
-            ->orderBy([$this->positionFieldName => SORT_ASC]);
+            ->andWhere(['>=', $this->positionFieldName, $afterItem->{$this->positionFieldName}])
+            ->andWhere([$this->parentFieldName => $afterItem->{$this->parentFieldName}])
+            ->andWhere(['<>', 'id', $this->owner->id])
+            ->orderBy([$this->positionFieldName => SORT_ASC])->all();
     }
 
     protected function positionItemAfter($afterItemId)
@@ -82,15 +91,9 @@ class TreeBehavior extends Behavior
         }
     }
 
-    protected function positionItemToEnd()
+    protected function positionItemToBeginning()
     {
-        $lastItem = $this->owner->find()->orderBy([$this->positionFieldName => SORT_ASC])->limit(1);
-        if($lastItem) {
-            $this->owner->{$this->positionFieldName} = $lastItem->{$this->positionFieldName} + 1;
-        } else {
-            $this->owner->{$this->positionFieldName} = 1;
-        }
-        $this->owner->save();
+        $this->owner->{$this->positionFieldName} = 1;
     }
 
     public function getChildren()
@@ -116,7 +119,7 @@ class TreeBehavior extends Behavior
     {
         $this->structure = $this->getStructure();
 
-        $result = array_merge(['' => $this->structure['']['title']], $this->getItemsTreeLevelRecursive($this->structure['']['children']));
+        $result = ['' => $this->structure['']['title']] + $this->getItemsTreeLevelRecursive($this->structure['']['children']);
 
         return $result;
     }
@@ -127,12 +130,11 @@ class TreeBehavior extends Behavior
         foreach ($children as $child) {
             if(!$this->owner->hasAttribute('id') || $this->owner->id != $child) {
                 $items[$child] = str_repeat(' ', ($level + 1) * 6) . $this->structure[$child]['title'];
-                if(count($child['children']) > 0) {
-                    $items = array_merge($items, $this->getItemsTreeLevelRecursive($child['children'], $level + 1));
+                if(count($this->structure[$child]['children']) > 0) {
+                    $items += $this->getItemsTreeLevelRecursive($this->structure[$child]['children'], $level + 1);
                 }
             }
         }
-
         return $items;
     }
 
@@ -141,7 +143,7 @@ class TreeBehavior extends Behavior
         $owner = $this->owner;
         $cacheKey = $owner::className() . '_items_tree' . rand(0, 10000);
         $structure = CacheHelper::get($cacheKey);
-        if(!$structure) {
+        if(!$structure || 1) {
             $structure = $this->makeStructure();
             CacheHelper::set($cacheKey, $structure, CacheHelper::getTag($owner::className()));
         }
@@ -154,7 +156,9 @@ class TreeBehavior extends Behavior
         $itemsStructure = [
             // top level
             '' => [
+                'id'     => self::JST_PREFIX,
                 'title'    => Yii::t('b/radiata/common', 'ROOT'),
+                'parent' => '',
                 'children' => [],
             ]
         ];
@@ -175,7 +179,9 @@ class TreeBehavior extends Behavior
         if($allItems) {
             foreach ($allItems as $item) {
                 $itemsStructure[$item->id] = [
+                    'id'     => self::JST_PREFIX . $item->id,
                     'title'    => $item->{$this->titleFieldName},
+                    'parent' => $item->{$this->parentFieldName},
                     'children' => [],
                 ];
             }
@@ -188,5 +194,42 @@ class TreeBehavior extends Behavior
         }
 
         return $itemsStructure;
+    }
+
+    public function getTreeData($nodeId)
+    {
+        $this->structure = $this->getStructure();
+
+        return $this->buildTreeDataLevel($this->structure[$nodeId]);
+    }
+
+    public function buildTreeDataLevel($structure)
+    {
+        $data = [
+            'id'   => $structure['id'],
+            'text' => $structure['title'],
+        ];
+
+        if(!empty($structure['children'])) {
+            foreach ($structure['children'] as $child) {
+                $data['children'][] = $this->buildTreeDataLevel($this->structure[$child]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function getParents()
+    {
+        $this->structure = $this->getStructure();
+
+        $parents = [];
+        $parent = $this->structure[$this->owner->id]['parent'];
+        while ($parent != '') {
+            $parents[$parent] = $this->structure[$parent]['title'];
+            $parent = $this->structure[$parent]['parent'];
+        }
+
+        return array_reverse($parents, true);
     }
 }

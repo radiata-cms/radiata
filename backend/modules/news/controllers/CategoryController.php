@@ -2,6 +2,8 @@
 
 namespace backend\modules\news\controllers;
 
+use backend\modules\radiata\actions\tree\actionGetLevelData;
+use backend\modules\radiata\actions\tree\actionMoveItem;
 use backend\modules\radiata\components\BackendController;
 use common\modules\news\models\NewsCategory;
 use Yii;
@@ -12,6 +14,20 @@ use yii\web\NotFoundHttpException;
 class CategoryController extends BackendController
 {
     const BACKEND_PERMISSION = 'News Module. Categories';
+
+    public function actions()
+    {
+        return [
+            'get-level-data' => [
+                'class'      => actionGetLevelData::className(),
+                'modelClass' => NewsCategory::className(),
+            ],
+            'move-item'      => [
+                'class'      => actionMoveItem::className(),
+                'modelClass' => NewsCategory::className(),
+            ],
+        ];
+    }
 
     public function behaviors()
     {
@@ -122,7 +138,9 @@ class CategoryController extends BackendController
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        if(!Yii::$app->request->isAjax) {
+            return $this->redirect(['index']);
+        }
     }
 
     /**

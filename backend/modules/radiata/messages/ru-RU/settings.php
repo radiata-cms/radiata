@@ -29,4 +29,9 @@ return [
     'dateFormat' => 'DD.MM.YYYY',
 
     'Alert'     => 'Сообщение!',
+
+    'CreateChild' => 'Создать',
+    'EditChild'   => 'Редактировать',
+    'DeleteChild' => 'Удалить',
+    'AreYouSure'  => 'Вы уверены, что хотите удалить элемент?',
 ];

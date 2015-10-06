@@ -52,3 +52,9 @@ i.grid-icon {
 form.form-horizontal .nav-tabs {
     border-bottom: 0px;
 }
+
+.content-header ol.breadcrumb-parents {
+    position: relative;
+    display: inline-block;
+    top: 0px;
+}

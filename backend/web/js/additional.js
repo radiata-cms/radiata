@@ -77,3 +77,120 @@ $(function () {
         });
     })
 });
+
+if (typeof(jstreeContainers) != 'undefined') {
+    for (i in jstreeContainers) {
+        var jstreeContainer = jstreeContainers[i];
+        if ($('#' + jstreeContainer).length > 0) {
+            $('#' + jstreeContainer).jstree({
+                'plugins': ["contextmenu", "dnd", "state"],
+                'core': {
+                    'data': {
+                        'url': JS_TREE_DATA_URL,
+                        'data': function (node) {
+                            return {'nodeId': (node.id == '#' ? '' : node.id)};
+                        }
+                    },
+                    'check_callback': function (operation, node, parent, position) {
+                        switch (operation) {
+                            case "move_node":
+                                if (node.id == '-1' || parent.id == '#') {
+                                    return false;
+                                }
+                                break;
+                        }
+                        return true;
+                    },
+                    'state': {"key": "jstree"},
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'multiple': false,
+                    'dblclick_toggle': false
+                },
+                'dnd': {
+                    'inside_pos': 'last'
+                },
+                'contextmenu': {
+                    'items': function ($node) {
+                        var items = {};
+                        items['Create'] = {
+                            'label': i18n.CreateChild,
+                            'action': function (obj) {
+                                var ref = $.jstree.reference(obj.reference),
+                                    sel = ref.get_selected();
+
+                                if (!sel.length) {
+                                    return false;
+                                }
+
+                                var parent = (sel[0] == JST_PREFIX ? '' : '?' + JS_TREE_PARENT_ID_FIELD + '=' + sel[0].replace(JST_PREFIX, ''));
+                                document.location.href = JS_TREE_CREATE_URL + parent;
+                            }
+                        };
+
+                        if ($node.id != JST_PREFIX) {
+                            items['Edit'] = {
+                                'label': i18n.EditChild,
+                                'action': function (obj) {
+                                    var ref = $.jstree.reference(obj.reference),
+                                        sel = ref.get_selected();
+
+                                    if (!sel.length) {
+                                        return false;
+                                    }
+
+                                    document.location.href = JS_TREE_EDIT_URL + '/' + sel[0].replace(JST_PREFIX, '');
+                                }
+                            };
+
+                            items['Delete'] = {
+                                'label': i18n.DeleteChild,
+                                'action': function (obj) {
+                                    var ref = $.jstree.reference(obj.reference),
+                                        sel = ref.get_selected();
+
+                                    if (!sel.length) {
+                                        return false;
+                                    }
+
+                                    if (confirm(i18n.AreYouSure)) {
+                                        $.post(JS_TREE_DELETE_URL + '/' + sel[0].replace(JST_PREFIX, ''), {}, function () {
+                                            $('#' + jstreeContainer).jstree(true).delete_node([$node]);
+                                        });
+                                    }
+                                }
+                            };
+                        }
+
+                        return items;
+                    }
+                }
+            }).bind("move_node.jstree", function (e, data) {
+                var afterItemId = '0';
+                if ($('#' + data.node.id).prev('li').length > 0) {
+                    afterItemId = $('#' + data.node.id).prev('li').attr('id');
+                }
+                $.post(JS_TREE_MOVE_URL, {
+                    'nodeId': data.node.id,
+                    'parentId': data.parent,
+                    'afterItemId': afterItemId
+                }, function () {
+                    if ($('#mainGridContainer').length > 0) {
+                        $.pjax.reload({container: "#mainGridContainer"});
+                    }
+                });
+            });
+
+            $('#' + jstreeContainer).on('dblclick', '.jstree-anchor', function (e) {
+                var instance = $.jstree.reference(this),
+                    node = instance.get_node(this);
+
+                if (node.id != JST_PREFIX) {
+                    document.location.href = JS_TREE_EDIT_URL + '/' + node.id.replace(JST_PREFIX, '');
+                }
+            });
+        }
+    }
+}
