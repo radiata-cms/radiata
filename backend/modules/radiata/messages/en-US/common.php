@@ -8,4 +8,5 @@ return [
     'Migrations were applied successfully' => 'Migrations were applied successfully',
     'ROOT'                                            => 'Top level',
     'Please specify at least one language values set' => 'Please specify at least one language values set',
+    'Please choose'                        => 'Please choose',
 ];

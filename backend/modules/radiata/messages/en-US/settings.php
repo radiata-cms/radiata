@@ -27,6 +27,8 @@ return [
     'December'  => 'December',
 
     'dateFormat' => 'MM/DD/YYYY',
+    'dateTimeFormat'    => 'MM/DD/YYYY HH:mm',
+    'dateTimePHPFormat' => 'm/d/Y H:i',
 
     'Alert'     => 'Alert!',
 

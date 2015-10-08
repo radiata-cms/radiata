@@ -68,4 +68,18 @@ class RadiataHelper
     {
         return str_replace(TreeBehavior::JST_PREFIX, '', $id);
     }
+
+    static function validateTime($time)
+    {
+        $timeParts = explode(":", $time);
+        if(count($timeParts) == 2) {
+            if(intval($timeParts[0]) >= 0 && intval($timeParts[0]) < 24) {
+                if(intval($timeParts[1]) >= 0 && intval($timeParts[1]) < 60) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

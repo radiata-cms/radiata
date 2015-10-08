@@ -22,7 +22,8 @@
       "almasaeed2010/adminlte": ">=2.3.0",
       "bower-asset/jquery.hotkeys": "*",
       "kartik-v/yii2-widget-fileinput": "@dev",
-      "himiklab/yii2-sortable-grid-view-widget": "*"
+      "himiklab/yii2-sortable-grid-view-widget": "*",
+      "masterexploder/phpthumb": ">=2.1"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "^2.0",

@@ -12,7 +12,7 @@ class ImageUploadBehavior extends FileUploadBehavior
 {
     public $attribute = 'image';
 
-    public $defaultAvatar = '/images/avatar.jpg';
+    public $defaultImage = '';
 
     public $createThumbsOnSave = true;
     public $createThumbsOnRequest = false;
@@ -92,7 +92,7 @@ class ImageUploadBehavior extends FileUploadBehavior
     public function getImageFileUrl($attribute, $emptyUrl = null)
     {
         if(!$this->owner->{$attribute}) {
-            return $emptyUrl ? $emptyUrl : $this->defaultAvatar;
+            return $emptyUrl ? $emptyUrl : $this->defaultImage;
         }
 
         return $this->getUploadedFileUrl($attribute, $emptyUrl);
@@ -107,7 +107,7 @@ class ImageUploadBehavior extends FileUploadBehavior
     public function getThumbFileUrl($attribute, $profile = 'thumb', $emptyUrl = null)
     {
         if(!$this->owner->{$attribute}) {
-            return $emptyUrl ? $emptyUrl : $this->defaultAvatar;
+            return $emptyUrl ? $emptyUrl : $this->defaultImage;
         }
 
         $behavior = static::getInstance($this->owner, $attribute);

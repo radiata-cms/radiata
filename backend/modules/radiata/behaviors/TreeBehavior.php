@@ -124,6 +124,15 @@ class TreeBehavior extends Behavior
         return $result;
     }
 
+    public function getItemsForLinkedField()
+    {
+        $this->structure = $this->getStructure();
+
+        $result = ['' => Yii::t('b/radiata/common', 'Please choose')] + $this->getItemsTreeLevelRecursive($this->structure['']['children']);
+
+        return $result;
+    }
+
     public function getItemsTreeLevelRecursive($children = [], $level = 0)
     {
         $items = [];
@@ -143,7 +152,7 @@ class TreeBehavior extends Behavior
         $owner = $this->owner;
         $cacheKey = $owner::className() . '_items_tree' . rand(0, 10000);
         $structure = CacheHelper::get($cacheKey);
-        if(!$structure || 1) {
+        if(!$structure) {
             $structure = $this->makeStructure();
             CacheHelper::set($cacheKey, $structure, CacheHelper::getTag($owner::className()));
         }

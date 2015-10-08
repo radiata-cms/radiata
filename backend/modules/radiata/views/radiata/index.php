@@ -20,7 +20,7 @@ $this->title = 'My Yii Application';
             <div class="row">
                 <?= LastUsersWidget::widget() ?>
                 <!-- /.col -->
-                <div class="col-md-8">
+                <div class="col-md-8 connectedSortable">
                     <!-- PRODUCT LIST -->
                     <div class="box box-primary">
                         <div class="box-header with-border">

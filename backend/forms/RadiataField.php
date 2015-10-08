@@ -42,6 +42,32 @@ class RadiataField extends ActiveField
     }
 
     /**
+     * Renders a datetime input.
+     *
+     * @return $this the field object itself
+     */
+    public function dateTimeInput($options = [])
+    {
+        if(isset($options['class'])) {
+            $options['class'] = $this->inputOptions['class'] . ' ' . $options['class'];
+        }
+
+        $options = array_merge($this->inputOptions, $options);
+        $options['class'] .= ' datetime-object';
+        $this->adjustLabelFor($options);
+
+        $input = '';
+        $input .= '<div class="input-group">';
+        $input .= '<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';
+        $input .= Html::activeTextInput($this->model, $this->attribute, $options);
+        $input .= '</div>';
+
+        $this->parts['{input}'] = $input;
+
+        return $this;
+    }
+
+    /**
      * Renders a user roles input.
      *
      * @return $this the field object itself

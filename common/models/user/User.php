@@ -74,6 +74,7 @@ class User extends ActiveRecord implements IdentityInterface
             [
                 'class' => ImageUploadBehavior::className(),
                 'attribute' => 'image',
+                'defaultImage' => '/images/avatar.jpg',
                 'thumbs' => [
                     'avatar' => ['width' => 100, 'height' => 100],
                 ],

@@ -4,6 +4,7 @@ namespace common\modules\news\models;
 
 use common\modules\radiata\models\Lang;
 use Yii;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "{{%news_news_translation}}".
@@ -14,6 +15,7 @@ use Yii;
  * @property string $title
  * @property string $description
  * @property string $content
+ * @property string $redirect
  * @property string $meta_title
  * @property string $meta_keywords
  * @property string $meta_description
@@ -37,12 +39,12 @@ class NewsTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'locale', 'slug', 'title'], 'required'],
+            [['title'], 'required'],
             [['parent_id'], 'integer'],
             [['description', 'content'], 'string'],
             [['locale'], 'string', 'max' => 20],
             [['slug'], 'string', 'max' => 100],
-            [['title', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 255]
+            [['title', 'redirect', 'image_description', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 255]
         ];
     }
 
@@ -52,15 +54,33 @@ class NewsTranslation extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'parent_id'        => Yii::t('b/news/news', 'Parent ID'),
-            'locale'           => Yii::t('b/news/news', 'Locale'),
-            'slug'             => Yii::t('b/news/news', 'Slug'),
-            'title'            => Yii::t('b/news/news', 'Title'),
-            'description'      => Yii::t('b/news/news', 'Description'),
-            'content'          => Yii::t('b/news/news', 'Content'),
-            'meta_title'       => Yii::t('b/news/news', 'Meta Title'),
-            'meta_keywords'    => Yii::t('b/news/news', 'Meta Keywords'),
-            'meta_description' => Yii::t('b/news/news', 'Meta Description'),
+            'parent_id'         => Yii::t('b/news', 'Parent ID'),
+            'locale'            => Yii::t('b/news', 'Locale'),
+            'slug'              => Yii::t('b/news', 'Slug'),
+            'title'             => Yii::t('b/news', 'Title'),
+            'description'       => Yii::t('b/news', 'Description'),
+            'content'           => Yii::t('b/news', 'Content'),
+            'redirect'          => Yii::t('b/news', 'Redirect'),
+            'image_description' => Yii::t('b/news', 'Image description'),
+            'meta_title'        => Yii::t('b/news', 'Meta Title'),
+            'meta_keywords'     => Yii::t('b/news', 'Meta Keywords'),
+            'meta_description'  => Yii::t('b/news', 'Meta Description'),
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class'               => SluggableBehavior::className(),
+                'attribute'           => 'title',
+                'slugAttribute'       => 'slug',
+                'immutable'           => true,
+                'ensureUnique'        => true,
+                'uniqueSlugGenerator' => function ($baseSlug, $iteration, $model) {
+                    return $baseSlug . '-' . $model->lang . '-' . $model->parent_id;
+                }
+            ],
         ];
     }
 

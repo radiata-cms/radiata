@@ -2,11 +2,11 @@
 /* @var $this yii\web\View */
 /* @var $users common\models\user\User[] */
 
-use yii\helpers\Html;
 use common\modules\radiata\helpers\DateHelper;
+use yii\helpers\Html;
 
 ?>
-<div class="col-md-4">
+<div class="col-md-4 connectedSortable">
     <div class="box box-danger">
         <div class="box-header with-border">
             <h3 class="box-title"><?= Yii::t('b/radiata/user', 'Latest Members') ?></h3>
