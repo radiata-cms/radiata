@@ -22,6 +22,9 @@ class FileUploadBehavior extends \yii\base\Behavior
     /** @var string Name of attribute which holds the attachment. */
     public $attribute = 'upload';
 
+    /** @var string Name of attribute which holds the attachment (tabular mode). */
+    public $tabularAttribute = '';
+
     const DELETED_PREFIX = '_deleted';
 
     /** @var string Path template to use in storing files.5 */
@@ -56,12 +59,14 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function beforeValidate()
     {
+        $attribute = $this->tabularAttribute ? '[' . $this->owner->{$this->tabularAttribute} . ']' . $this->attribute : $this->attribute;
+
         if($this->owner->{$this->attribute} instanceof UploadedFile) {
             $this->file = $this->owner->{$this->attribute};
 
             return;
         }
-        $this->file = UploadedFile::getInstance($this->owner, $this->attribute);
+        $this->file = UploadedFile::getInstance($this->owner, $attribute);
 
         if(empty($this->file)) {
             $this->file = UploadedFile::getInstanceByName($this->attribute);
@@ -187,8 +192,8 @@ class FileUploadBehavior extends \yii\base\Behavior
         if($this->file instanceof UploadedFile) {
             $path = $this->getUploadedFilePath($this->attribute);
             FileHelper::createDirectory(pathinfo($path, PATHINFO_DIRNAME), 0775, true);
-            if(!$this->file->saveAs($path)) {
-                throw new Exception('File saving error.');
+            if(!$this->file->saveAs($path, true)) {
+                throw new Exception('File saving error. ' . $path . ' / ' . $this->file->error);
             }
             $this->owner->trigger(static::EVENT_AFTER_FILE_SAVE);
         }

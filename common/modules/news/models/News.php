@@ -2,6 +2,8 @@
 
 namespace common\modules\news\models;
 
+use arogachev\ManyToMany\behaviors\ManyToManyBehavior;
+use arogachev\ManyToMany\validators\ManyToManyValidator;
 use backend\forms\DateTimeValidator;
 use backend\modules\radiata\behaviors\AdminLogBehavior;
 use backend\modules\radiata\behaviors\CacheBehavior;
@@ -34,11 +36,14 @@ use yii\behaviors\TimestampBehavior;
  * @property User $updatedBy
  * @property NewsCategory[] $categories
  * @property NewsTranslation[] $translations
+ * @property NewsGallery[] $gallery
  */
 class News extends \yii\db\ActiveRecord
 {
     const STATUS_DISABLED = 0;
     const STATUS_ACTIVE = 10;
+
+    public $categories = [];
 
     /**
      * @inheritdoc
@@ -59,6 +64,7 @@ class News extends \yii\db\ActiveRecord
             [['date'], DateTimeValidator::className()],
             [['image_description', 'redirect'], 'string', 'max' => 255],
             [['image'], 'safe'],
+            ['categories', ManyToManyValidator::className()],
         ];
     }
 
@@ -91,6 +97,30 @@ class News extends \yii\db\ActiveRecord
                 'thumbPath' => '@frontend/web/uploads/news/[[pk]]/[[profile]]_[[pk]].[[extension]]',
                 'thumbUrl'  => '/uploads/news/[[pk]]/[[profile]]_[[pk]].[[extension]]',
             ],
+            [
+                'class'     => ManyToManyBehavior::className(),
+                'relations' => [
+                    [
+                        'editableAttribute' => 'categories',
+                        'table'             => '{{%news_news_category}}',
+                        'ownAttribute'      => 'news_id',
+                        'relatedModel'      => NewsCategory::className(),
+                        'relatedAttribute'  => 'category_id',
+                        'fillingRoute'      => [
+                            'news/news/create',
+                            'news/news/update',
+                        ]
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            'create' => self::OP_INSERT,
+            'update' => self::OP_UPDATE,
         ];
     }
 
@@ -157,6 +187,14 @@ class News extends \yii\db\ActiveRecord
         return $this->hasMany(NewsTranslation::className(), ['parent_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGallery()
+    {
+        return $this->hasMany(NewsGallery::className(), ['parent_id' => 'id'])->orderBy(['position' => SORT_ASC]);
+    }
+
     public static function find()
     {
         return new NewsActiveQuery(get_called_class());
@@ -171,5 +209,68 @@ class News extends \yii\db\ActiveRecord
             self::STATUS_ACTIVE   => Yii::t('b/news', 'status' . self::STATUS_ACTIVE),
             self::STATUS_DISABLED => Yii::t('b/news', 'status' . self::STATUS_DISABLED),
         ];
+    }
+
+    public function saveGallery()
+    {
+        $fileIndex = 0;
+        $position = 1;
+        $activeLocale = Yii::$app->getModule('radiata')->activeLanguage['locale'];
+        $galleryDeletedItems = Yii::$app->request->post('GalleryDeletedItems', []);
+
+        $newsGalleryTranslation = Yii::$app->request->post('NewsGalleryTranslation', []);
+        if(isset($newsGalleryTranslation[$activeLocale])) {
+            foreach ($newsGalleryTranslation[$activeLocale] as $galId => $data) {
+                if(in_array($galId, $galleryDeletedItems)) {
+                    continue;
+                }
+
+                if($galId < 0) {
+                    $galleryModel = new NewsGallery();
+                } else {
+                    $galleryModel = NewsGallery::findOne($galId);
+                }
+
+                if(!$galleryModel) {
+                    $this->addError('gallery', Yii::t('b/news/gallery', 'Failed to load gallery'));
+
+                    return false;
+                }
+
+                if($galId < 0) {
+                    $galleryModel->gallery_id = $fileIndex++;
+                } else {
+                    $galleryModel->gallery_id = -1;
+                }
+
+                foreach (Yii::$app->request->post('NewsGalleryTranslation', []) as $language => $translateData) {
+                    $translateData = $translateData[$galId];
+                    foreach ($translateData as $attribute => $translation) {
+                        if($translation) {
+                            $galleryModel->translate($language)->$attribute = $translation;
+                        }
+                    }
+                }
+
+                $galleryModel->load($data);
+                $galleryModel->position = $position++;
+                $galleryModel->parent_id = $this->id;
+
+                if(!$galleryModel->save()) {
+                    return false;
+                }
+            }
+        }
+
+        if($galleryDeletedItems) {
+            foreach ($galleryDeletedItems as $galId) {
+                $galleryModel = NewsGallery::findOne($galId);
+                if(!$galleryModel->delete()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

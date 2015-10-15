@@ -23,6 +23,34 @@ radiata = (function ($) {
                     });
                 });
             }
+        },
+
+        initLangTabs: function () {
+            $('a.lang-tab-a').on('shown.bs.tab', function (e) {
+                var activeLang = $(e.target).attr('lang');
+                $('a.lang-tab-a[lang=' + activeLang + ']').each(function () {
+                    if ($(this) != $(e.target)) {
+                        $(this).tab('show');
+                    }
+                });
+            });
+        },
+
+        makeSortable: function (selector) {
+            $(selector).sortable();
+        },
+
+        initErrorsInTabs: function (selector) {
+            var form = $(selector);
+            form.on('submit', function (e) {
+                var tabsDivs = form.find('div.tab-content:first').find('div.tab-pane');
+                tabsDivs.each(function () {
+                    if ($(this).find('div.has-error').length > 0) {
+                        var tabId = $(this).attr('id');
+                        $('a[href="#' + tabId + '"]').tab('show');
+                    }
+                });
+            });
         }
     }
 

@@ -111,15 +111,6 @@ $(function () {
         radioClass: 'iradio_square-' + ADMIN_LTE_SKIN,
         increaseArea: '20%' // optional
     });
-
-    $('a.lang-tab-a').on('shown.bs.tab', function (e) {
-        var activeLang = $(e.target).attr('lang');
-        $('a.lang-tab-a[lang=' + activeLang + ']').each(function () {
-            if ($(this) != $(e.target)) {
-                $(this).tab('show');
-            }
-        });
-    })
 });
 
 if (typeof(jstreeContainers) != 'undefined') {
@@ -238,17 +229,3 @@ if (typeof(jstreeContainers) != 'undefined') {
         }
     }
 }
-
-/*
- if ($('.connectedSortable').length > 0) {
- //Make the dashboard widgets sortable Using jquery UI
- $(".connectedSortable").sortable({
- placeholder: "sort-highlight",
- connectWith: ".connectedSortable",
- handle: ".box-header, .nav-tabs",
- forcePlaceholderSize: true,
- zIndex: 999999
- });
- $(".connectedSortable .box-header, .connectedSortable .nav-tabs-custom").css("cursor", "move");
- }
- */

@@ -2,6 +2,7 @@
 namespace backend\forms\helpers;
 
 use Yii;
+use yii\helpers\Html;
 
 class FieldHelper
 {
@@ -34,5 +35,30 @@ class FieldHelper
         }
 
         return $errors;
+    }
+
+    public static function buildHtmlTreeInput($model, $attribute, $data)
+    {
+        $lines = [];
+        if(is_array($data) && count($data) > 0) {
+            $lines[] = '<ul>';
+            foreach ($data as $k => $v) {
+                $lines[] = '<li>';
+                $lines[] = '<div class="checkbox icheck">';
+                $lines[] = Html::checkbox(Html::getInputName($model, $attribute) . '[' . $v['id_pure'] . ']', in_array($v['id_pure'], $model->$attribute), [
+                    'value' => $v['id_pure'],
+                    'label' => '<span>' . $v['text'] . '</span>',
+                ]);
+                $lines[] = '</div>';
+
+                if(is_array($v['children'])) {
+                    $lines[] = self::buildHtmlTreeInput($model, $attribute, $v['children']);
+                }
+                $lines[] = '</li>';
+            }
+            $lines[] = '</ul>';
+        }
+
+        return join("\n", $lines);
     }
 }

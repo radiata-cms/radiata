@@ -189,6 +189,7 @@ class TreeBehavior extends Behavior
             foreach ($allItems as $item) {
                 $itemsStructure[$item->id] = [
                     'id'     => self::JST_PREFIX . $item->id,
+                    'id_pure' => $item->id,
                     'title'    => $item->{$this->titleFieldName},
                     'parent' => $item->{$this->parentFieldName},
                     'children' => [],
@@ -216,6 +217,7 @@ class TreeBehavior extends Behavior
     {
         $data = [
             'id'   => $structure['id'],
+            'id_pure' => $structure['id_pure'],
             'text' => $structure['title'],
         ];
 

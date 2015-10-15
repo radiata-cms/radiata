@@ -9,6 +9,7 @@ use common\modules\news\models\NewsCategory;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -39,11 +40,11 @@ class NewsController extends BackendController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort = false;
         $modelCategory = new NewsCategory();
-
         return $this->render('index', [
             'searchModel'   => $searchModel,
             'dataProvider'  => $dataProvider,
             'modelCategory' => $modelCategory,
+            'showSearchForm' => Yii::$app->request->queryParams,
         ]);
     }
 
@@ -77,7 +78,7 @@ class NewsController extends BackendController
             }
         }
 
-        if($model->load(Yii::$app->request->post()) && $model->save()) {
+        if($model->load(Yii::$app->request->post()) && $model->save() && $model->saveGallery()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $model->status = News::STATUS_ACTIVE;
@@ -108,7 +109,7 @@ class NewsController extends BackendController
             }
         }
 
-        if($model->load(Yii::$app->request->post()) && $model->save()) {
+        if($model->load(Yii::$app->request->post()) && $model->save() && $model->saveGallery()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -140,7 +141,7 @@ class NewsController extends BackendController
      */
     protected function findModel($id)
     {
-        $model = News::find()->where(['id' => $id])->with('translations')->one();
+        $model = News::find()->where(['id' => $id])->with('translations')->with('categories')->one();
 
         if($model !== null) {
             return $model;
@@ -148,4 +149,17 @@ class NewsController extends BackendController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * Fake gallery item deletion. Required by plugin
+     * @return string
+     */
+    public function actionGalleryDeleteFake()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return '{}';
+    }
+
+
 }

@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="box box-primary collapsed-box">
+<div class="box box-primary<? if(!$showSearchForm) { ?> collapsed-box<? } ?>">
     <div class="box-header with-border">
         <h3 class="box-title"><?= Yii::t('b/radiata/forms', 'Detailed search form') ?></h3>
 
@@ -27,6 +27,8 @@ use yii\helpers\Html;
 
     <div class="box-body">
         <?= $form->field($model, 'id') ?>
+
+        <?= $form->field($model, 'title') ?>
 
         <?= $form->field($model, 'date') ?>
 

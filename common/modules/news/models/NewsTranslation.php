@@ -78,7 +78,7 @@ class NewsTranslation extends \yii\db\ActiveRecord
                 'immutable'           => true,
                 'ensureUnique'        => true,
                 'uniqueSlugGenerator' => function ($baseSlug, $iteration, $model) {
-                    return $baseSlug . '-' . $model->lang . '-' . $model->parent_id;
+                    return $baseSlug . '-' . $model->language->code . '-' . $model->parent_id;
                 }
             ],
         ];

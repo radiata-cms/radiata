@@ -58,3 +58,11 @@ form.form-horizontal .nav-tabs {
     display: inline-block;
     top: 0px;
 }
+
+.input-group div.file-caption-name {
+    display: none;
+}
+
+.file-thumbnail-footer {
+    margin-top: 10px;
+}

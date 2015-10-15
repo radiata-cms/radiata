@@ -116,7 +116,7 @@ class TranslateableBehavior extends Behavior
      */
     public function afterValidate()
     {
-        $passedValidation = false;
+        $passedValidation = empty($this->owner->{$this->translationRelation});
         foreach ($this->owner->{$this->translationRelation} as $translation) {
             if(Model::validateMultiple([$translation])) {
                 $passedValidation = true;

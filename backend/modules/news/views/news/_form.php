@@ -3,9 +3,13 @@
 use backend\forms\helpers\FieldHelper;
 use backend\forms\RadiataField;
 use backend\forms\widgets\FileInputWidget;
+use backend\forms\widgets\GalleryInputWidget;
 use backend\forms\widgets\LangInputWidget;
+use common\modules\news\models\NewsCategory;
+use common\modules\news\models\NewsGallery;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\web\View;
 
 
 /* @var $this yii\web\View */
@@ -17,6 +21,7 @@ use yii\helpers\Html;
 <div class="news-form">
 
     <?php $form = ActiveForm::begin([
+        'id' => 'news-form',
         'layout'     => 'horizontal',
         'fieldClass' => RadiataField::className(),
         'options'    => ['enctype' => 'multipart/form-data'],
@@ -52,6 +57,10 @@ use yii\helpers\Html;
 
                 <?= $form->field($model, 'category_id')->dropDownList($modelCategory->getItemsForLinkedField(), ['encodeSpaces' => true]) ?>
 
+                <?= $form->field($model, 'categories')->treeInput([
+                    'class' => NewsCategory::className()
+                ]) ?>
+
                 <?= $form->field($model, 'description')->widget(LangInputWidget::classname(), [
                     'options' => [
                         'type' => 'activeTextarea',
@@ -83,7 +92,7 @@ use yii\helpers\Html;
                 ]) ?>
             </div>
             <div class="tab-pane" id="gallery-tab">
-                @TODO
+                <?= $form->field($model, 'gallery')->widget(GalleryInputWidget::classname(), ['form' => $form, 'className' => NewsGallery::className()]); ?>
             </div>
             <div class="tab-pane" id="seo-tab">
                 <?= $form->field($model, 'redirect')->widget(LangInputWidget::classname(), [
@@ -120,5 +129,8 @@ use yii\helpers\Html;
     </div>
 
     <?php ActiveForm::end(); ?>
+
+    <? $this->registerJs('radiata.initErrorsInTabs("#news-form");', View::POS_READY); ?>
+
 
 </div>

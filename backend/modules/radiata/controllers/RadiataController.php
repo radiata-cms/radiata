@@ -125,7 +125,7 @@ class RadiataController extends BackendController
 
             $result = [];
             if($migrator->error) {
-                $result['error'] = $migrator->error;
+                $result['error'] = $migrator->error->getMessage();
             } else {
                 $result['success'] = Yii::t('b/radiata/common', 'Migrations were applied successfully');
             }

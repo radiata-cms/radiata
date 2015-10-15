@@ -5,6 +5,7 @@
 
 use backend\assets\AdminLteAsset;
 use backend\modules\radiata\widgets\I18nSettingsWidget;
+use yii\web\View;
 
 ?>
 
@@ -13,3 +14,6 @@ use backend\modules\radiata\widgets\I18nSettingsWidget;
 
     <?= I18nSettingsWidget::widget() ?>
 </script>
+
+<? $this->registerJs('radiata.initLangTabs();', View::POS_READY); ?>
+<? $this->registerJs('radiata.makeSortable(".file-preview-thumbnails");', View::POS_READY); ?>

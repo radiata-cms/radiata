@@ -2,6 +2,8 @@
 namespace backend\forms;
 
 use backend\forms\helpers\AuthHelper;
+use backend\forms\helpers\FieldHelper;
+use yii\base\Exception;
 use yii\bootstrap\ActiveField;
 use yii\helpers\Html;
 
@@ -100,4 +102,29 @@ class RadiataField extends ActiveField
 
         return $this;
     }
+
+    /**
+     * Renders a tree input.
+     *
+     * @return $this the field object itself
+     */
+    public function treeInput($options = [])
+    {
+        if(!$options['class']) {
+            throw new Exception('Class name is missed');
+        }
+
+        $object = new $options['class'];
+        $data = $object->getTreeData('')['children'];
+
+        $input = '';
+        $input .= '<div class="html-tree">';
+        $input .= FieldHelper::buildHtmlTreeInput($this->model, $this->attribute, $data);
+        $input .= '</div>';
+
+        $this->parts['{input}'] = $input;
+
+        return $this;
+    }
+
 }

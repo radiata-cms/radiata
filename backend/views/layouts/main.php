@@ -6,10 +6,12 @@
 use backend\assets\AdminLteAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\jui\JuiAsset;
 use yii\widgets\Pjax;
 
 AdminLteAsset::register($this);
 backend\assets\AppAsset::register($this);
+JuiAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>

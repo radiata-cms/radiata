@@ -19,11 +19,13 @@
       "yiisoft/yii2": ">=2.0.7",
         "yiisoft/yii2-bootstrap": "*",
       "yiisoft/yii2-swiftmailer": "*",
+      "yiisoft/yii2-jui": "~2.0.0",
       "almasaeed2010/adminlte": ">=2.3.0",
       "bower-asset/jquery.hotkeys": "*",
       "kartik-v/yii2-widget-fileinput": "@dev",
       "himiklab/yii2-sortable-grid-view-widget": "*",
-      "masterexploder/phpthumb": ">=2.1"
+      "masterexploder/phpthumb": ">=2.1",
+      "arogachev/yii2-many-to-many": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "^2.0",

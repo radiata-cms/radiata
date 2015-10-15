@@ -18,7 +18,8 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['date', 'category_id', 'status'], 'integer'],
+            [['id', 'date', 'category_id', 'status'], 'integer'],
+            [['title'], 'safe'],
         ];
     }
 
@@ -55,16 +56,15 @@ class NewsSearch extends News
         }
 
         $query->andFilterWhere([
+            'id' => $this->id,
             'date'        => $this->date,
             'category_id' => $this->category_id,
             'status'      => $this->status,
         ]);
 
-        /*
-        $query->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'image_description', $this->image_description])
-            ->andFilterWhere(['like', 'redirect', $this->redirect]);
-        */
+        $query->joinWith(['translations' => function ($q) {
+            $q->where('title LIKE "%' . $this->title . '%"');
+        }]);
 
         return $dataProvider;
     }
