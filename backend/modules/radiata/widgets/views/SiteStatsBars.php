@@ -2,8 +2,8 @@
 /* @var $this yii\web\View */
 ?>
 
-<div class="row">
-    <? foreach ($bars as $bar) { ?>
+
+<? foreach ($bars as $bar) { ?>
         <div class="col-lg-3 col-xs-6">
             <div class="small-box <?= $bar['bgClass'] ?>">
                 <div class="inner">
@@ -17,4 +17,3 @@
             </div>
         </div>
     <? } ?>
-</div>

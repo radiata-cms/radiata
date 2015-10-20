@@ -70,7 +70,7 @@ class m151009_160000_news_gallery extends Migration
 
     public function safeDown()
     {
-        $this->dropTable('{{%news_gallery}}');
         $this->dropTable('{{%news_gallery_translation}}');
+        $this->dropTable('{{%news_gallery}}');
     }
 }

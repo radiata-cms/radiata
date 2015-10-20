@@ -5,6 +5,7 @@ namespace common\modules\news\models;
 use arogachev\ManyToMany\behaviors\ManyToManyBehavior;
 use arogachev\ManyToMany\validators\ManyToManyValidator;
 use backend\forms\DateTimeValidator;
+use backend\modules\news\behaviors\TaggableBehavior;
 use backend\modules\radiata\behaviors\AdminLogBehavior;
 use backend\modules\radiata\behaviors\CacheBehavior;
 use backend\modules\radiata\behaviors\DateTimeBehavior;
@@ -37,6 +38,7 @@ use yii\behaviors\TimestampBehavior;
  * @property NewsCategory[] $categories
  * @property NewsTranslation[] $translations
  * @property NewsGallery[] $gallery
+ * @property NewsTags[] $tags
  */
 class News extends \yii\db\ActiveRecord
 {
@@ -63,7 +65,7 @@ class News extends \yii\db\ActiveRecord
             [['category_id', 'status'], 'integer'],
             [['date'], DateTimeValidator::className()],
             [['image_description', 'redirect'], 'string', 'max' => 255],
-            [['image'], 'safe'],
+            [['image', 'tagIds'], 'safe'],
             ['categories', ManyToManyValidator::className()],
         ];
     }
@@ -88,6 +90,7 @@ class News extends \yii\db\ActiveRecord
             [
                 'class'     => ImageUploadBehavior::className(),
                 'attribute' => 'image',
+                'defaultImage' => '/images/no_image.png',
                 'thumbs'    => [
                     'small' => ['width' => 150, 'height' => 100],
                     'big'   => ['width' => 450, 'height' => 150],
@@ -113,6 +116,9 @@ class News extends \yii\db\ActiveRecord
                     ],
                 ],
             ],
+            [
+                'class' => TaggableBehavior::className(),
+            ],
         ];
     }
 
@@ -133,6 +139,7 @@ class News extends \yii\db\ActiveRecord
             'id'                => Yii::t('b/news', 'ID'),
             'date'              => Yii::t('b/news', 'Date'),
             'category_id'       => Yii::t('b/news', 'Category'),
+            'categories' => Yii::t('b/news', 'Categories'),
             'status'            => Yii::t('b/news', 'Status'),
             'image'             => Yii::t('b/news', 'Image'),
             'slug'              => Yii::t('b/news', 'Slug'),
@@ -144,6 +151,7 @@ class News extends \yii\db\ActiveRecord
             'meta_title'        => Yii::t('b/news', 'Meta title'),
             'meta_keywords'     => Yii::t('b/news', 'Meta keywords'),
             'meta_description'  => Yii::t('b/news', 'Meta description'),
+            'tagIds'     => Yii::t('b/news', 'Tag Ids'),
         ];
     }
 
@@ -193,6 +201,14 @@ class News extends \yii\db\ActiveRecord
     public function getGallery()
     {
         return $this->hasMany(NewsGallery::className(), ['parent_id' => 'id'])->orderBy(['position' => SORT_ASC]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(NewsTags::className(), ['id' => 'tag_id'])->viaTable('{{%news_news_tags}}', ['news_id' => 'id']);
     }
 
     public static function find()
@@ -257,6 +273,9 @@ class News extends \yii\db\ActiveRecord
                 $galleryModel->parent_id = $this->id;
 
                 if(!$galleryModel->save()) {
+                    foreach ($galleryModel->getErrors() as $error) {
+                        $this->addError('gallery', $error);
+                    }
                     return false;
                 }
             }

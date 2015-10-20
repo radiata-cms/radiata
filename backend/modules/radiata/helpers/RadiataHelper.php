@@ -82,4 +82,9 @@ class RadiataHelper
 
         return false;
     }
+
+    static function outputCleanValue($value)
+    {
+        return nl2br(strip_tags($value));
+    }
 }

@@ -6,10 +6,13 @@ use backend\modules\news\models\NewsSearch;
 use backend\modules\radiata\components\BackendController;
 use common\modules\news\models\News;
 use common\modules\news\models\NewsCategory;
+use vova07\imperavi\actions\GetAction;
+use vova07\imperavi\actions\UploadAction;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -40,6 +43,7 @@ class NewsController extends BackendController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort = false;
         $modelCategory = new NewsCategory();
+
         return $this->render('index', [
             'searchModel'   => $searchModel,
             'dataProvider'  => $dataProvider,
@@ -161,5 +165,38 @@ class NewsController extends BackendController
         return '{}';
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $baseUrl = '/uploads/redactor/news/' . Yii::$app->user->id . '/';
+
+        return [
+            'image-upload' => [
+                'class' => UploadAction::className(),
+                'url'   => $baseUrl . 'images/',
+                'path'  => '@frontend/web' . $baseUrl . 'images/',
+            ],
+            'images-get'   => [
+                'class' => GetAction::className(),
+                'url'   => $baseUrl . 'images/',
+                'path'  => '@frontend/web' . $baseUrl . 'images/',
+                'type'  => GetAction::TYPE_IMAGES,
+            ],
+            'files-get'    => [
+                'class' => GetAction::className(),
+                'url'   => $baseUrl . 'files/',
+                'path'  => '@frontend/web' . $baseUrl . 'files/',
+                'type'  => GetAction::TYPE_FILES,
+            ],
+            'file-upload'  => [
+                'class'           => UploadAction::className(),
+                'url'             => $baseUrl . 'files/',
+                'path'            => '@frontend/web' . $baseUrl . 'files/',
+                'uploadOnlyImage' => false,
+            ],
+        ];
+    }
 
 }

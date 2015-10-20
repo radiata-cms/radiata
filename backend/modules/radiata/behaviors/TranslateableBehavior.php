@@ -116,15 +116,22 @@ class TranslateableBehavior extends Behavior
      */
     public function afterValidate()
     {
+        $errors = [];
         $passedValidation = empty($this->owner->{$this->translationRelation});
         foreach ($this->owner->{$this->translationRelation} as $translation) {
             if(Model::validateMultiple([$translation])) {
                 $passedValidation = true;
+            } else {
+                $errors[] = $translation->getErrors();
             }
         }
 
-        if(!$passedValidation) {
-            $this->owner->addError($this->translationRelation, Yii::t('b/radiata/common', 'Please specify at least one language values set'));
+        if(!$passedValidation && $errors) {
+            //$this->owner->addError($this->translationRelation, Yii::t('b/radiata/common', 'Please specify at least one language values set'));
+            $error = reset($errors);
+            foreach ($error as $attribute => $errorText) {
+                $this->owner->addErrors($errorText);
+            }
         }
     }
 

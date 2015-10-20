@@ -1,48 +1,56 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Project Template",
-    "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "http://www.yiiframework.com/",
-    "type": "project",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
-    },
+  "name": "yiisoft/yii2-app-advanced",
+  "description": "Yii 2 Advanced Project Template",
+  "keywords": [
+    "yii2",
+    "framework",
+    "advanced",
+    "project template"
+  ],
+  "homepage": "http://www.yiiframework.com/",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "http://www.yiiframework.com/forum/",
+    "wiki": "http://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
-    "require": {
-        "php": ">=5.4.0",
-      "yiisoft/yii2": ">=2.0.7",
-        "yiisoft/yii2-bootstrap": "*",
-      "yiisoft/yii2-swiftmailer": "*",
-      "yiisoft/yii2-jui": "~2.0.0",
-      "almasaeed2010/adminlte": ">=2.3.0",
-      "bower-asset/jquery.hotkeys": "*",
-      "kartik-v/yii2-widget-fileinput": "@dev",
-      "himiklab/yii2-sortable-grid-view-widget": "*",
-      "masterexploder/phpthumb": ">=2.1",
-      "arogachev/yii2-many-to-many": "*"
-    },
-    "require-dev": {
-        "yiisoft/yii2-codeception": "^2.0",
-        "codeception/codeception": "*",
-        "codeception/specify": "*",
-        "codeception/verify": "*",
-        "yiisoft/yii2-debug": "*",
-        "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
-    },
-    "config": {
-        "process-timeout": 1800
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
+  "require": {
+    "php": ">=5.4.0",
+    "yiisoft/yii2": ">=2.0.7",
+    "yiisoft/yii2-bootstrap": "*",
+    "yiisoft/yii2-swiftmailer": "*",
+    "yiisoft/yii2-jui": "~2.0.0",
+    "almasaeed2010/adminlte": ">=2.3.0",
+    "bower-asset/jquery.hotkeys": "*",
+    "kartik-v/yii2-widget-fileinput": "@dev",
+    "himiklab/yii2-sortable-grid-view-widget": "*",
+    "masterexploder/phpthumb": ">=2.1",
+    "arogachev/yii2-many-to-many": "*",
+    "vova07/yii2-imperavi-widget": "*",
+    "creocoder/yii2-taggable": "~2.0",
+    "2amigos/yii2-selectize-widget": "~1.0"
+  },
+  "require-dev": {
+    "yiisoft/yii2-codeception": "^2.0",
+    "codeception/codeception": "*",
+    "codeception/specify": "*",
+    "codeception/verify": "*",
+    "yiisoft/yii2-debug": "*",
+    "yiisoft/yii2-gii": "*",
+    "yiisoft/yii2-faker": "*"
+  },
+  "config": {
+    "process-timeout": 1800
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "vendor/bower"
     }
+  }
 }

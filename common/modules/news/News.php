@@ -72,6 +72,13 @@ class News extends \yii\base\Module implements RadiataModuleInterface
                         'permission'      => \backend\modules\news\controllers\CategoryController::BACKEND_PERMISSION,
                         'isActiveUrlPart' => '/news/categories/',
                     ],
+                    [
+                        'title'           => Yii::t('b/news/tags', 'Tags'),
+                        'icon'            => 'fa fa-tags',
+                        'link'            => Url::to(['/news/tags/index']),
+                        'permission'      => \backend\modules\news\controllers\TagsController::BACKEND_PERMISSION,
+                        'isActiveUrlPart' => '/news/tags/',
+                    ],
                 ],
             ],
         ];

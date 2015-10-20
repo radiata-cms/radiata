@@ -84,6 +84,10 @@ class m150828_130937_rbac_init extends Migration
         $authManager->add($permissionNewsModuleTape);
         $authManager->addChild($permissionNewsModule, $permissionNewsModuleTape);
 
+        $permissionNewsModuleTags = $authManager->createPermission('News Module. Tags');
+        $authManager->add($permissionNewsModuleTags);
+        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTags);
+
 
         $user = new User();
         $user->username = 'developer';

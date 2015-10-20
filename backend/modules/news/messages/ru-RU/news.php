@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'News tape' => 'Лента новостей',
+    'News tape'           => 'Лента новостей',
 
     'Create News'                                => 'Создать новость',
     'Create'                                     => 'Создать',
@@ -14,6 +14,9 @@ return [
     'status0'                                    => 'Неактивна',
     'status10'                                   => 'Активна',
 
+    'Date'                => 'Дата',
+    'Category'            => 'Категория',
+    'Categories'          => 'Категории',
     'Status'                                     => 'Статус',
     'Image'                                      => 'Изображение',
     'Slug'                                       => 'Псевдоним в URL',
@@ -25,9 +28,16 @@ return [
     'Meta title'                                 => 'Meta заголовок',
     'Meta keywords'                              => 'Meta ключевые слова',
     'Meta description'                           => 'Meta описание',
+    'Tag Ids'             => 'Теги',
 
     'Main tab'                                   => 'Главное',
     'Image tab'                                  => 'Изображение',
     'Gallery tab'                                => 'Галерея',
     'Seo tab'                                    => 'СЕО',
+    'Tags tab'            => 'Теги',
+
+    'Total news'          => 'Всего новостей',
+    'Recently Added News' => 'Последние новости',
+    'View All News'       => 'Все новости',
+
 ];

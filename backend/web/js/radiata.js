@@ -51,6 +51,16 @@ radiata = (function ($) {
                     }
                 });
             });
+        },
+
+        updateWysiwygTextArea: function (selector) {
+            var form = $(selector);
+            form.on('submit', function (e) {
+                $('.wysiwygTextArea').each(function () {
+                    var id = $(this).attr('id');
+                    jQuery("#" + id).redactor('code.sync');
+                });
+            });
         }
     }
 

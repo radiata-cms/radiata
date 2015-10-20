@@ -2,15 +2,15 @@
 
 namespace backend\modules\news\models;
 
-use common\modules\news\models\News;
+use common\modules\news\models\NewsTags;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * NewsSearch represents the model behind the search form about `common\modules\news\models\News`.
+ * NewsTagsSearch represents the model behind the search form about `common\modules\news\models\NewsTags`.
  */
-class NewsSearch extends News
+class NewsTagsSearch extends NewsTags
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'date', 'category_id', 'status'], 'integer'],
-            [['title'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -41,11 +40,11 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find();
+        $query = NewsTags::find();
 
         $query->language();
 
-        $query->orderBy(['date' => SORT_DESC]);
+        $query->orderBy(['name' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,14 +58,9 @@ class NewsSearch extends News
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'date'        => $this->date,
-            'category_id' => $this->category_id,
-            'status'      => $this->status,
-        ]);
-
-        $query->andWhere('title LIKE "%' . $this->title . '%"');
+        $query->joinWith(['translations' => function ($q) {
+            $q->where('name LIKE "%' . $this->name . '%"');
+        }]);
 
         return $dataProvider;
     }

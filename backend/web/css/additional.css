@@ -66,3 +66,15 @@ form.form-horizontal .nav-tabs {
 .file-thumbnail-footer {
     margin-top: 10px;
 }
+
+#redactor-image-manager-box img {
+    padding: 5px;
+}
+
+.news-tags-form {
+    padding: 10px;
+}
+
+.selectize-input.ui-sortable div.item {
+    cursor: move;
+}

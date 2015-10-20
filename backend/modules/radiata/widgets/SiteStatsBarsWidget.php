@@ -1,9 +1,11 @@
 <?php
 namespace backend\modules\radiata\widgets;
 
+use backend\modules\news\controllers\NewsController;
 use backend\modules\radiata\components\BackendAccessControl;
 use backend\modules\radiata\controllers\UserController;
 use common\models\user\User;
+use common\modules\news\models\News;
 use common\modules\radiata\components\Migrator;
 use Yii;
 use yii\helpers\Url;
@@ -22,6 +24,17 @@ class SiteStatsBarsWidget extends \yii\bootstrap\Widget
                 'data'    => $usersCount,
                 'icon'    => 'fa-user',
                 'url'     => Url::to(['user/index']),
+            ];
+        }
+
+        if(BackendAccessControl::checkPermissionAccess(NewsController::BACKEND_PERMISSION)) {
+            $newsCount = News::find()->count();
+            $bars[] = [
+                'bgClass' => 'bg-olive',
+                'label'   => Yii::t('b/news', 'Total news'),
+                'data'    => $newsCount,
+                'icon'    => 'fa-bars',
+                'url'     => Url::to(['/news/news/index']),
             ];
         }
 

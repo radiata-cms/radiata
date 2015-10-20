@@ -7,8 +7,12 @@ use backend\forms\widgets\GalleryInputWidget;
 use backend\forms\widgets\LangInputWidget;
 use common\modules\news\models\NewsCategory;
 use common\modules\news\models\NewsGallery;
+use dosamigos\selectize\SelectizeTextInput;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\web\View;
 
 
@@ -33,6 +37,7 @@ use yii\web\View;
         <!-- Tabs within a box -->
         <ul class="nav nav-tabs">
             <li class="active"><a href="#main-tab" data-toggle="tab"><?= Yii::t('b/news', 'Main tab') ?></a></li>
+            <li><a href="#tags-tab" data-toggle="tab"><?= Yii::t('b/news', 'Tags tab') ?></a></li>
             <li><a href="#image-tab" data-toggle="tab"><?= Yii::t('b/news', 'Image tab') ?></a></li>
             <li><a href="#gallery-tab" data-toggle="tab"><?= Yii::t('b/news', 'Gallery tab') ?></a></li>
             <li><a href="#seo-tab" data-toggle="tab"><?= Yii::t('b/news', 'Seo tab') ?></a></li>
@@ -70,8 +75,43 @@ use yii\web\View;
                 <?= $form->field($model, 'content')->widget(LangInputWidget::classname(), [
                     'options' => [
                         'type' => 'activeTextarea',
+                        'redactor'   => true,
+                        'urlPreffix' => 'news/',
+                        'form'       => $form,
                     ],
                 ]) ?>
+            </div>
+            <div class="tab-pane" id="tags-tab">
+                <?
+                $modalNewTag = Modal::widget([
+                    'id'            => 'new-tag-modal',
+                    'toggleButton'  => [
+                        'label'       => Yii::t('b/news/tags', 'Add new tag'),
+                        'tag'         => 'a',
+                        'data-target' => '#new-tag-modal',
+                        'href'        => Url::toRoute(['tags/add-new-tag']),
+                    ],
+                    'closeButton'   => [
+                        'tag'   => 'button',
+                        'label' => '<span aria-hidden="true">×</span>'
+                    ],
+                    'clientOptions' => false,
+                ]);
+                ?>
+                <?= $form->field($model, 'tagIds')->widget(SelectizeTextInput::className(), [
+                    'loadUrl'       => ['tags/tags-list'],
+                    'options'       => ['class' => 'form-control'],
+                    'clientOptions' => [
+                        'plugins'          => ['remove_button', 'restore_on_backspace', 'drag_drop'],
+                        'valueField'       => 'id',
+                        'labelField'       => 'name',
+                        'searchField'      => ['name'],
+                        'options'          => new JsExpression($model->getTagsItems()),
+                        'items'            => $model->getTagIds(true),
+                        'hideSelected'     => true,
+                        'closeAfterSelect' => true,
+                    ],
+                ])->hint($modalNewTag); ?>
             </div>
             <div class="tab-pane" id="image-tab">
                 <?= $form->field($model, 'image')->widget(FileInputWidget::classname(), [
@@ -131,6 +171,6 @@ use yii\web\View;
     <?php ActiveForm::end(); ?>
 
     <? $this->registerJs('radiata.initErrorsInTabs("#news-form");', View::POS_READY); ?>
-
+    <? $this->registerJs('radiata.updateWysiwygTextArea("#news-form");', View::POS_READY); ?>
 
 </div>
