@@ -1,12 +1,13 @@
 <?php
 
 use backend\forms\RadiataField;
+use common\modules\banner\models\BannerPlace;
+use common\modules\radiata\models\Lang;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\news\models\NewsSearch */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $model backend\modules\banner\models\BannerSearch */
 ?>
 
 <div class="box box-primary<? if(!$showSearchForm) { ?> collapsed-box<? } ?>">
@@ -26,21 +27,26 @@ use yii\helpers\Html;
     ]); ?>
 
     <div class="box-body">
-        <?= $form->field($model, 'id') ?>
+
+        <?= $form->field($model, 'locale')->dropDownList(Lang::getLangForDropDown(), ['prompt' => Yii::t('b/radiata/forms', 'Choose value')]); ?>
+
+        <?= $form->field($model, 'place_id')->dropDownList(BannerPlace::getPlacesForDropDown(), ['prompt' => Yii::t('b/radiata/forms', 'Choose value')]); ?>
+
+        <?= $form->field($model, 'date_start')->dateInput(); ?>
+
+        <?= $form->field($model, 'date_end')->dateInput(); ?>
 
         <?= $form->field($model, 'title') ?>
 
-        <?= $form->field($model, 'date') ?>
-
-        <?= $form->field($model, 'category_id')->dropDownList($modelCategory->getItemsForLinkedField(), ['encodeSpaces' => true]) ?>
-
         <?= $form->field($model, 'status')->dropDownList($model->getStatusesList(), ['prompt' => Yii::t('b/radiata/forms', 'Choose value')]); ?>
+
     </div>
 
     <div class="box-footer">
-        <?= Html::submitButton(Yii::t('b/news', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('b/news', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('b/banner', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('b/banner', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
 </div>

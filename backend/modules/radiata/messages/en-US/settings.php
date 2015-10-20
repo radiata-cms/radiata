@@ -29,6 +29,7 @@ return [
     'dateFormat' => 'MM/DD/YYYY',
     'dateTimeFormat'    => 'MM/DD/YYYY HH:mm',
     'dateTimePHPFormat' => 'm/d/Y H:i',
+    'datePHPFormat' => 'm/d/Y',
 
     'Alert'     => 'Alert!',
 

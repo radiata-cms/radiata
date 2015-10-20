@@ -26,6 +26,13 @@ return [
             'viewPath'            => '@backend/modules/news/views',
             'defaultRoute'        => 'news',
         ],
+        'banner' => [
+            'class'               => 'common\modules\banner\Banner',
+            'controllerNamespace' => 'backend\modules\banner\controllers',
+            'layoutPath'          => '@backend/views/layouts',
+            'viewPath'            => '@backend/modules/banner/views',
+            'defaultRoute'        => 'banner',
+        ],
     ],
     'components' => [
         'user'               => [

@@ -131,4 +131,16 @@ class Lang extends \yii\db\ActiveRecord
         Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 0])->execute();
         Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 1], 'id = :id')->bindValue(':id', $this->id)->execute();
     }
+
+    static function getLangForDropDown()
+    {
+        $langsAll = self::find()->orderBy(['position' => SORT_ASC])->all();
+        $langs = [];
+
+        foreach ($langsAll as $lang) {
+            $langs[$lang->locale] = $lang->name;
+        }
+
+        return $langs;
+    }
 }

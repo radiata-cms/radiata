@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('b/news', 'News tape');
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = '<i class="fa fa-bars"></i> ' . $this->title;
 ?>
 <div class="news-index">
 

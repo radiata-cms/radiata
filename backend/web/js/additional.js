@@ -103,6 +103,47 @@ if ($('.datetime-object').length > 0) {
     });
 }
 
+if ($('.date-object').length > 0) {
+    $('.date-object').each(function () {
+        $(this).daterangepicker({
+            singleDatePicker: true,
+            "format": i18n.dateFormat,
+            "locale": {
+                "separator": " - ",
+                "applyLabel": radiata.i18n.Apply,
+                "cancelLabel": radiata.i18n.Cancel,
+                "fromLabel": radiata.i18n.From,
+                "toLabel": radiata.i18n.To,
+                "customRangeLabel": radiata.i18n.Custom,
+                "daysOfWeek": [
+                    radiata.i18n.Su,
+                    radiata.i18n.Mo,
+                    radiata.i18n.Tu,
+                    radiata.i18n.We,
+                    radiata.i18n.Th,
+                    radiata.i18n.Fr,
+                    radiata.i18n.Sa
+                ],
+                "monthNames": [
+                    radiata.i18n.January,
+                    radiata.i18n.February,
+                    radiata.i18n.March,
+                    radiata.i18n.April,
+                    radiata.i18n.May,
+                    radiata.i18n.June,
+                    radiata.i18n.July,
+                    radiata.i18n.August,
+                    radiata.i18n.September,
+                    radiata.i18n.October,
+                    radiata.i18n.November,
+                    radiata.i18n.December
+                ],
+                "firstDay": 1
+            }
+        });
+    });
+}
+
 radiata.reloadOnSort('LangGridView');
 
 $(function () {

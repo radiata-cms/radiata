@@ -11,6 +11,8 @@ class DateTimeBehavior extends AttributeBehavior
 
     public $value;
 
+    public $format = 'dateTimePHPFormat';
+
     /**
      * @inheritdoc
      */
@@ -45,7 +47,7 @@ class DateTimeBehavior extends AttributeBehavior
     protected function getValue($event)
     {
         if($event->name == BaseActiveRecord::EVENT_AFTER_FIND) {
-            return $this->owner->{$event->data} > 0 ? date(Yii::t('b/radiata/settings', 'dateTimePHPFormat'), $this->owner->{$event->data}) : '';
+            return $this->owner->{$event->data} > 0 ? date(Yii::t('b/radiata/settings', $this->format), $this->owner->{$event->data}) : '';
         } else {
             return (strtotime($this->owner->{$event->data}) > 0 ? strtotime($this->owner->{$event->data}) : '');
         }
