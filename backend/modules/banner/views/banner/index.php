@@ -35,8 +35,18 @@ $this->title = Yii::t('b/banner', 'Banners');
                     return $model->place->title;
                 },
             ],
-            'date_start',
-            'date_end',
+            [
+                'attribute' => 'date_start',
+                'value'     => function ($model) {
+                    return $model->date_start ? $model->date_start : Yii::t('app', '(not set)');
+                }
+            ],
+            [
+                'attribute' => 'date_end',
+                'value'     => function ($model) {
+                    return $model->date_end ? $model->date_end : Yii::t('app', '(not set)');
+                }
+            ],
             'title',
             [
                 'attribute' => 'status',

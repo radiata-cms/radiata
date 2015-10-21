@@ -37,8 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'place_id',
                 'value'     => $model->place->title,
             ],
-            'date_start',
-            'date_end',
+            [
+                'attribute' => 'date_start',
+                'value'     => $model->date_start ? $model->date_start : Yii::t('app', '(not set)')
+            ],
+            [
+                'attribute' => 'date_end',
+                'value'     => $model->date_end ? $model->date_end : Yii::t('app', '(not set)')
+            ],
             'title',
             'html:ntext',
             [

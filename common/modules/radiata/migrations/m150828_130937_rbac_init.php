@@ -91,6 +91,9 @@ class m150828_130937_rbac_init extends Migration
         $permissionBannerModule = $authManager->createPermission('Banners Module');
         $authManager->add($permissionBannerModule);
 
+        $permissionVoteModule = $authManager->createPermission('Votes Module');
+        $authManager->add($permissionVoteModule);
+
         $user = new User();
         $user->username = 'developer';
         $user->first_name = 'Developer';

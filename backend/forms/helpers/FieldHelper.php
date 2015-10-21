@@ -1,6 +1,7 @@
 <?php
 namespace backend\forms\helpers;
 
+use backend\forms\widgets\LangInputWidget;
 use Yii;
 use yii\helpers\Html;
 
@@ -58,6 +59,27 @@ class FieldHelper
             }
             $lines[] = '</ul>';
         }
+
+        return join("\n", $lines);
+    }
+
+    public static function buildVoteOption($form, $modelOption, $isHidden = false)
+    {
+        $lines = [];
+        $lines[] = '<div class="' . ($isHidden ? 'option-template hidden ' : '') . 'form-group">';
+        $lines[] = '<div class="vote-option row">';
+        $lines[] = '<div class="col-sm-11">';
+        $lines[] = $form->field($modelOption, ($isHidden ? '[NEW_IND]' : '[' . $modelOption->id . ']') . 'title')->widget(LangInputWidget::classname(), [
+            'options' => [
+                'type' => 'activeTextInput',
+            ],
+        ]);
+        $lines[] = '</div>';
+        $lines[] = '<div class="col-sm-1">';
+        $lines[] = '<button class="button-delete-option' . ($isHidden ? ' ' : '-exists') . ' btn btn-default" type="button"' . ($isHidden ? ' ' : 'data-option-id="' . $modelOption->id . '"') . '><i class="fa fa-fw fa-trash-o"></i></button>';
+        $lines[] = '</div>';
+        $lines[] = '</div>';
+        $lines[] = '</div>';
 
         return join("\n", $lines);
     }

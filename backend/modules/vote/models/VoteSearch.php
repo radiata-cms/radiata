@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\modules\news\models;
+namespace backend\modules\vote\models;
 
-use common\modules\news\models\News;
+use common\modules\vote\models\Vote;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * NewsSearch represents the model behind the search form about `common\modules\news\models\News`.
+ * VoteSearch represents the model behind the search form about `common\modules\vote\models\Vote`.
  */
-class NewsSearch extends News
+class VoteSearch extends Vote
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'date', 'category_id', 'status'], 'integer'],
+            [['status'], 'integer'],
             [['title'], 'string'],
         ];
     }
@@ -41,11 +41,11 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find();
+        $query = Vote::find();
 
         $query->language();
 
-        $query->orderBy(['date' => SORT_DESC]);
+        $query->orderBy(['id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,10 +60,7 @@ class NewsSearch extends News
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'date'        => $this->date,
-            'category_id' => $this->category_id,
-            'status'      => $this->status,
+            'status' => $this->status,
         ]);
 
         $query->andWhere('title LIKE "%' . $this->title . '%"');

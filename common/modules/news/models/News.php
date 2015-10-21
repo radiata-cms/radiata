@@ -122,6 +122,9 @@ class News extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function transactions()
     {
         return [
@@ -274,7 +277,7 @@ class News extends \yii\db\ActiveRecord
 
                 if(!$galleryModel->save()) {
                     foreach ($galleryModel->getErrors() as $error) {
-                        $this->addError('gallery', $error);
+                        $this->addError('gallery', $error[0]);
                     }
                     return false;
                 }

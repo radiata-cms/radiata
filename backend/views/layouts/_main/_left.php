@@ -12,7 +12,6 @@ use backend\modules\radiata\widgets\ModulesBar;
         <ul class="sidebar-menu">
             <li class="header"><?= Yii::t('c/radiata', 'Navigation') ?></li>
             <?= ModulesBar::widget(['currentModule' => $this->context->module]); ?>
-            <li><a href="#"><i class="fa fa-book"></i><span>Documentation</span></a></li>
         </ul>
     </section>
     <!-- /.sidebar -->

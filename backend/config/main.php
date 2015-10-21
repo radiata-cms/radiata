@@ -33,6 +33,13 @@ return [
             'viewPath'            => '@backend/modules/banner/views',
             'defaultRoute'        => 'banner',
         ],
+        'vote' => [
+            'class'               => 'common\modules\vote\Vote',
+            'controllerNamespace' => 'backend\modules\vote\controllers',
+            'layoutPath'          => '@backend/views/layouts',
+            'viewPath'            => '@backend/modules/vote/views',
+            'defaultRoute'        => 'vote',
+        ],
     ],
     'components' => [
         'user'               => [

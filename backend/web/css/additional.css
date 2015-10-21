@@ -78,3 +78,7 @@ form.form-horizontal .nav-tabs {
 .selectize-input.ui-sortable div.item {
     cursor: move;
 }
+
+.height-20 {
+    height: 20px;
+}
