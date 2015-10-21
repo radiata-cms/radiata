@@ -9,11 +9,11 @@ use yii\web\View;
 
 ?>
 
-<script type="application/javascript">
-    var ADMIN_LTE_SKIN = '<?=AdminLteAsset::ADMIN_LTE_SKIN?>';
+    <script type="application/javascript">
+        var ADMIN_LTE_SKIN = '<?=AdminLteAsset::ADMIN_LTE_SKIN?>';
 
-    <?= I18nSettingsWidget::widget() ?>
-</script>
+        <?= I18nSettingsWidget::widget() ?>
+    </script>
 
 <? $this->registerJs('radiata.initLangTabs();', View::POS_READY); ?>
 <? $this->registerJs('radiata.makeSortable(".file-preview-thumbnails");', View::POS_READY); ?>

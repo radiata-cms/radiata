@@ -279,6 +279,7 @@ class News extends \yii\db\ActiveRecord
                     foreach ($galleryModel->getErrors() as $error) {
                         $this->addError('gallery', $error[0]);
                     }
+
                     return false;
                 }
             }

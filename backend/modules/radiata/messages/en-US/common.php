@@ -9,4 +9,5 @@ return [
     'ROOT'                                            => 'Top level',
     'Please specify at least one language values set' => 'Please specify at least one language values set',
     'Please choose'                        => 'Please choose',
+    'Tip'                                  => 'Tip',
 ];

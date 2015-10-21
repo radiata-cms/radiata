@@ -84,50 +84,56 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
     {
         return [
             [
-                'title' => Yii::t($this->moduleMessages, 'Module name'),
-                'icon' => $this->moduleIcon,
-                'link' => Url::to(['/']),
+                'title'    => Yii::t($this->moduleMessages, 'Module name'),
+                'icon'     => $this->moduleIcon,
+                'link'     => Url::to(['/']),
                 'permission' => self::BACKEND_PERMISSION,
                 'isModule' => true,
                 'children' => [
                     [
                         'title' => Yii::t('c/radiata', 'Dashboard'),
-                        'icon' => 'fa fa-dashboard',
-                        'link' => Url::to(['/radiata/radiata/index']),
+                        'icon'  => 'fa fa-dashboard',
+                        'link'  => Url::to(['/radiata/radiata/index']),
                         'permission' => \backend\modules\radiata\controllers\RadiataController::BACKEND_PERMISSION,
                     ],
                     [
                         'title' => Yii::t('b/radiata/admin-log', 'Nav title'),
-                        'icon' => 'fa fa-history',
-                        'link' => Url::to(['/radiata/admin-log/index']),
+                        'icon'  => 'fa fa-history',
+                        'link'  => Url::to(['/radiata/admin-log/index']),
                         'permission' => \backend\modules\radiata\controllers\AdminLogController::BACKEND_PERMISSION,
                     ],
                     [
                         'title' => Yii::t('b/radiata/lang', 'Nav title'),
-                        'icon' => 'fa fa-language',
-                        'link' => Url::to(['/radiata/lang/index']),
+                        'icon'  => 'fa fa-language',
+                        'link'  => Url::to(['/radiata/lang/index']),
                         'permission' => \backend\modules\radiata\controllers\LangController::BACKEND_PERMISSION,
                     ],
                     [
-                        'title' => Yii::t('b/radiata/user', 'Nav title'),
-                        'icon' => 'fa fa-user',
-                        'link' => Url::to(['/radiata/user/index']),
+                        'title'      => Yii::t('b/radiata/user', 'Nav title'),
+                        'icon'       => 'fa fa-user',
+                        'link'       => Url::to(['/radiata/user/index']),
                         'permission' => \backend\modules\radiata\controllers\UserController::BACKEND_PERMISSION,
                         'isActiveUrlPart' => '/user/',
-                        'children' => [
+                        'children'   => [
                             [
                                 'title' => Yii::t('b/radiata/user', 'Nav list'),
-                                'icon' => 'fa fa-users',
-                                'link' => Url::to(['/radiata/user/index']),
+                                'icon'  => 'fa fa-users',
+                                'link'  => Url::to(['/radiata/user/index']),
                                 'isActiveUrlPart' => '/user/index',
                             ],
                             [
                                 'title' => Yii::t('b/radiata/user', 'Nav create'),
-                                'icon' => 'fa fa-user-plus',
-                                'link' => Url::to(['/radiata/user/create']),
+                                'icon'  => 'fa fa-user-plus',
+                                'link'  => Url::to(['/radiata/user/create']),
                                 'isActiveUrlPart' => '/user/create',
                             ],
                         ],
+                    ],
+                    [
+                        'title'      => Yii::t('b/radiata/textblock', 'Nav title'),
+                        'icon'       => 'fa fa-text-height',
+                        'link'       => Url::to(['/radiata/text-block/index']),
+                        'permission' => \backend\modules\radiata\controllers\TextBlockController::BACKEND_PERMISSION,
                     ],
                 ],
             ],
@@ -142,7 +148,7 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
     public function getDefaultLanguage()
     {
         foreach ($this->availableLanguages as $availableLanguage) {
-            if ($availableLanguage->default == 1) {
+            if($availableLanguage->default == 1) {
                 $this->defaultLanguage = $availableLanguage;
             }
         }
@@ -161,7 +167,9 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
 
         $this->activeLanguage = $this->getLanguageByCode($possibleLang);
 
-        if (!$this->activeLanguage) $this->activeLanguage = $this->defaultLanguage;
+        if(!$this->activeLanguage) {
+            $this->activeLanguage = $this->defaultLanguage;
+        }
     }
 
     /**
@@ -174,7 +182,7 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
     public function getLanguageByCode($code)
     {
         foreach ($this->availableLanguages as $availableLanguage) {
-            if ($code == $availableLanguage->code) {
+            if($code == $availableLanguage->code) {
                 return $availableLanguage;
             }
         }
@@ -204,6 +212,7 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
     {
         $migrator = new Migrator($config);
         $newMigrations = $migrator->findNewMigrations();
+
         return count($newMigrations);
     }
 
@@ -218,7 +227,7 @@ class Radiata extends \yii\base\Module implements RadiataModuleInterface
         $migrator = new Migrator($config);
         $migrations = $migrator->migrate();
 
-        if (is_object($migrator->error)) {
+        if(is_object($migrator->error)) {
             return [
                 'error' => $migrator->error->getMessage(),
             ];

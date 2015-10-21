@@ -2,18 +2,18 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'sourceLanguage' => 'en-US',
-    'language' => 'en-US',
+    'language'   => 'en-US',
     'components' => [
-        'cache' => [
+        'cache'      => [
             'class' => 'yii\caching\FileCache'
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName'  => false,
             'enableStrictParsing' => false,
-            'class' => 'common\modules\radiata\components\LangUrlManager',
+            'class'           => 'common\modules\radiata\components\LangUrlManager',
         ],
-        'request' => [
+        'request'    => [
             'class'               => 'common\modules\radiata\components\LangRequestManager',
             'cookieValidationKey' => 'OgBZUGfC9ZJbeT4hDfjSHhBx-IEsKKK4',
         ],

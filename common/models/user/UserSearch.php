@@ -2,13 +2,11 @@
 
 namespace common\models\user;
 
+use backend\forms\DateRangeValidator;
 use backend\forms\helpers\FieldHelper;
-use backend\modules\radiata\helpers\RadiataHelper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\user\User;
-use backend\forms\DateRangeValidator;
 
 /**
  * UserSearch represents the model behind the search form about `common\models\user\User`.
@@ -39,7 +37,7 @@ class UserSearch extends User
             'query' => $query,
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
+        if(!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 

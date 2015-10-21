@@ -10,8 +10,8 @@
 
 namespace common\modules\radiata\components;
 
-use Yii;
 use common\modules\radiata\helpers\PathHelper;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -80,10 +80,12 @@ class Configurator extends \yii\base\Object
         foreach ($configPaths as $configPath) {
             $realPath = Yii::getAlias($configPath);
             foreach ($this->configFilesNames as $configFilesName) {
-                if (file_exists($realPath . DIRECTORY_SEPARATOR . $configFilesName . '.php'))
+                if(file_exists($realPath . DIRECTORY_SEPARATOR . $configFilesName . '.php')) {
                     $finalConfig = ArrayHelper::merge($finalConfig, require($realPath . DIRECTORY_SEPARATOR . $configFilesName . '.php'));
-                if ($this->additionalSuffix && file_exists($realPath . DIRECTORY_SEPARATOR . $configFilesName . $this->additionalSuffix . '.php'))
+                }
+                if($this->additionalSuffix && file_exists($realPath . DIRECTORY_SEPARATOR . $configFilesName . $this->additionalSuffix . '.php')) {
                     $finalConfig = ArrayHelper::merge($finalConfig, require($realPath . DIRECTORY_SEPARATOR . $configFilesName . $this->additionalSuffix . '.php'));
+                }
             }
 
         }
@@ -114,20 +116,20 @@ class Configurator extends \yii\base\Object
 
         foreach ($i18nPaths as $i18nPath) {
             $realPath = Yii::getAlias($i18nPath);
-            if (is_dir($realPath)) {
+            if(is_dir($realPath)) {
                 $fileMap = [];
                 $handle = opendir($realPath);
                 $categoryPrefix = 'c';
                 $categoryName = '';
                 while (($dir = readdir($handle)) !== false) {
-                    if ($dir === '.' || $dir === '..') {
+                    if($dir === '.' || $dir === '..') {
                         continue;
                     }
-                    if (is_dir($realPath . DIRECTORY_SEPARATOR . $dir)) {
+                    if(is_dir($realPath . DIRECTORY_SEPARATOR . $dir)) {
 
-                        if (!$categoryName) {
+                        if(!$categoryName) {
                             foreach ($this->configPaths as $configPath) {
-                                if (strpos($realPath, substr($configPath, 1)) !== false) {
+                                if(strpos($realPath, substr($configPath, 1)) !== false) {
                                     $categoryPrefix = substr($configPath, 1, 1);
                                     break;
                                 }
@@ -138,11 +140,11 @@ class Configurator extends \yii\base\Object
 
                         $filesHandle = opendir($realPath . DIRECTORY_SEPARATOR . $dir);
                         while (($file = readdir($filesHandle)) !== false) {
-                            if ($file === '.' || $file === '..') {
+                            if($file === '.' || $file === '..') {
                                 continue;
                             }
                             $categoryAlias = str_replace('.php', '', $file);
-                            if ($categoryPrefix . '/' . $categoryAlias == $categoryName) {
+                            if($categoryPrefix . '/' . $categoryAlias == $categoryName) {
                                 $fileMap[$categoryName] = $file;
                             } else {
                                 $fileMap[$categoryName . '/' . $categoryAlias] = $file;
@@ -155,10 +157,10 @@ class Configurator extends \yii\base\Object
                 closedir($handle);
 
                 $i18nConfig['components']['i18n']['translations'][$categoryName . '*'] = [
-                    'class' => $this->i18nClass,
+                    'class'    => $this->i18nClass,
                     'basePath' => $i18nPath,
                     'forceTranslation' => true,
-                    'fileMap' => $fileMap,
+                    'fileMap'  => $fileMap,
                 ];
             }
         }

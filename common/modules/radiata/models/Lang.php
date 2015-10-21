@@ -70,7 +70,7 @@ class Lang extends \yii\db\ActiveRecord
             [
                 'class' => AdminLogBehavior::className(),
                 'titleAttribute' => 'name',
-                'icon' => 'fa-language bg-teal',
+                'icon'  => 'fa-language bg-teal',
             ],
             CacheBehavior::className(),
             [
@@ -98,10 +98,11 @@ class Lang extends \yii\db\ActiveRecord
     static public function getLanguages()
     {
         $languages = CacheHelper::get('languages');
-        if (!$languages) {
+        if(!$languages) {
             $languages = self::find()->orderBy(['`position`' => SORT_ASC])->all();
             CacheHelper::set('languages', $languages, CacheHelper::getTag(self::className()));
         }
+
         return $languages;
     }
 
@@ -112,13 +113,14 @@ class Lang extends \yii\db\ActiveRecord
     public function getLink()
     {
         $link = '';
-        if (strpos(Yii::$app->request->getOriginalUrl(), $_SERVER['SCRIPT_NAME']) !== false) {
+        if(strpos(Yii::$app->request->getOriginalUrl(), $_SERVER['SCRIPT_NAME']) !== false) {
             $link .= $_SERVER['SCRIPT_NAME'];
         }
         $link .= '/';
 
-        if ($this->code != Yii::$app->getModule('radiata')->defaultLanguage->code)
+        if($this->code != Yii::$app->getModule('radiata')->defaultLanguage->code) {
             $link .= $this->code;
+        }
 
         return $link;
     }

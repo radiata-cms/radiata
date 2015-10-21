@@ -189,7 +189,9 @@ class m151020_120000_vote_init extends Migration
     public function safeDown()
     {
         $this->dropTable('{{%vote_log}}');
+        $this->dropTable('{{%vote_option_translation}}');
         $this->dropTable('{{%vote_option}}');
+        $this->dropTable('{{%vote_vote_translation}}');
         $this->dropTable('{{%vote_vote}}');
     }
 }

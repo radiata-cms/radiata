@@ -144,6 +144,7 @@ class TreeBehavior extends Behavior
                 }
             }
         }
+
         return $items;
     }
 
@@ -188,10 +189,10 @@ class TreeBehavior extends Behavior
         if($allItems) {
             foreach ($allItems as $item) {
                 $itemsStructure[$item->id] = [
-                    'id'     => self::JST_PREFIX . $item->id,
+                    'id'      => self::JST_PREFIX . $item->id,
                     'id_pure' => $item->id,
                     'title'    => $item->{$this->titleFieldName},
-                    'parent' => $item->{$this->parentFieldName},
+                    'parent'  => $item->{$this->parentFieldName},
                     'children' => [],
                 ];
             }

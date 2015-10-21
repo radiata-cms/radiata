@@ -15,15 +15,15 @@ class m150918_160000_news_init extends Migration
 
         /* NEWS */
         $this->createTable('{{%news_news}}', [
-            'id'                => Schema::TYPE_PK,
-            'date'              => Schema::TYPE_INTEGER . ' NOT NULL',
-            'category_id'       => Schema::TYPE_INTEGER . ' NOT NULL',
-            'status'            => Schema::TYPE_INTEGER . '(2) NOT NULL',
-            'image'             => Schema::TYPE_STRING . '(255)',
-            'created_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at'        => Schema::TYPE_INTEGER . ' NOT NULL',
-            'created_by'        => Schema::TYPE_INTEGER,
-            'updated_by'        => Schema::TYPE_INTEGER,
+            'id'          => Schema::TYPE_PK,
+            'date'        => Schema::TYPE_INTEGER . ' NOT NULL',
+            'category_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'status'      => Schema::TYPE_INTEGER . '(2) NOT NULL',
+            'image'       => Schema::TYPE_STRING . '(255)',
+            'created_at'  => Schema::TYPE_INTEGER . ' NOT NULL',
+            'updated_at'  => Schema::TYPE_INTEGER . ' NOT NULL',
+            'created_by'  => Schema::TYPE_INTEGER,
+            'updated_by'  => Schema::TYPE_INTEGER,
         ], $tableOptions);
 
         //fk

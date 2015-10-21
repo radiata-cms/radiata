@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\modules\news\models;
+namespace backend\modules\radiata\models;
 
-use common\modules\news\models\News;
+use common\modules\radiata\models\TextBlock;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * NewsSearch represents the model behind the search form about `common\modules\news\models\News`.
+ * TextBlockSearch represents the model behind the search form about `common\modules\radiata\models\TextBlock`.
  */
-class NewsSearch extends News
+class TextBlockSearch extends TextBlock
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'date', 'category_id', 'status'], 'integer'],
-            [['title'], 'string'],
+            [['name', 'key', 'text'], 'safe'],
         ];
     }
 
@@ -41,11 +40,11 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find();
+        $query = TextBlock::find();
 
         $query->language();
 
-        $query->orderBy(['date' => SORT_DESC]);
+        $query->orderBy(['name' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,14 +58,9 @@ class NewsSearch extends News
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'date'        => $this->date,
-            'category_id' => $this->category_id,
-            'status'      => $this->status,
-        ]);
-
-        $query->andFilterWhere('title', 'like', $this->title);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'key', $this->key])
+            ->andFilterWhere(['like', 'text', $this->text]);
 
         return $dataProvider;
     }

@@ -19,21 +19,21 @@ return [
             'viewPath'     => '@backend/modules/radiata/views',
             'defaultRoute' => 'radiata',
         ],
-        'news' => [
+        'news'    => [
             'class'               => 'common\modules\news\News',
             'controllerNamespace' => 'backend\modules\news\controllers',
             'layoutPath'          => '@backend/views/layouts',
             'viewPath'            => '@backend/modules/news/views',
             'defaultRoute'        => 'news',
         ],
-        'banner' => [
+        'banner'  => [
             'class'               => 'common\modules\banner\Banner',
             'controllerNamespace' => 'backend\modules\banner\controllers',
             'layoutPath'          => '@backend/views/layouts',
             'viewPath'            => '@backend/modules/banner/views',
             'defaultRoute'        => 'banner',
         ],
-        'vote' => [
+        'vote'    => [
             'class'               => 'common\modules\vote\Vote',
             'controllerNamespace' => 'backend\modules\vote\controllers',
             'layoutPath'          => '@backend/views/layouts',

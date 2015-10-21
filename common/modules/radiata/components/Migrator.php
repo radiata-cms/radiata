@@ -10,10 +10,10 @@
 
 namespace common\modules\radiata\components;
 
-use Yii;
-use Exception;
-use yii\db\Schema;
 use common\modules\radiata\helpers\PathHelper;
+use Exception;
+use Yii;
+use yii\db\Schema;
 
 /**
  * Class Migrator
@@ -75,17 +75,17 @@ class Migrator extends \yii\base\Object
         $db = $this->getDbConnection();
         $migrations = [];
 
-        if ($db->getTableSchema($this->migrationTable, true) === null) {
+        if($db->getTableSchema($this->migrationTable, true) === null) {
             $this->createMigrationTable();
         }
 
-        if ($this->direction == 'up') {
+        if($this->direction == 'up') {
             $migrations = $this->findNewMigrations();
-        } elseif ($this->direction == 'down') {
+        } elseif($this->direction == 'down') {
             $migrations = $this->getAppliedMigrations();
         }
 
-        if (count($migrations) > 0) {
+        if(count($migrations) > 0) {
             $this->applyMigrations($migrations, $this->direction);
         }
 
@@ -105,19 +105,19 @@ class Migrator extends \yii\base\Object
 
         $migrations = [];
 
-        if (count($migrationPaths) > 0) {
+        if(count($migrationPaths) > 0) {
             foreach ($migrationPaths as $migrationPath) {
                 $migrationRealPath = Yii::getAlias($migrationPath);
-                if (is_dir($migrationRealPath)) {
+                if(is_dir($migrationRealPath)) {
                     $handle = opendir($migrationRealPath);
                     while (($file = readdir($handle)) !== false) {
-                        if ($file === '.' || $file === '..') {
+                        if($file === '.' || $file === '..') {
                             continue;
                         }
                         $path = $migrationRealPath . DIRECTORY_SEPARATOR . $file;
-                        if (preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/', $file, $matches) && is_file($path)) {
+                        if(preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/', $file, $matches) && is_file($path)) {
                             $migration = $this->formatMigration($file, $migrationPath);
-                            if (!isset($appliedMigrations[$migration['name'] . '/' . $migration['module']])) {
+                            if(!isset($appliedMigrations[$migration['name'] . '/' . $migration['module']])) {
                                 $migrations[$migration['name'] . '/' . $migration['module']] = $migration;
                             }
                         }
@@ -164,7 +164,8 @@ class Migrator extends \yii\base\Object
      */
     protected function applyMigrations($migrations = [])
     {
-        foreach ($migrations as $migration) $this->applyMigration($migration, $this->direction);
+        foreach ($migrations as $migration)
+            $this->applyMigration($migration, $this->direction);
     }
 
     /**
@@ -177,14 +178,14 @@ class Migrator extends \yii\base\Object
     protected function applyMigration($migration)
     {
         ob_start();
-        if ($this->direction == 'up') {
+        if($this->direction == 'up') {
             $appliedMigrations = $this->getAppliedMigrations();
-            if (!isset($appliedMigrations[$migration['name']])) {
+            if(!isset($appliedMigrations[$migration['name']])) {
                 $migrateObj = $this->createMigration($migration);
-                if (method_exists($migrateObj, 'safeUp')) {
+                if(method_exists($migrateObj, 'safeUp')) {
                     $transaction = $this->_db->beginTransaction();
                     try {
-                        if ($migrateObj->safeUp() !== false) {
+                        if($migrateObj->safeUp() !== false) {
                             $this->addMigrationHistory($migration);
                             $transaction->commit();
                         } else {
@@ -196,7 +197,7 @@ class Migrator extends \yii\base\Object
                     }
                 } else {
                     try {
-                        if ($migrateObj->up() !== false) {
+                        if($migrateObj->up() !== false) {
                             $this->addMigrationHistory($migration);
                         }
                     } catch (Exception $e) {
@@ -204,12 +205,12 @@ class Migrator extends \yii\base\Object
                     }
                 }
             }
-        } elseif ($this->direction == 'down') {
+        } elseif($this->direction == 'down') {
             $migrateObj = $this->createMigration($migration);
-            if (method_exists($migrateObj, 'safeDown')) {
+            if(method_exists($migrateObj, 'safeDown')) {
                 $transaction = $this->_db->beginTransaction();
                 try {
-                    if ($migrateObj->safeDown() !== false) {
+                    if($migrateObj->safeDown() !== false) {
                         $this->removeMigrationHistory($migration);
                         $transaction->commit();
                     } else {
@@ -221,7 +222,7 @@ class Migrator extends \yii\base\Object
                 }
             } else {
                 try {
-                    if ($migrateObj->down() !== false) {
+                    if($migrateObj->down() !== false) {
                         $this->removeMigrationHistory($migration);
                     }
                 } catch (Exception $e) {
@@ -245,12 +246,12 @@ class Migrator extends \yii\base\Object
             ->from($this->migrationTable)
             ->orderBy(['apply_time' => SORT_ASC]);
 
-        if ($this->module != '') {
+        if($this->module != '') {
             $query->where(['module' => $this->module]);
         }
 
         $rows = $query->all();
-        if (count($rows) > 0) {
+        if(count($rows) > 0) {
             foreach ($rows as $row) {
                 $appliedMigrations[$row['name'] . '/' . $row['module']] = $row;
             }
@@ -268,7 +269,7 @@ class Migrator extends \yii\base\Object
     protected function addMigrationHistory($migration)
     {
         $this->_db->createCommand()->insert($this->migrationTable, [
-            'name' => $migration['name'],
+            'name'   => $migration['name'],
             'module' => $migration['module'],
             'path_alias' => $migration['path_alias'],
             'apply_time' => time(),
@@ -299,6 +300,7 @@ class Migrator extends \yii\base\Object
     {
         $file = isset($migration['path']) ? Yii::getAlias($migration['path']) . $migration['name'] . '.php' : Yii::getAlias($migration['path_alias'] . DIRECTORY_SEPARATOR . $migration['name'] . '.php');
         require_once($file);
+
         return new $migration['name']();
     }
 
@@ -309,11 +311,11 @@ class Migrator extends \yii\base\Object
      */
     public function getDbConnection()
     {
-        if ($this->_db !== null) {
+        if($this->_db !== null) {
             return $this->_db;
         } else {
             $connId = $this->connectionID;
-            if (($this->_db = Yii::$app->$connId) instanceof Yii\Db\Connection) {
+            if(($this->_db = Yii::$app->$connId) instanceof Yii\Db\Connection) {
                 return $this->_db;
             }
         }
@@ -330,13 +332,13 @@ class Migrator extends \yii\base\Object
 
         $this->_db->createCommand()->createTable(
             $this->migrationTable,
-            array(
-                'id' => Schema::TYPE_PK,
-                'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            [
+                'id'     => Schema::TYPE_PK,
+                'name'   => Schema::TYPE_STRING . '(255) NOT NULL',
                 'module' => Schema::TYPE_STRING . '(255) NOT NULL',
                 'path_alias' => Schema::TYPE_STRING . '(255) NOT NULL',
                 'apply_time' => Schema::TYPE_INTEGER,
-            ),
+            ],
             $options
         )->execute();
 

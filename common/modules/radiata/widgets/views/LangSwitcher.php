@@ -8,7 +8,7 @@ use yii\helpers\Html;
         <? foreach ($languages as $lang) { ?>
             <li>
                 <i class="iconflags iconflags-<?= $lang->code ?>"></i>
-                <? if ($current->code == $lang->code) { ?>
+                <? if($current->code == $lang->code) { ?>
                     <b><?= $lang->code ?></b>
                 <? } else { ?>
                     <?= Html::a($lang->code, $lang->getLink()) ?>

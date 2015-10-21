@@ -30,19 +30,19 @@ class PathHelper
 
         foreach ($configPaths as $migrationPathAlias) {
             $fullAlias = $migrationPathAlias;
-            if ($module != '') {
+            if($module != '') {
                 $modulesParts = explode('/', $module);
                 foreach ($modulesParts as $modulesPart) {
-                    if (trim($modulesPart) != '') {
+                    if(trim($modulesPart) != '') {
                         $fullAlias .= '/' . $modulesDirName . '/' . $modulesPart;
                     }
                 }
-                if ($addRootLevel) {
+                if($addRootLevel) {
                     $fullAlias .= '/' . $targetDirName;
                     $foundPaths[] = $fullAlias;
                 }
             } else {
-                if ($addRootLevel) {
+                if($addRootLevel) {
                     $fullAlias .= '/' . $targetDirName;
                     $foundPaths[] = $fullAlias;
                 }
@@ -66,16 +66,16 @@ class PathHelper
         $configPaths = [];
 
         $modulesRealPath = Yii::getAlias($modulesPath);
-        if (is_dir($modulesRealPath)) {
+        if(is_dir($modulesRealPath)) {
             $handle = opendir($modulesRealPath);
             while (($file = readdir($handle)) !== false) {
-                if ($file === '.' || $file === '..') {
+                if($file === '.' || $file === '..') {
                     continue;
                 }
-                if (is_dir($modulesRealPath . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $targetDirName)) {
+                if(is_dir($modulesRealPath . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $targetDirName)) {
                     $configPaths[] = $modulesPath . '/' . $file . '/' . $targetDirName;
                 }
-                if (is_dir($modulesRealPath . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $modulesDirName)) {
+                if(is_dir($modulesRealPath . DIRECTORY_SEPARATOR . $file . DIRECTORY_SEPARATOR . $modulesDirName)) {
                     $configPaths = array_merge($configPaths, self::getTargetPathsModules($modulesPath . '/' . $file . '/' . $modulesDirName, $modulesDirName, $targetDirName));
                 }
             }
@@ -98,11 +98,13 @@ class PathHelper
         $moduleAlias = '';
 
         $exploded = preg_split('/(\/|\\\)/', $path);
-        if (count($exploded) > 0) {
+        if(count($exploded) > 0) {
             foreach ($exploded as $explodedPart) {
-                if ($explodedPart == $breakDirName) break;
-                if (empty($moduleAlias) && $explodedPart == $modulesDirName || !empty($moduleAlias)) {
-                    if (empty($moduleAlias)) {
+                if($explodedPart == $breakDirName) {
+                    break;
+                }
+                if(empty($moduleAlias) && $explodedPart == $modulesDirName || !empty($moduleAlias)) {
+                    if(empty($moduleAlias)) {
                         $moduleAlias = $explodedPart;
                     } else {
                         $moduleAlias .= '/' . $explodedPart;

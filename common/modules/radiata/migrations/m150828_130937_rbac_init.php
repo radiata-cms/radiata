@@ -72,6 +72,10 @@ class m150828_130937_rbac_init extends Migration
         $authManager->add($permissionRadiataModuleUsers);
         $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleUsers);
 
+        $permissionRadiataModuleTextBlocks = $authManager->createPermission('Radiata Module. Text blocks');
+        $authManager->add($permissionRadiataModuleTextBlocks);
+        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleTextBlocks);
+
 
         $permissionNewsModule = $authManager->createPermission('News Module');
         $authManager->add($permissionNewsModule);

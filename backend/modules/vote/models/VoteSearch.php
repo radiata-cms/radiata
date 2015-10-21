@@ -63,7 +63,7 @@ class VoteSearch extends Vote
             'status' => $this->status,
         ]);
 
-        $query->andWhere('title LIKE "%' . $this->title . '%"');
+        $query->andFilterWhere('title', 'like', $this->title);
 
         return $dataProvider;
     }

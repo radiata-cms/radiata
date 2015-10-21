@@ -72,16 +72,16 @@ class User extends ActiveRecord implements IdentityInterface
                 'icon'           => 'fa-user bg-blue',
             ],
             [
-                'class' => ImageUploadBehavior::className(),
+                'class'     => ImageUploadBehavior::className(),
                 'attribute' => 'image',
                 'defaultImage' => '/images/avatar.jpg',
-                'thumbs' => [
+                'thumbs'    => [
                     'avatar' => ['width' => 100, 'height' => 100],
                 ],
-                'filePath' => '@frontend/web/uploads/users/[[pk]]/[[pk]].[[extension]]',
-                'fileUrl' => '/uploads/users/[[pk]]/[[pk]].[[extension]]',
+                'filePath'  => '@frontend/web/uploads/users/[[pk]]/[[pk]].[[extension]]',
+                'fileUrl'   => '/uploads/users/[[pk]]/[[pk]].[[extension]]',
                 'thumbPath' => '@frontend/web/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
-                'thumbUrl' => '/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
+                'thumbUrl'  => '/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
             ],
         ];
     }
@@ -113,10 +113,10 @@ class User extends ActiveRecord implements IdentityInterface
 
             ['roles', 'default', 'value' => ['user']],
             ['roles', function ($attribute, $params) {
-                if (is_array($this->$attribute)) {
+                if(is_array($this->$attribute)) {
                     $roles = Yii::$app->authManager->getRoles();
                     foreach ($this->$attribute as $value) {
-                        if (!isset($roles[$value])) {
+                        if(!isset($roles[$value])) {
                             $this->addError('Invalide role');
                         }
                     }
@@ -124,10 +124,10 @@ class User extends ActiveRecord implements IdentityInterface
             }
             ],
             ['permissions', function ($attribute, $params) {
-                if (is_array($this->$attribute)) {
+                if(is_array($this->$attribute)) {
                     $roles = Yii::$app->authManager->getPermissions();
                     foreach ($this->$attribute as $value) {
-                        if (!isset($roles[$value])) {
+                        if(!isset($roles[$value])) {
                             $this->addError('Invalide permission');
                         }
                     }
@@ -143,20 +143,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('b/radiata/user', 'ID'),
-            'username' => Yii::t('b/radiata/user', 'Username'),
-            'first_name' => Yii::t('b/radiata/user', 'First name'),
-            'last_name' => Yii::t('b/radiata/user', 'Last name'),
-            'auth_key' => Yii::t('b/radiata/user', 'Auth key'),
+            'id'            => Yii::t('b/radiata/user', 'ID'),
+            'username'      => Yii::t('b/radiata/user', 'Username'),
+            'first_name'    => Yii::t('b/radiata/user', 'First name'),
+            'last_name'     => Yii::t('b/radiata/user', 'Last name'),
+            'auth_key'      => Yii::t('b/radiata/user', 'Auth key'),
             'password_hash' => Yii::t('b/radiata/user', 'Passsword hash'),
             'password_reset_token' => Yii::t('b/radiata/user', 'Passsword reset hash'),
-            'email' => Yii::t('b/radiata/user', 'Email'),
-            'status' => Yii::t('b/radiata/user', 'Status'),
-            'updated_at' => Yii::t('b/radiata/user', 'Update Date'),
-            'created_at' => Yii::t('b/radiata/user', 'Create Date'),
-            'image' => Yii::t('b/radiata/user', 'Avatar'),
-            'roles' => Yii::t('b/radiata/user', 'Roles'),
-            'permissions' => Yii::t('b/radiata/user', 'Permissions'),
+            'email'         => Yii::t('b/radiata/user', 'Email'),
+            'status'        => Yii::t('b/radiata/user', 'Status'),
+            'updated_at'    => Yii::t('b/radiata/user', 'Update Date'),
+            'created_at'    => Yii::t('b/radiata/user', 'Create Date'),
+            'image'         => Yii::t('b/radiata/user', 'Avatar'),
+            'roles'         => Yii::t('b/radiata/user', 'Roles'),
+            'permissions'   => Yii::t('b/radiata/user', 'Permissions'),
         ];
     }
 
@@ -170,7 +170,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $user = static::findOne($params);
 
-        if ($user) {
+        if($user) {
             $user->roles = Yii::$app->authManager->getRolesByUser($user->id);
             $user->permissions = Yii::$app->authManager->getPermissionsByUser($user->id);
         }
@@ -225,7 +225,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByPasswordResetToken($token)
     {
-        if (!static::isPasswordResetTokenValid($token)) {
+        if(!static::isPasswordResetTokenValid($token)) {
             return null;
         }
 
@@ -243,12 +243,13 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isPasswordResetTokenValid($token)
     {
-        if (empty($token)) {
+        if(empty($token)) {
             return false;
         }
 
         $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+
         return $timestamp + $expire >= time();
     }
 
@@ -339,7 +340,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         Yii::$app->authManager->revokeAll($this->id);
 
-        if (is_array(Yii::$app->request->post('User')['roles'])) {
+        if(is_array(Yii::$app->request->post('User')['roles'])) {
             foreach (Yii::$app->request->post('User')['roles'] as $role) {
                 $rbacRole = Yii::$app->authManager->getRole($role);
                 Yii::$app->authManager->assign($rbacRole, $this->id);
@@ -349,7 +350,7 @@ class User extends ActiveRecord implements IdentityInterface
             Yii::$app->authManager->assign($rbacRole, $this->id);
         }
 
-        if (
+        if(
             is_array(Yii::$app->request->post('User')['roles'])
             &&
             in_array('manager', Yii::$app->request->post('User')['roles'])

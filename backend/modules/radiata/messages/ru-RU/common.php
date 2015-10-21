@@ -9,4 +9,5 @@ return [
     'ROOT'                                            => 'Корневой уровень',
     'Please specify at least one language values set' => 'Пожалуйста укажите хотя бы один языковой набор данных',
     'Please choose'                        => 'Пожалуйста укажите',
+    'Tip'                                  => 'Подсказка',
 ];
