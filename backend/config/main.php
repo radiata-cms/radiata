@@ -40,6 +40,13 @@ return [
             'viewPath'            => '@backend/modules/vote/views',
             'defaultRoute'        => 'vote',
         ],
+        'menu' => [
+            'class'               => 'common\modules\menu\Menu',
+            'controllerNamespace' => 'backend\modules\menu\controllers',
+            'layoutPath'          => '@backend/views/layouts',
+            'viewPath'            => '@backend/modules/menu/views',
+            'defaultRoute'        => 'menu',
+        ],
     ],
     'components' => [
         'user'               => [
@@ -83,6 +90,7 @@ return [
         'allowedActions' => [
             'radiata/radiata/login',
             'radiata/radiata/error',
+            'radiata/radiata/lock-screen',
         ],
         'allowedActionsLoggedIn' => [
             'radiata/radiata/logout',

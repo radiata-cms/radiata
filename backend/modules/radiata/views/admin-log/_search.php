@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use backend\forms\RadiataField;
 use backend\modules\radiata\models\AdminLogSearch;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model backend\modules\radiata\models\AdminLogSearch */
@@ -33,7 +33,7 @@ use backend\modules\radiata\models\AdminLogSearch;
 
         <?= $form->field($model, 'data'); ?>
 
-        <?= $form->field($model, 'created_at')->dateRangeInput(['class' => 'pull-right']) ?>
+        <?= $form->field($model, 'created_at')->dateRangeInput(['class' => 'pull-right'])->label(Yii::t('b/radiata/admin-log', 'Date range')) ?>
     </div>
 
     <div class="box-footer">

@@ -2,6 +2,8 @@
 
 namespace backend\modules\news\models;
 
+use backend\forms\DateRangeValidator;
+use backend\forms\helpers\FieldHelper;
 use common\modules\news\models\News;
 use Yii;
 use yii\base\Model;
@@ -18,8 +20,9 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'date', 'category_id', 'status'], 'integer'],
+            [['id', 'category_id', 'status'], 'integer'],
             [['title'], 'string'],
+            [['date'], DateRangeValidator::className()],
         ];
     }
 
@@ -30,6 +33,14 @@ class NewsSearch extends News
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterValidate()
+    {
+        // skip
     }
 
     /**
@@ -54,6 +65,9 @@ class NewsSearch extends News
         $this->load($params);
 
         if(!$this->validate()) {
+            echo '<pre>', print_r($this->getErrors());
+            exit();
+
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -61,12 +75,14 @@ class NewsSearch extends News
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'date'        => $this->date,
             'category_id' => $this->category_id,
             'status'      => $this->status,
         ]);
 
-        $query->andFilterWhere('title', 'like', $this->title);
+        list($from, $to) = FieldHelper::getDateFromRange($this->date);
+        $query->andFilterWhere(['between', 'date', $from, $to]);
+
+        $query->andFilterWhere(['title', 'like', $this->title]);
 
         return $dataProvider;
     }

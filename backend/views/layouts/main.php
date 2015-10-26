@@ -13,6 +13,8 @@ AdminLteAsset::register($this);
 backend\assets\AppAsset::register($this);
 JuiAsset::register($this);
 
+$this->title = Yii::t('c/radiata', 'CMS');
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

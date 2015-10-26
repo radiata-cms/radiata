@@ -29,6 +29,7 @@ return [
     'Meta keywords'                              => 'Meta ключевые слова',
     'Meta description'                           => 'Meta описание',
     'Tag Ids'             => 'Теги',
+    'Date range'          => 'Период',
 
     'Main tab'                                   => 'Главное',
     'Image tab'                                  => 'Изображение',

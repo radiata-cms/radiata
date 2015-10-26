@@ -56,7 +56,9 @@ class BackendAccessControl extends \yii\base\ActionFilter
             if(in_array($action->getUniqueId(), $this->allowedActions)) {
                 return true;
             } elseif($user->isGuest) {
-                return Yii::$app->response->redirect(['radiata/login']);
+                Yii::$app->response->redirect(['/radiata/login'])->send();
+
+                return false;
             } elseif(in_array($action->getUniqueId(), $this->allowedActionsLoggedIn)) {
                 return true;
             }
@@ -91,6 +93,10 @@ class BackendAccessControl extends \yii\base\ActionFilter
 
     public static function checkRoleAccess($role, $userId = '')
     {
+        if(Yii::$app->user->isGuest) {
+            return false;
+        }
+
         if(!$userId) {
             $userId = Yii::$app->user->identity->getId();
         }
@@ -101,6 +107,10 @@ class BackendAccessControl extends \yii\base\ActionFilter
 
     public static function checkPermissionAccess($permission, $userId = '')
     {
+        if(Yii::$app->user->isGuest) {
+            return false;
+        }
+
         if(!$userId) {
             $userId = Yii::$app->user->identity->getId();
         }

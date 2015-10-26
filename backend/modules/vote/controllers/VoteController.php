@@ -15,6 +15,8 @@ use yii\web\NotFoundHttpException;
  */
 class VoteController extends BackendController
 {
+    const BACKEND_PERMISSION = 'Votes Module';
+
     public function behaviors()
     {
         return [

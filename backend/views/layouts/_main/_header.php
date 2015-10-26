@@ -39,7 +39,7 @@ use yii\helpers\Url;
                         </li>
                         <li class="user-footer">
                             <div class="pull-right">
-                                <a href="<?= Url::to(['radiata/logout']) ?>" class="btn btn-default btn-flat"><?= Yii::t('b/radiata/login', 'Sign out') ?></a>
+                                <a href="<?= Url::to(['/radiata/logout']) ?>" class="btn btn-default btn-flat"><?= Yii::t('b/radiata/login', 'Sign out') ?></a>
                             </div>
                         </li>
                     </ul>

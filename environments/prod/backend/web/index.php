@@ -14,5 +14,14 @@ $config = yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../config/main-local.php')
 );
 
-$application = new yii\web\Application($config);
+/*
+ * Custom Radiata configurator
+ */
+$configurator = new common\modules\radiata\components\Configurator([
+    'configPaths' => ['@common', '@backend']
+]);
+$configurator->loadAll();
+$finalConfig = $configurator->mergeConfig($config);
+
+$application = new yii\web\Application($finalConfig);
 $application->run();

@@ -32,4 +32,5 @@ return [
     'CTR'                                        => 'CTR',
 
     'All languages'                              => 'Все языки',
+    'Total banners' => 'Всего баннеров',
 ];

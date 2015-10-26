@@ -33,7 +33,7 @@ class m150828_130937_rbac_init extends Migration
             "fk_assignment_user_id",
             $authManager->assignmentTable,
             'user_id',
-            '{{%user}}',
+            '{{%radiata_user}}',
             'id',
             'CASCADE',
             'CASCADE'
@@ -97,6 +97,9 @@ class m150828_130937_rbac_init extends Migration
 
         $permissionVoteModule = $authManager->createPermission('Votes Module');
         $authManager->add($permissionVoteModule);
+
+        $permissionMenuModule = $authManager->createPermission('Menu Module');
+        $authManager->add($permissionMenuModule);
 
         $user = new User();
         $user->username = 'developer';

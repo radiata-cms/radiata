@@ -1,8 +1,8 @@
 <?php
 namespace frontend\controllers;
 
-use Yii;
 use frontend\models\ContactForm;
+use Yii;
 use yii\web\Controller;
 
 /**
@@ -18,6 +18,9 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
             ],
         ];
     }

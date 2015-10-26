@@ -29,6 +29,7 @@ return [
     'Meta keywords'                              => 'Meta keywords',
     'Meta description'                           => 'Meta description',
     'Tag Ids'             => 'Tags',
+    'Date range'          => 'Date range',
 
     'Main tab'                                   => 'Main',
     'Image tab'                                  => 'Image',

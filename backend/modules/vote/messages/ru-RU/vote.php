@@ -26,4 +26,6 @@ return [
     'Total Votes'                                => 'Всего проголосовавших',
     'Total Answers'                              => 'Всего ответов',
 
+    'Total votes' => 'Всего опросов',
+
 ];

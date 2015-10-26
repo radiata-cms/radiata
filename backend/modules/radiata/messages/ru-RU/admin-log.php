@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'ID'        => 'ID',
-    'Module'    => 'Модуль',
-    'Model'     => 'Модель',
-    'Action'    => 'Действие',
+    'ID'         => 'ID',
+    'Module'     => 'Модуль',
+    'Model'      => 'Модель',
+    'Action'     => 'Действие',
     'Create Date'                  => 'Дата/время',
-    'User ID'   => 'Пользователь',
-    'Data'      => 'Дополнително',
+    'User ID'    => 'Пользователь',
+    'Data'       => 'Дополнително',
 
-    'Nav title' => 'Admin-лог действий',
+    'Nav title'  => 'Admin-лог действий',
 
     'action_wrongAuth'             => 'Ошибка авторизации',
     'action_successAuth'           => 'успешно авторизировался(лась)',
@@ -18,4 +18,6 @@ return [
     'action_createItem'            => 'создал(а) элемент',
     'action_updateItem'            => 'обновил(а) элемент',
     'action_deleteItem'            => 'удалил(а) элемент',
+
+    'Date range' => 'Период',
 ];

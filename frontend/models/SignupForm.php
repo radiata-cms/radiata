@@ -1,9 +1,9 @@
 <?php
-namespace frontend\models\user;
+namespace frontend\models;
 
 use common\models\user\User;
-use yii\base\Model;
 use Yii;
+use yii\base\Model;
 
 /**
  * Signup form
@@ -24,14 +24,14 @@ class SignupForm extends Model
         return [
             [['username', 'first_name', 'last_name'], 'filter', 'filter' => 'trim'],
             [['username', 'first_name', 'last_name'], 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\user\User', 'message' => Yii::t('b/radiata/user', 'This username has already been taken.')],
+            ['username', 'unique', 'targetClass' => '\common\models\user\User', 'message' => Yii::t('c/radiata/user', 'This username has already been taken.')],
             [['username', 'first_name', 'last_name'], 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\user\User', 'message' => Yii::t('b/radiata/user', 'This email address has already been taken.')],
+            ['email', 'unique', 'targetClass' => '\common\models\user\User', 'message' => Yii::t('c/radiata/user', 'This email address has already been taken.')],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],

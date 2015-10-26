@@ -2,7 +2,8 @@
 
 use backend\assets\JSTreeAsset;
 use backend\forms\widgets\JSTreeWidget;
-use backend\modules\news\widgets\CategoriesNavBarWidget;
+use backend\modules\radiata\widgets\TreeNavBarWidget;
+use common\modules\news\models\NewsCategory;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -30,7 +31,7 @@ JSTreeAsset::register($this);
 
             <?php Pjax::begin(['id' => 'mainGridContainer']) ?>
 
-            <?= CategoriesNavBarWidget::widget(['parent_id' => $parent_id]); ?>
+            <?= TreeNavBarWidget::widget(['className' => NewsCategory::className(), 'parent_id' => $parent_id]); ?>
 
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,

@@ -14,6 +14,8 @@ use yii\web\NotFoundHttpException;
  */
 class BannerController extends BackendController
 {
+    const BACKEND_PERMISSION = 'Banners Module';
+
     public function behaviors()
     {
         return [

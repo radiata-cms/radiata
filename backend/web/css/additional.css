@@ -82,3 +82,8 @@ form.form-horizontal .nav-tabs {
 .height-20 {
     height: 20px;
 }
+
+.bg-dark-olive-green {
+    background: #556B2F !important;
+    color: #fff !important;
+}

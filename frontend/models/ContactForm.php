@@ -37,7 +37,7 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'verifyCode' => Yii::t('b/radiata/user', 'Verification Code'),
+            'verifyCode' => Yii::t('c/radiata/user', 'Verification Code'),
         ];
     }
 

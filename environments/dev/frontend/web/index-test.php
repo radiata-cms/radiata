@@ -15,4 +15,13 @@ require(__DIR__ . '/../config/bootstrap.php');
 
 $config = require(__DIR__ . '/../../tests/codeception/config/frontend/acceptance.php');
 
-(new yii\web\Application($config))->run();
+/*
+ * Custom Radiata configurator
+ */
+$configurator = new common\modules\radiata\components\Configurator([
+    'configPaths' => ['@common', '@frontend']
+]);
+$configurator->loadAll();
+$finalConfig = $configurator->mergeConfig($config);
+
+(new yii\web\Application($finalConfig))->run();

@@ -1,12 +1,16 @@
 <?php
 namespace backend\modules\radiata\widgets;
 
+use backend\modules\banner\controllers\BannerController;
 use backend\modules\news\controllers\NewsController;
 use backend\modules\radiata\components\BackendAccessControl;
 use backend\modules\radiata\controllers\UserController;
+use backend\modules\vote\controllers\VoteController;
 use common\models\user\User;
+use common\modules\banner\models\Banner;
 use common\modules\news\models\News;
 use common\modules\radiata\components\Migrator;
+use common\modules\vote\models\Vote;
 use Yii;
 use yii\helpers\Url;
 
@@ -35,6 +39,28 @@ class SiteStatsBarsWidget extends \yii\bootstrap\Widget
                 'data'    => $newsCount,
                 'icon'    => 'fa-bars',
                 'url'     => Url::to(['/news/news/index']),
+            ];
+        }
+
+        if(BackendAccessControl::checkPermissionAccess(VoteController::BACKEND_PERMISSION)) {
+            $newsCount = Vote::find()->count();
+            $bars[] = [
+                'bgClass' => 'bg-aqua',
+                'label'   => Yii::t('b/vote', 'Total votes'),
+                'data'    => $newsCount,
+                'icon'    => 'fa-question-circle',
+                'url'     => Url::to(['/vote/vote/index']),
+            ];
+        }
+
+        if(BackendAccessControl::checkPermissionAccess(BannerController::BACKEND_PERMISSION)) {
+            $newsCount = Banner::find()->count();
+            $bars[] = [
+                'bgClass' => 'bg-maroon',
+                'label'   => Yii::t('b/banner', 'Total banners'),
+                'data'    => $newsCount,
+                'icon'    => 'fa-flag',
+                'url'     => Url::to(['/vote/vote/index']),
             ];
         }
 

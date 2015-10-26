@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => Yii::t('b/news/category', 'Parent'),
-                'value' => $model->parent->title,
+                'value' => $model->parent->title ? $model->parent->title : Yii::t('b/radiata/common', 'ROOT'),
             ],
 
         ],

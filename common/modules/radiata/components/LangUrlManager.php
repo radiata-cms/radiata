@@ -16,7 +16,7 @@ class LangUrlManager extends UrlManager
 
         $parsedUrl = parse_url($url);
 
-        if($parsedUrl['scheme'] != '') {
+        if(isset($parsedUrl['scheme']) && $parsedUrl['scheme'] != '') {
             return str_replace($parsedUrl['path'], $langPrefix . $parsedUrl['path'], $url);
         } else {
             return $langPrefix . $url;

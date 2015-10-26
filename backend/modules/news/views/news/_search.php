@@ -30,7 +30,7 @@ use yii\helpers\Html;
 
         <?= $form->field($model, 'title') ?>
 
-        <?= $form->field($model, 'date') ?>
+        <?= $form->field($model, 'date')->dateRangeInput(['class' => 'pull-right'])->label(Yii::t('b/news', 'Date range')) ?>
 
         <?= $form->field($model, 'category_id')->dropDownList($modelCategory->getItemsForLinkedField(), ['encodeSpaces' => true]) ?>
 

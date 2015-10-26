@@ -84,24 +84,26 @@ class AdminLogEvent extends Event
 
     public static function saveEvent($event, $action, $data = [])
     {
-        $adminLog = new AdminLog();
-        $adminLog->module = Yii::$app->controller->module->id;
+        if(Yii::$app->controller) {
+            $adminLog = new AdminLog();
+            $adminLog->module = Yii::$app->controller->module->id;
 
-        if(get_parent_class($event->sender) == 'yii\db\ActiveRecord') {
-            $adminLog->model = get_class($event->sender);
-            if(isset($event->sender->attributes[$event->data['title']])) {
-                $adminLog->data = $event->sender->attributes[$event->data['title']];
-            } elseif(isset($event->sender->{$event->data['title']})) {
-                $adminLog->data = $event->sender->{$event->data['title']};
+            if(get_parent_class($event->sender) == 'yii\db\ActiveRecord') {
+                $adminLog->model = get_class($event->sender);
+                if(isset($event->sender->attributes[$event->data['title']])) {
+                    $adminLog->data = $event->sender->attributes[$event->data['title']];
+                } elseif(isset($event->sender->{$event->data['title']})) {
+                    $adminLog->data = $event->sender->{$event->data['title']};
+                }
+            } else {
+                $adminLog->data = isset($data['data']) ? $data['data'] : '';
             }
-        } else {
-            $adminLog->data = isset($data['data']) ? $data['data'] : '';
+
+            $adminLog->icon = $event->data['icon'] ? $event->data['icon'] : $data['icon'];
+            $adminLog->action = $action;
+            $adminLog->user_id = Yii::$app->user->getId();
+
+            $adminLog->save();
         }
-
-        $adminLog->icon = $event->data['icon'] ? $event->data['icon'] : $data['icon'];
-        $adminLog->action = $action;
-        $adminLog->user_id = Yii::$app->user->getId();
-
-        $adminLog->save();
     }
 }

@@ -26,4 +26,5 @@ return [
     'Total Votes'                                => 'Total Votes',
     'Total Answers'                              => 'Total Answers',
 
+    'Total votes' => 'Total votes',
 ];
