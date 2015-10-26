@@ -23,8 +23,7 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-bars"></i> ' . $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns'      => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            'id',
             'title',
             'date:datetime',
             [

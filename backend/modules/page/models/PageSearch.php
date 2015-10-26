@@ -1,18 +1,16 @@
 <?php
 
-namespace backend\modules\news\models;
+namespace backend\modules\page\models;
 
-use backend\forms\DateRangeValidator;
-use backend\forms\helpers\FieldHelper;
-use common\modules\news\models\News;
+use common\modules\page\models\Page;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * NewsSearch represents the model behind the search form about `common\modules\news\models\News`.
+ * PageSearch represents the model behind the search form about `common\modules\page\models\Page`.
  */
-class NewsSearch extends News
+class PageSearch extends Page
 {
     /**
      * @inheritdoc
@@ -20,9 +18,8 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'category_id', 'status'], 'integer'],
+            [['status'], 'integer'],
             [['title'], 'string'],
-            [['date'], DateRangeValidator::className()],
         ];
     }
 
@@ -52,11 +49,9 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find();
+        $query = Page::find();
 
         $query->language();
-
-        $query->orderBy(['date' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -71,13 +66,8 @@ class NewsSearch extends News
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'category_id' => $this->category_id,
-            'status'      => $this->status,
+            'status' => $this->status,
         ]);
-
-        list($from, $to) = FieldHelper::getDateFromRange($this->date);
-        $query->andFilterWhere(['between', 'date', $from, $to]);
 
         $query->andFilterWhere(['title', 'like', $this->title]);
 

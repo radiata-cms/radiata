@@ -101,6 +101,9 @@ class m150828_130937_rbac_init extends Migration
         $permissionMenuModule = $authManager->createPermission('Menu Module');
         $authManager->add($permissionMenuModule);
 
+        $permissionPageModule = $authManager->createPermission('Pages Module');
+        $authManager->add($permissionPageModule);
+
         $user = new User();
         $user->username = 'developer';
         $user->first_name = 'Developer';

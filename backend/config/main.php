@@ -47,6 +47,13 @@ return [
             'viewPath'            => '@backend/modules/menu/views',
             'defaultRoute'        => 'menu',
         ],
+        'page' => [
+            'class'               => 'common\modules\page\Page',
+            'controllerNamespace' => 'backend\modules\page\controllers',
+            'layoutPath'          => '@backend/views/layouts',
+            'viewPath'            => '@backend/modules/page/views',
+            'defaultRoute'        => 'page',
+        ],
     ],
     'components' => [
         'user'               => [
