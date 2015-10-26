@@ -221,6 +221,22 @@ class m150918_160000_news_init extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+        $authManager = Yii::$app->authManager;
+        $permissionNewsModule = $authManager->createPermission('News Module');
+        $authManager->add($permissionNewsModule);
+
+        $permissionNewsModuleCategories = $authManager->createPermission('News Module. Categories');
+        $authManager->add($permissionNewsModuleCategories);
+        $authManager->addChild($permissionNewsModule, $permissionNewsModuleCategories);
+
+        $permissionNewsModuleTape = $authManager->createPermission('News Module. News tape');
+        $authManager->add($permissionNewsModuleTape);
+        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTape);
+
+        $permissionNewsModuleTags = $authManager->createPermission('News Module. Tags');
+        $authManager->add($permissionNewsModuleTags);
+        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTags);
     }
 
     public function safeDown()

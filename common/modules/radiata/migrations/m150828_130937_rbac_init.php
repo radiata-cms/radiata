@@ -72,38 +72,6 @@ class m150828_130937_rbac_init extends Migration
         $authManager->add($permissionRadiataModuleUsers);
         $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleUsers);
 
-        $permissionRadiataModuleTextBlocks = $authManager->createPermission('Radiata Module. Text blocks');
-        $authManager->add($permissionRadiataModuleTextBlocks);
-        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleTextBlocks);
-
-
-        $permissionNewsModule = $authManager->createPermission('News Module');
-        $authManager->add($permissionNewsModule);
-
-        $permissionNewsModuleCategories = $authManager->createPermission('News Module. Categories');
-        $authManager->add($permissionNewsModuleCategories);
-        $authManager->addChild($permissionNewsModule, $permissionNewsModuleCategories);
-
-        $permissionNewsModuleTape = $authManager->createPermission('News Module. News tape');
-        $authManager->add($permissionNewsModuleTape);
-        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTape);
-
-        $permissionNewsModuleTags = $authManager->createPermission('News Module. Tags');
-        $authManager->add($permissionNewsModuleTags);
-        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTags);
-
-        $permissionBannerModule = $authManager->createPermission('Banners Module');
-        $authManager->add($permissionBannerModule);
-
-        $permissionVoteModule = $authManager->createPermission('Votes Module');
-        $authManager->add($permissionVoteModule);
-
-        $permissionMenuModule = $authManager->createPermission('Menu Module');
-        $authManager->add($permissionMenuModule);
-
-        $permissionPageModule = $authManager->createPermission('Pages Module');
-        $authManager->add($permissionPageModule);
-
         $user = new User();
         $user->username = 'developer';
         $user->first_name = 'Developer';

@@ -69,7 +69,7 @@ class SiteStatsBarsWidget extends \yii\bootstrap\Widget
             $migrations = $migrator->findNewMigrations();
             if(count($migrations) > 0) {
                 $bars[] = [
-                    'bgClass' => 'bg-orange',
+                    'bgClass' => 'bg-gold',
                     'label'   => Yii::t('b/radiata/common', 'New migrations'),
                     'data'    => count($migrations),
                     'icon'    => 'fa-database',

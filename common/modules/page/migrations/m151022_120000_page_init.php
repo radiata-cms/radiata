@@ -87,6 +87,10 @@ class m151022_120000_page_init extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+        $authManager = Yii::$app->authManager;
+        $permissionPageModule = $authManager->createPermission('Pages Module');
+        $authManager->add($permissionPageModule);
     }
 
     public function safeDown()

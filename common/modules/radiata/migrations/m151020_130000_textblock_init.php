@@ -82,6 +82,12 @@ class m151020_130000_textblock_init extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+        $authManager = Yii::$app->authManager;
+        $permissionRadiataModuleTextBlocks = $authManager->createPermission('Radiata Module. Text blocks');
+        $authManager->add($permissionRadiataModuleTextBlocks);
+        $permissionRadiataModule = $authManager->getPermission('Radiata Module');
+        $authManager->addChild($permissionRadiataModule, $permissionRadiataModuleTextBlocks);
     }
 
     public function safeDown()

@@ -95,6 +95,10 @@ class m151021_120000_menu_init extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+        $authManager = Yii::$app->authManager;
+        $permissionMenuModule = $authManager->createPermission('Menu Module');
+        $authManager->add($permissionMenuModule);
     }
 
     public function safeDown()

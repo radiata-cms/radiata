@@ -184,6 +184,10 @@ class m151020_120000_vote_init extends Migration
 
         //key
         $this->createIndex("ix_vote_log_vote", '{{%vote_log}}', ['vote_id', 'ip']);
+
+        $authManager = Yii::$app->authManager;
+        $permissionVoteModule = $authManager->createPermission('Votes Module');
+        $authManager->add($permissionVoteModule);
     }
 
     public function safeDown()

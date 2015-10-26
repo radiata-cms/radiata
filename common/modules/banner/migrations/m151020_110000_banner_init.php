@@ -108,6 +108,10 @@ class m151020_110000_banner_init extends Migration
             '{{%banner_stat}}',
             'banner_id'
         );
+
+        $authManager = Yii::$app->authManager;
+        $permissionBannerModule = $authManager->createPermission('Banners Module');
+        $authManager->add($permissionBannerModule);
     }
 
     public function safeDown()
