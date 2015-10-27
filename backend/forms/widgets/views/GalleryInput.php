@@ -35,7 +35,7 @@ echo FileInput::widget([
         'autoReplace'             => true,
         'maxFileCount'            => 100,
         'language'                => Yii::$app->language,
-        'previewThumbTags'        => [
+        'previewThumbTag'        => [
             '{CUSTOM_TAG_NEW}'  => Html::hiddenInput($fieldName . '[][gallery_id]', 'NEW_IND') . '' . $form->field($newsGallery, '[NEW_IND]image_text')->widget(LangInputWidget::classname(), [
                     'options' => [
                         'id'                   => 'galTabsNEW_IND',
@@ -47,7 +47,7 @@ echo FileInput::widget([
             '{TAG_CSS_NEW}'     => '',
             '{TAG_CSS_INIT}'    => 'hide',
         ],
-        'initialPreviewThumbTags' => $initialPreviewThumbTags,
+        'initialPreviewThumbTag' => $initialPreviewThumbTag,
     ],
     'pluginEvents'  => [
         'fileloaded'    => "function(event, file, previewId, index, reader) {

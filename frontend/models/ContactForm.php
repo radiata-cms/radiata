@@ -37,6 +37,10 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
+            'name'    => Yii::t('c/radiata/contact', 'form_name'),
+            'email'   => Yii::t('c/radiata/contact', 'form_email'),
+            'subject' => Yii::t('c/radiata/contact', 'form_subject'),
+            'body'    => Yii::t('c/radiata/contact', 'form_body'),
             'verifyCode' => Yii::t('c/radiata/user', 'Verification Code'),
         ];
     }

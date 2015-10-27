@@ -6,7 +6,9 @@ use backend\modules\radiata\behaviors\AdminLogBehavior;
 use backend\modules\radiata\behaviors\CacheBehavior;
 use backend\modules\radiata\behaviors\TranslateableBehavior;
 use common\models\user\User;
+use common\modules\radiata\helpers\CacheHelper;
 use Yii;
+use yii\base\Exception;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 
@@ -34,6 +36,58 @@ class TextBlock extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%radiata_textblock}}';
+    }
+
+    public static function getBlockData($name, $key = null)
+    {
+        if(empty($name)) {
+            throw new Exception('Name is mandatory');
+        }
+
+        $cacheKey = 'textblock_' . md5($name . $key);
+        $returnData = self::getBlockFromCache($cacheKey);
+
+        if(empty($returnData)) {
+            $returnData = [];
+
+            $query = TextBlock::find();
+            $query->language();
+            $query->andWhere(['name' => $name]);
+            $query->andFilterWhere(['key' => $key]);
+            $data = $query->all();
+
+            if(!empty($data)) {
+                foreach ($data as $dataItem) {
+                    if($dataItem->key) {
+                        $returnData[$dataItem->key] = $dataItem->text;
+                    } else {
+                        $returnData = $dataItem->text;
+                    }
+                }
+            }
+            self::saveBlockToCache($cacheKey, $returnData);
+        }
+
+        return $returnData;
+    }
+
+    static function getBlockFromCache($cacheKey)
+    {
+        return CacheHelper::get($cacheKey);
+    }
+
+    /**
+     * @inheritdoc
+     * @return \common\modules\radiata\models\active_query\TextBlockQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \common\modules\radiata\models\active_query\TextBlockQuery(get_called_class());
+    }
+
+    static function saveBlockToCache($cacheKey, $data)
+    {
+        CacheHelper::set($cacheKey, $data, CacheHelper::getTag(self::className()));
     }
 
     /**
@@ -97,7 +151,7 @@ class TextBlock extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -112,14 +166,5 @@ class TextBlock extends \yii\db\ActiveRecord
     public function getTranslations()
     {
         return $this->hasMany(TextBlockTranslation::className(), ['parent_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return \common\modules\radiata\models\active_query\TextblockQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new \common\modules\radiata\models\active_query\TextblockQuery(get_called_class());
     }
 }

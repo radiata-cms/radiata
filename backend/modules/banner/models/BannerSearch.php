@@ -19,7 +19,7 @@ class BannerSearch extends Banner
     {
         return [
             [['id', 'place_id', 'status'], 'integer'],
-            [['date_start', 'date_end'], 'date', 'format' => Yii::t('b/radiata/settings', 'dateFormat')],
+            [['date_start', 'date_end'], 'date', 'format' => Yii::t('c/radiata/settings', 'dateFormat')],
             [['locale', 'title'], 'safe'],
         ];
     }

@@ -9,7 +9,7 @@ class I18nSettingsWidget extends \yii\bootstrap\Widget
     {
         $locale = Yii::$app->getModule('radiata')->activeLanguage->locale;
 
-        $i18n = require(Yii::getAlias('@backend/modules/radiata/messages/' . $locale . '/settings.php'));
+        $i18n = require(Yii::getAlias('@common/modules/radiata/messages/' . $locale . '/settings.php'));
 
         return 'var i18n = ' . json_encode($i18n);
     }

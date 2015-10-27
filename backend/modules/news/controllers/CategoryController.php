@@ -48,7 +48,7 @@ class CategoryController extends BackendController
     public function actionIndex($parent_id = null)
     {
         $dataProvider = new ActiveDataProvider([
-            'query'      => NewsCategory::find()->where([NewsCategory::tableName() . '.parent_id' => $parent_id])->joinWith('translations', true, 'INNER JOIN')->language()->orderBy(['position' => SORT_ASC]),
+            'query' => NewsCategory::find()->where([NewsCategory::tableName() . '.parent_id' => $parent_id])->language()->orderBy(['position' => SORT_ASC]),
             'pagination' => false,
         ]);
 
@@ -68,6 +68,24 @@ class CategoryController extends BackendController
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Finds the NewsCategory model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return NewsCategory the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        $model = NewsCategory::find()->where(['id' => $id])->with('translations')->one();
+
+        if($model !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -140,24 +158,6 @@ class CategoryController extends BackendController
 
         if(!Yii::$app->request->isAjax) {
             return $this->redirect(['index']);
-        }
-    }
-
-    /**
-     * Finds the NewsCategory model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return NewsCategory the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        $model = NewsCategory::find()->where(['id' => $id])->with('translations')->one();
-
-        if($model !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 

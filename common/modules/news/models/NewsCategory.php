@@ -44,6 +44,11 @@ class NewsCategory extends \yii\db\ActiveRecord
         return '{{%news_category}}';
     }
 
+    public static function find()
+    {
+        return new NewsCategoryActiveQuery(get_called_class());
+    }
+
     /**
      * @inheritdoc
      */
@@ -143,11 +148,6 @@ class NewsCategory extends \yii\db\ActiveRecord
         return $this->hasMany(NewsCategory::className(), ['parent_id' => 'id']);
     }
 
-    public static function find()
-    {
-        return new NewsCategoryActiveQuery(get_called_class());
-    }
-
     /**
      * Get statuses list
      */
@@ -157,5 +157,10 @@ class NewsCategory extends \yii\db\ActiveRecord
             self::STATUS_ACTIVE   => Yii::t('b/news/category', 'status' . self::STATUS_ACTIVE),
             self::STATUS_DISABLED => Yii::t('b/news/category', 'status' . self::STATUS_DISABLED),
         ];
+    }
+
+    public function isActive()
+    {
+        return ($this->status == self::STATUS_ACTIVE);
     }
 }

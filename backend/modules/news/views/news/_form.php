@@ -86,10 +86,10 @@ use yii\web\View;
                 $modalNewTag = Modal::widget([
                     'id'            => 'new-tag-modal',
                     'toggleButton'  => [
-                        'label'       => Yii::t('b/news/tags', 'Add new tag'),
+                        'label' => Yii::t('b/news/tag', 'Add new tag'),
                         'tag'         => 'a',
                         'data-target' => '#new-tag-modal',
-                        'href'        => Url::toRoute(['tags/add-new-tag']),
+                        'href'  => Url::toRoute(['tag/add-new-tag']),
                     ],
                     'closeButton'   => [
                         'tag'   => 'button',
@@ -99,14 +99,14 @@ use yii\web\View;
                 ]);
                 ?>
                 <?= $form->field($model, 'tagIds')->widget(SelectizeTextInput::className(), [
-                    'loadUrl'       => ['tags/tags-list'],
+                    'loadUrl'       => ['tag/tags-list'],
                     'options'       => ['class' => 'form-control'],
                     'clientOptions' => [
                         'plugins'          => ['remove_button', 'restore_on_backspace', 'drag_drop'],
                         'valueField'       => 'id',
                         'labelField'       => 'name',
                         'searchField'      => ['name'],
-                        'options'          => new JsExpression($model->getTagsItems()),
+                        'options' => new JsExpression($model->getTagItems()),
                         'items'            => $model->getTagIds(true),
                         'hideSelected'     => true,
                         'closeAfterSelect' => true,

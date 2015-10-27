@@ -56,7 +56,7 @@ class NewsSearch extends News
 
         $query->language();
 
-        $query->orderBy(['date' => SORT_DESC]);
+        $query->order();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -79,7 +79,7 @@ class NewsSearch extends News
         list($from, $to) = FieldHelper::getDateFromRange($this->date);
         $query->andFilterWhere(['between', 'date', $from, $to]);
 
-        $query->andFilterWhere(['title', 'like', $this->title]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

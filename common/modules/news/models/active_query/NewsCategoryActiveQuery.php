@@ -1,6 +1,7 @@
 <?php
 namespace common\modules\news\models\active_query;
 
+use common\modules\news\models\NewsCategory;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -12,6 +13,13 @@ class NewsCategoryActiveQuery extends ActiveQuery
             $locale = Yii::$app->language;
         }
 
-        return $this->andWhere(['locale' => $locale]);
+        return $this->joinWith(['translations'])->andWhere(['locale' => $locale]);
+    }
+
+    public function active()
+    {
+        $this->andWhere(['status' => NewsCategory::STATUS_ACTIVE]);
+
+        return $this;
     }
 }

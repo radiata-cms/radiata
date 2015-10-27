@@ -30,4 +30,11 @@ class NewsActiveQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function order()
+    {
+        $this->orderBy(['date' => SORT_DESC]);
+
+        return $this;
+    }
 }

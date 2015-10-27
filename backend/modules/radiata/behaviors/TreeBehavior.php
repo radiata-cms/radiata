@@ -8,17 +8,12 @@ use yii\web\BadRequestHttpException;
 
 class TreeBehavior extends Behavior
 {
-    public $parentFieldName = 'parent_id';
-    
-    public $positionFieldName = 'position';
-
-    public $titleFieldName = 'title';
-
-    public $translationRelation = 'translations';
-
-    public $structure = [];
-
     const JST_PREFIX = 'jst';
+    public $parentFieldName = 'parent_id';
+    public $positionFieldName = 'position';
+    public $titleFieldName = 'title';
+    public $translationRelation = 'translations';
+    public $structure = [];
 
     public function moveItem($parentId, $afterItemId = 0)
     {
@@ -60,6 +55,21 @@ class TreeBehavior extends Behavior
         }
     }
 
+    protected function positionItemAfter($afterItemId)
+    {
+        $afterItem = $this->owner->findOne($afterItemId);
+        if($afterItem) {
+            $this->owner->{$this->positionFieldName} = $afterItem->{$this->positionFieldName} + 1;
+        } else {
+            throw new BadRequestHttpException();
+        }
+    }
+
+    protected function positionItemToBeginning()
+    {
+        $this->owner->{$this->positionFieldName} = 1;
+    }
+
     protected function shiftItemsPositionAfter($afterItem)
     {
         $position = $afterItem->{$this->positionFieldName};
@@ -81,19 +91,9 @@ class TreeBehavior extends Behavior
             ->orderBy([$this->positionFieldName => SORT_ASC])->all();
     }
 
-    protected function positionItemAfter($afterItemId)
+    public function getChildrenCount()
     {
-        $afterItem = $this->owner->findOne($afterItemId);
-        if($afterItem) {
-            $this->owner->{$this->positionFieldName} = $afterItem->{$this->positionFieldName} + 1;
-        } else {
-            throw new BadRequestHttpException();
-        }
-    }
-
-    protected function positionItemToBeginning()
-    {
-        $this->owner->{$this->positionFieldName} = 1;
+        return count($this->getChildren());
     }
 
     public function getChildren()
@@ -103,55 +103,10 @@ class TreeBehavior extends Behavior
         return $this->structure[$this->owner->id]['children'];
     }
 
-    public function getChildrenCount()
-    {
-        return count($this->getChildren());
-    }
-
-    public function getItemsForMultipleChoice()
-    {
-        $this->structure = $this->getStructure();
-
-        return $this->getItemsTreeLevelRecursive($this->structure['']['children']);
-    }
-
-    public function getItemsForDropDownList()
-    {
-        $this->structure = $this->getStructure();
-
-        $result = ['' => $this->structure['']['title']] + $this->getItemsTreeLevelRecursive($this->structure['']['children']);
-
-        return $result;
-    }
-
-    public function getItemsForLinkedField()
-    {
-        $this->structure = $this->getStructure();
-
-        $result = ['' => Yii::t('b/radiata/common', 'Please choose')] + $this->getItemsTreeLevelRecursive($this->structure['']['children']);
-
-        return $result;
-    }
-
-    public function getItemsTreeLevelRecursive($children = [], $level = 0)
-    {
-        $items = [];
-        foreach ($children as $child) {
-            if(!$this->owner->hasAttribute('id') || $this->owner->id != $child) {
-                $items[$child] = str_repeat(' ', ($level + 1) * 6) . $this->structure[$child]['title'];
-                if(count($this->structure[$child]['children']) > 0) {
-                    $items += $this->getItemsTreeLevelRecursive($this->structure[$child]['children'], $level + 1);
-                }
-            }
-        }
-
-        return $items;
-    }
-
     public function getStructure()
     {
         $owner = $this->owner;
-        $cacheKey = $owner::className() . '_items_tree' . rand(0, 10000);
+        $cacheKey = $owner::className() . '_items_tree';
         $structure = CacheHelper::get($cacheKey);
         if(!$structure) {
             $structure = $this->makeStructure();
@@ -167,7 +122,7 @@ class TreeBehavior extends Behavior
             // top level
             '' => [
                 'id'     => self::JST_PREFIX,
-                'title'    => Yii::t('b/radiata/common', 'ROOT'),
+                'title' => Yii::t('c/radiata', 'ROOT'),
                 'parent' => '',
                 'children' => [],
             ]
@@ -192,6 +147,7 @@ class TreeBehavior extends Behavior
                     'id'      => self::JST_PREFIX . $item->id,
                     'id_pure' => $item->id,
                     'title'    => $item->{$this->titleFieldName},
+                    'data' => $item,
                     'parent'  => $item->{$this->parentFieldName},
                     'children' => [],
                 ];
@@ -205,6 +161,46 @@ class TreeBehavior extends Behavior
         }
 
         return $itemsStructure;
+    }
+
+    public function getItemsForMultipleChoice()
+    {
+        $this->structure = $this->getStructure();
+
+        return $this->getItemsTreeLevelRecursive($this->structure['']['children']);
+    }
+
+    public function getItemsTreeLevelRecursive($children = [], $level = 0)
+    {
+        $items = [];
+        foreach ($children as $child) {
+            if(!$this->owner->hasAttribute('id') || $this->owner->id != $child) {
+                $items[$child] = str_repeat(' ', ($level + 1) * 6) . $this->structure[$child]['title'];
+                if(count($this->structure[$child]['children']) > 0) {
+                    $items += $this->getItemsTreeLevelRecursive($this->structure[$child]['children'], $level + 1);
+                }
+            }
+        }
+
+        return $items;
+    }
+
+    public function getItemsForDropDownList()
+    {
+        $this->structure = $this->getStructure();
+
+        $result = ['' => $this->structure['']['title']] + $this->getItemsTreeLevelRecursive($this->structure['']['children']);
+
+        return $result;
+    }
+
+    public function getItemsForLinkedField()
+    {
+        $this->structure = $this->getStructure();
+
+        $result = ['' => Yii::t('b/radiata/common', 'Please choose')] + $this->getItemsTreeLevelRecursive($this->structure['']['children']);
+
+        return $result;
     }
 
     public function getTreeData($nodeId)
