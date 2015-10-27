@@ -44,16 +44,6 @@ class TaggableBehavior extends Behavior
     }
 
     /**
-     * Set tags.
-     * @param string|string[] $values
-     * @return string|string[]
-     */
-    public function setTagIds($values)
-    {
-        $this->_tagIds = $this->filterTagValues($values);
-    }
-
-    /**
      * Returns tags.
      * @return string|string[]
      */
@@ -76,10 +66,35 @@ class TaggableBehavior extends Behavior
     }
 
     /**
+     * Set tags.
+     * @param string|string[] $values
+     * @return string|string[]
+     */
+    public function setTagIds($values)
+    {
+        $this->_tagIds = $this->filterTagValues($values);
+    }
+
+    /**
+     * Filters tags.
+     * @param string|string[] $values
+     * @return string[]
+     */
+    public function filterTagValues($values)
+    {
+        return array_unique(preg_split(
+            '/\s*,\s*/u',
+            preg_replace('/\s+/u', ' ', is_array($values) ? implode(',', $values) : $values),
+            -1,
+            PREG_SPLIT_NO_EMPTY
+        ));
+    }
+
+    /**
      * Returns tags for input.
      * @return string|string[]
      */
-    public function getTagsItems()
+    public function getTagItems()
     {
         $items = [];
 
@@ -168,20 +183,5 @@ class TaggableBehavior extends Behavior
             ->createCommand()
             ->delete($pivot, [key($tagRelation->via->link) => $this->owner->getPrimaryKey()])
             ->execute();
-    }
-
-    /**
-     * Filters tags.
-     * @param string|string[] $values
-     * @return string[]
-     */
-    public function filterTagValues($values)
-    {
-        return array_unique(preg_split(
-            '/\s*,\s*/u',
-            preg_replace('/\s+/u', ' ', is_array($values) ? implode(',', $values) : $values),
-            -1,
-            PREG_SPLIT_NO_EMPTY
-        ));
     }
 }

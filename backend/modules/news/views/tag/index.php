@@ -4,10 +4,10 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\news\models\NewsTagsSearch */
+/* @var $searchModel backend\modules\news\models\NewsTagSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('b/news/tags', 'Tags');
+$this->title = Yii::t('b/news/tag', 'Tags');
 $this->params['breadcrumbs'][] = '<i class="fa fa-tags"></i> ' . $this->title;
 ?>
 <div class="news-tags-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-tags"></i> ' . $this->title;
     <?= $this->render('_search', ['model' => $searchModel, 'showSearchForm' => $showSearchForm]); ?>
 
     <p>
-        <?= Html::a(Yii::t('b/news/tags', 'Create Tag'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('b/news/tag', 'Create Tag'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

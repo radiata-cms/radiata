@@ -29,7 +29,7 @@ class PositionBehavior extends AttributeBehavior
     {
         $max = $this->owner
             ->find()
-            ->andWhere([$this->parentIdAttribute => $this->owner->{$this->parentIdAttribute}])
+            ->andWhere([$this->parentIdAttribute => $this->owner->{$this->parentIdAttribute} ? $this->owner->{$this->parentIdAttribute} : null])
             ->max($this->positionAttribute);
 
         return $max ? ($max + 1) : 1;

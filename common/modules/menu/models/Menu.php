@@ -52,6 +52,35 @@ class Menu extends \yii\db\ActiveRecord
         return new \common\modules\menu\models\active_query\MenuActiveQuery(get_called_class());
     }
 
+    static function getMenu()
+    {
+        return Menu::getSubMenu();
+    }
+
+    static function getSubMenu($parent = '')
+    {
+        $menuItems = [];
+        $menu = new Menu;
+        $menuStructure = $menu->getStructure();
+        $children = $menuStructure[$parent]['children'];
+
+        if(!empty($children)) {
+            foreach ($children as $child) {
+                $item = $menuStructure[$child];
+                $menuItem = [
+                    'label' => $item['title'],
+                    'url'   => [$item['data']->link]
+                ];
+                if(!empty($menuStructure[$child]['children'])) {
+                    $menuItem['items'] = Menu::getSubMenu($child);
+                }
+                $menuItems[] = $menuItem;
+            }
+        }
+
+        return $menuItems;
+    }
+
     /**
      * @inheritdoc
      */

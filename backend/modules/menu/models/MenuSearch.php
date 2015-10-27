@@ -53,7 +53,7 @@ class MenuSearch extends Menu
 
         $query->language();
 
-        $query->orderBy(['position' => SORT_DESC]);
+        $query->orderBy(['position' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -67,12 +67,11 @@ class MenuSearch extends Menu
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'status'                         => $this->status,
-            Menu::tableName() . '.parent_id' => $this->parent_id,
-        ]);
+        $query->andFilterWhere(['status' => $this->status]);
 
-        $query->andFilterWhere(['title', 'like', $this->title]);
+        $query->andWhere([Menu::tableName() . '.parent_id' => $this->parent_id]);
+
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

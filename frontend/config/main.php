@@ -28,6 +28,20 @@ return [
             'viewPath'            => '@frontend/modules/vote/views',
             'defaultRoute'        => 'vote',
         ],
+        'page' => [
+            'class'               => 'common\modules\page\Page',
+            'controllerNamespace' => 'frontend\modules\page\controllers',
+            'layoutPath'          => '@frontend/views/layouts',
+            'viewPath'            => '@frontend/modules/page/views',
+            'defaultRoute'        => 'page',
+        ],
+        'news' => [
+            'class'               => 'common\modules\news\News',
+            'controllerNamespace' => 'frontend\modules\news\controllers',
+            'layoutPath'          => '@frontend/views/layouts',
+            'viewPath'            => '@frontend/modules/news/views',
+            'defaultRoute'        => 'news',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

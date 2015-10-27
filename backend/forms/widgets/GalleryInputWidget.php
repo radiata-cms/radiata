@@ -29,7 +29,7 @@ class GalleryInputWidget extends \yii\widgets\InputWidget
 
         $initialPreview = [];
         $initialPreviewConfig = [];
-        $initialPreviewThumbTags = [];
+        $initialPreviewThumbTag = [];
 
         if(is_array($model->$attribute)) {
             foreach ($model->$attribute as $k => $value) {
@@ -38,7 +38,7 @@ class GalleryInputWidget extends \yii\widgets\InputWidget
                     'url' => Url::to(['news/gallery-delete-fake']),
                     'key' => $value->id
                 ];
-                $initialPreviewThumbTags[] = [
+                $initialPreviewThumbTag[] = [
                     '{TAG_CSS_NEW}'     => 'hide',
                     '{TAG_CSS_INIT}'    => '',
                     '{CUSTOM_TAG_NEW}'  => '',
@@ -56,6 +56,6 @@ class GalleryInputWidget extends \yii\widgets\InputWidget
 
         $fieldName = (new \ReflectionClass($className))->getShortName();
 
-        return $this->render('GalleryInput', compact('form', 'options', 'model', 'attribute', 'initialPreview', 'initialPreviewConfig', 'initialPreviewThumbTags', 'newsGallery', 'fieldName'));
+        return $this->render('GalleryInput', compact('form', 'options', 'model', 'attribute', 'initialPreview', 'initialPreviewConfig', 'initialPreviewThumbTag', 'newsGallery', 'fieldName'));
     }
 }

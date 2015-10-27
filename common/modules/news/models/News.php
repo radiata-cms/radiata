@@ -38,7 +38,7 @@ use yii\behaviors\TimestampBehavior;
  * @property NewsCategory[] $categories
  * @property NewsTranslation[] $translations
  * @property NewsGallery[] $gallery
- * @property NewsTags[] $tags
+ * @property NewsTag[] $tags
  */
 class News extends \yii\db\ActiveRecord
 {
@@ -53,6 +53,11 @@ class News extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%news_news}}';
+    }
+
+    public static function find()
+    {
+        return new NewsActiveQuery(get_called_class());
     }
 
     /**
@@ -82,8 +87,7 @@ class News extends \yii\db\ActiveRecord
                 'titleAttribute' => 'title',
                 'icon'           => 'fa-bars bg-olive',
             ],
-            [
-                'class'                        => TranslateableBehavior::className(),
+            ['class' => TranslateableBehavior::className(),
                 'translationAttributes'        => ['title', 'slug', 'description', 'content', 'image_description', 'redirect', 'meta_title', 'meta_keywords', 'meta_description'],
                 'translationLanguageAttribute' => 'locale',
             ],
@@ -211,12 +215,7 @@ class News extends \yii\db\ActiveRecord
      */
     public function getTags()
     {
-        return $this->hasMany(NewsTags::className(), ['id' => 'tag_id'])->viaTable('{{%news_news_tags}}', ['news_id' => 'id']);
-    }
-
-    public static function find()
-    {
-        return new NewsActiveQuery(get_called_class());
+        return $this->hasMany(NewsTag::className(), ['id' => 'tag_id'])->viaTable('{{%news_news_tags}}', ['news_id' => 'id']);
     }
 
     /**
