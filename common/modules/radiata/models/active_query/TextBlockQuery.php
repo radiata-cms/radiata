@@ -5,11 +5,11 @@ namespace common\modules\radiata\models\active_query;
 use Yii;
 
 /**
- * This is the ActiveQuery class for [[\common\modules\radiata\models\Textblock]].
+ * This is the ActiveQuery class for [[\common\modules\radiata\models\TextBlock]].
  *
- * @see \common\modules\radiata\models\Textblock
+ * @see \common\modules\radiata\models\TextBlock
  */
-class TextblockQuery extends \yii\db\ActiveQuery
+class TextBlockQuery extends \yii\db\ActiveQuery
 {
     public function language($locale = '')
     {
