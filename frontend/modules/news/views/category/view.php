@@ -1,8 +1,6 @@
 <?php
 
 /* @var $this yii\web\View */
-use frontend\modules\news\widgets\NewsCategoriesWidget;
-use frontend\modules\news\widgets\NewsTagsWidget;
 use frontend\modules\radiata\widgets\MetaTagsWidget;
 use yii\widgets\LinkPager;
 
@@ -27,7 +25,7 @@ MetaTagsWidget::widget(['item' => $category]);
             <div class="col-md-8">
                 <?
                 foreach ($news as $newsItem) {
-                    echo $this->render('_news', ['news' => $newsItem]);
+                    echo $this->render('/news/_news', ['news' => $newsItem]);
                 }
 
                 echo LinkPager::widget([
@@ -41,10 +39,7 @@ MetaTagsWidget::widget(['item' => $category]);
                 ]);
                 ?>
             </div>
-            <aside class="col-md-4">
-                <?= NewsCategoriesWidget::widget(['parent_id' => $category->id]) ?>
-                <?= NewsTagsWidget::widget() ?>
-            </aside>
+            <? echo $this->render('/news/_right', ['category' => $category]); ?>
         </div>
         <!--/.row-->
     </div>

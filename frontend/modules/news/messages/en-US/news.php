@@ -4,6 +4,6 @@ return [
     'Categories'      => 'Categories',
     'Tag cloud'       => 'Tag cloud',
     'Tags'            => 'Tags',
-    'defaultPageSize' => 1,
+    'defaultPageSize' => 2,
     'Read More'       => 'Read More',
 ];

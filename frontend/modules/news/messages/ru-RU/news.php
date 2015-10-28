@@ -4,6 +4,6 @@ return [
     'Categories'      => 'Категории',
     'Tag cloud'       => 'Облако тегов',
     'Tags'            => 'Теги',
-    'defaultPageSize' => 1,
+    'defaultPageSize' => 2,
     'Read More'       => 'Детальнее',
 ];

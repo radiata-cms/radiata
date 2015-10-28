@@ -93,20 +93,19 @@ class TreeBehavior extends Behavior
 
     public function getChildrenCount()
     {
-        return count($this->getChildren());
+        return count($this->getChildrenData());
     }
 
-    public function getChildren()
+    public function getChildrenData()
     {
         $this->structure = $this->getStructure();
-
         return $this->structure[$this->owner->id]['children'];
     }
 
     public function getStructure()
     {
         $owner = $this->owner;
-        $cacheKey = $owner::className() . '_items_tree';
+        $cacheKey = CacheHelper::getTag($owner::className()) . '_items_tree';
         $structure = CacheHelper::get($cacheKey);
         if(!$structure) {
             $structure = $this->makeStructure();

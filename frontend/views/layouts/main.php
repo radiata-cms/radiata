@@ -12,7 +12,7 @@ use yii\widgets\Breadcrumbs;
 AppAsset::register($this);
 JSltIE9Asset::register($this);
 
-$this->title = Yii::t('c/radiata', 'CMS');
+$this->title = ($this->title ? $this->title . ' - ' : '') . Yii::t('c/radiata', 'Site name');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

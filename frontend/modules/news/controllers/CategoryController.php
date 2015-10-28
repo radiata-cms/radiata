@@ -22,7 +22,7 @@ class CategoryController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $query = News::find()->active()->language();
+        $query = News::find()->active()->language()->category($category);
         $pages = new Pagination([
             'totalCount'      => $query->count(),
             'defaultPageSize' => Yii::t('f/news', 'defaultPageSize'),

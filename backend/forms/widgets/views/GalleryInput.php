@@ -30,12 +30,13 @@ echo FileInput::widget([
         'showClose'               => false,
         'uploadUrl'               => true,
         'showUpload'              => false,
+        'showRemove'              => false,
         'initialPreview'          => $initialPreview,
         'initialPreviewConfig'    => $initialPreviewConfig,
         'autoReplace'             => true,
         'maxFileCount'            => 100,
         'language'                => Yii::$app->language,
-        'previewThumbTag'        => [
+        'previewThumbTags'        => [
             '{CUSTOM_TAG_NEW}'  => Html::hiddenInput($fieldName . '[][gallery_id]', 'NEW_IND') . '' . $form->field($newsGallery, '[NEW_IND]image_text')->widget(LangInputWidget::classname(), [
                     'options' => [
                         'id'                   => 'galTabsNEW_IND',
@@ -47,10 +48,11 @@ echo FileInput::widget([
             '{TAG_CSS_NEW}'     => '',
             '{TAG_CSS_INIT}'    => 'hide',
         ],
-        'initialPreviewThumbTag' => $initialPreviewThumbTag,
+        'initialPreviewThumbTags' => $initialPreviewThumbTag,
     ],
     'pluginEvents'  => [
         'fileloaded'    => "function(event, file, previewId, index, reader) {
+
             if(typeof(galInd) == 'undefined') {
                 galInd = -1;
             } else {
@@ -62,6 +64,7 @@ echo FileInput::widget([
                 if(typeof(attrName) != 'undefined' && attrName.indexOf('NEW_IND') > -1) {
                     attrName = attrName.replace('NEW_IND', galInd);
                     $(this).attr('name', attrName);
+                    $(this).attr('newindex', galInd);
                 }
             });
 
@@ -78,6 +81,21 @@ echo FileInput::widget([
                 if(typeof(attrName) != 'undefined' && attrName.indexOf('NEW_IND') > -1) {
                     attrName = attrName.replace('NEW_IND', galInd);
                     $(this).attr('href', attrName);
+                }
+            });
+
+            $('div.file-preview-frame').each(function(){
+                if(!$(this).hasClass('file-preview-initial')) {
+                    $(this).find('button.kv-file-remove').each(function(){
+                        $(this).removeClass('kv-file-remove');
+                        $(this).off('click');
+                        $(this).click(function(){
+                            var key = $(this).parents('.file-thumbnail-footer:first').find('input[type=text]:first').attr('newindex');
+                            var input = '<input type=\'hidden\' name=\'GalleryDeletedItems[]\' value=\''+key+'\'>';
+                            $('#gallery-deleted-items').append(input);
+                            $(this).parents('div.file-preview-frame:first').fadeOut();
+                        });
+                    });
                 }
             });
 

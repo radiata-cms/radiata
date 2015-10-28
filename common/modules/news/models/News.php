@@ -240,6 +240,9 @@ class News extends \yii\db\ActiveRecord
         if(isset($newsGalleryTranslation[$activeLocale])) {
             foreach ($newsGalleryTranslation[$activeLocale] as $galId => $data) {
                 if(in_array($galId, $galleryDeletedItems)) {
+                    if($galId < 0) {
+                        $fileIndex++;
+                    }
                     continue;
                 }
 
@@ -286,9 +289,11 @@ class News extends \yii\db\ActiveRecord
 
         if($galleryDeletedItems) {
             foreach ($galleryDeletedItems as $galId) {
-                $galleryModel = NewsGallery::findOne($galId);
-                if(!$galleryModel->delete()) {
-                    return false;
+                if($galId > 0) {
+                    $galleryModel = NewsGallery::findOne($galId);
+                    if(!$galleryModel->delete()) {
+                        return false;
+                    }
                 }
             }
         }

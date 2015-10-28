@@ -26,7 +26,7 @@ use yii\helpers\Url;
                 <? } ?>
             <? } ?>
 
-            <h2><?= Html::a($news->title, ['/news/news/view', ['slug' => $news->slug]]); ?></h2>
+            <h2><?= Html::a($news->title, ['/news/news/view', 'slug' => $news->slug]); ?></h2>
 
             <h3><?= $news->description; ?></h3>
             <a class="btn btn-primary readmore" href="<?= Url::to(['/news/news/view', 'slug' => $news->slug]); ?>"><?= Yii::t('f/news', 'Read More') ?>
