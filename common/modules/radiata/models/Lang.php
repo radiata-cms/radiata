@@ -24,11 +24,29 @@ use yii\behaviors\TimestampBehavior;
 class Lang extends \yii\db\ActiveRecord
 {
     /**
-     * @inheritdoc
+     *
      */
-    public static function tableName()
+    static public function getLanguages()
     {
-        return '{{%radiata_lang}}';
+        $languages = CacheHelper::get('languages');
+        if(!$languages) {
+            $languages = self::find()->orderBy(['position' => SORT_ASC])->all();
+            CacheHelper::set('languages', $languages, CacheHelper::getTag(self::className()));
+        }
+
+        return $languages;
+    }
+
+    static function getLangForDropDown()
+    {
+        $langsAll = self::find()->orderBy(['position' => SORT_ASC])->all();
+        $langs = [];
+
+        foreach ($langsAll as $lang) {
+            $langs[$lang->locale] = $lang->name;
+        }
+
+        return $langs;
     }
 
     /**
@@ -95,17 +113,19 @@ class Lang extends \yii\db\ActiveRecord
     /**
      *
      */
-    static public function getLanguages()
+    public function setLanguageDefault()
     {
-        $languages = CacheHelper::get('languages');
-        if(!$languages) {
-            $languages = self::find()->orderBy(['`position`' => SORT_ASC])->all();
-            CacheHelper::set('languages', $languages, CacheHelper::getTag(self::className()));
-        }
-
-        return $languages;
+        Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 0])->execute();
+        Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 1], 'id = :id')->bindValue(':id', $this->id)->execute();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%radiata_lang}}';
+    }
 
     /**
      *
@@ -123,26 +143,5 @@ class Lang extends \yii\db\ActiveRecord
         }
 
         return $link;
-    }
-
-    /**
-     *
-     */
-    public function setLanguageDefault()
-    {
-        Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 0])->execute();
-        Yii::$app->db->createCommand()->update(self::tableName(), ['default' => 1], 'id = :id')->bindValue(':id', $this->id)->execute();
-    }
-
-    static function getLangForDropDown()
-    {
-        $langsAll = self::find()->orderBy(['position' => SORT_ASC])->all();
-        $langs = [];
-
-        foreach ($langsAll as $lang) {
-            $langs[$lang->locale] = $lang->name;
-        }
-
-        return $langs;
     }
 }

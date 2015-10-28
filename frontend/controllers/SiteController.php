@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\modules\page\models\Page;
 use frontend\models\ContactForm;
 use Yii;
 use yii\web\Controller;
@@ -32,7 +33,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $page = Page::find()->language()->active()->where(['slug' => 'main-page'])->one();
+
+        return $this->render('index', ['page' => $page]);
     }
 
     /**

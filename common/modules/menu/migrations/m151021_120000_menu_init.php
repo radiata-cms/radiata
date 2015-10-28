@@ -64,7 +64,7 @@ class m151021_120000_menu_init extends Migration
             'parent_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'locale'    => Schema::TYPE_STRING . '(20) NOT NULL',
             'title'     => Schema::TYPE_STRING . '(255) NOT NULL',
-            'link'      => Schema::TYPE_STRING . '(255) NOT NULL',
+            'link' => Schema::TYPE_STRING . '(255)',
         ], $tableOptions);
 
         //pk
@@ -105,5 +105,9 @@ class m151021_120000_menu_init extends Migration
     {
         $this->dropTable('{{%menu_menu_translation}}');
         $this->dropTable('{{%menu_menu}}');
+
+        $authManager = Yii::$app->authManager;
+        $permission = $authManager->getPermission('Menu Module');
+        $authManager->remove($permission);
     }
 }

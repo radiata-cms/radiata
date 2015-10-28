@@ -42,6 +42,13 @@ return [
             'viewPath'            => '@frontend/modules/news/views',
             'defaultRoute'        => 'news',
         ],
+        'slider' => [
+            'class'               => 'common\modules\slider\Slider',
+            'controllerNamespace' => 'frontend\modules\slider\controllers',
+            'layoutPath'          => '@frontend/views/layouts',
+            'viewPath'            => '@frontend/modules/slider/views',
+            'defaultRoute'        => 'slider',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

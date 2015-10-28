@@ -54,6 +54,13 @@ return [
             'viewPath'            => '@backend/modules/page/views',
             'defaultRoute'        => 'page',
         ],
+        'slider' => [
+            'class'               => 'common\modules\slider\Slider',
+            'controllerNamespace' => 'backend\modules\slider\controllers',
+            'layoutPath'          => '@backend/views/layouts',
+            'viewPath'            => '@backend/modules/slider/views',
+            'defaultRoute'        => 'slider',
+        ],
     ],
     'components' => [
         'user'               => [

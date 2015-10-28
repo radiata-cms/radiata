@@ -31,7 +31,10 @@ class MenuTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'link'], 'required'],
+            [['title'], 'required'],
+            [['link'], 'required', 'when' => function ($model) {
+                return $model->parent->parent_id != null;
+            }],
             [['parent_id'], 'integer'],
             [['locale'], 'string', 'max' => 20],
             [['title', 'link'], 'string', 'max' => 255]

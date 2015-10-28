@@ -33,6 +33,14 @@ class VoteSearch extends Vote
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterValidate()
+    {
+        // skip
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -63,7 +71,7 @@ class VoteSearch extends Vote
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere('title', 'like', $this->title);
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

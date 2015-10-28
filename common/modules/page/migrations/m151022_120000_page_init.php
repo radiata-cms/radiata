@@ -97,5 +97,9 @@ class m151022_120000_page_init extends Migration
     {
         $this->dropTable('{{%page_page_translation}}');
         $this->dropTable('{{%page_page}}');
+
+        $authManager = Yii::$app->authManager;
+        $permission = $authManager->getPermission('Pages Module');
+        $authManager->remove($permission);
     }
 }

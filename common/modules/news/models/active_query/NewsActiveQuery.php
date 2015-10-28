@@ -51,4 +51,9 @@ class NewsActiveQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function tag($tag)
+    {
+        return $this->joinWith(['tags'])->andWhere(['tag_id' => $tag->id]);
+    }
 }

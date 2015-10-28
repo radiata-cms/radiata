@@ -2,8 +2,10 @@
 
 namespace frontend\modules\news\controllers;
 
+use common\modules\news\models\News;
 use common\modules\news\models\NewsTag;
 use Yii;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -20,6 +22,14 @@ class TagController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return $this->render('view', ['tag' => $tag]);
+        $query = News::find()->active()->language()->tag($tag);
+        $pages = new Pagination([
+            'totalCount'      => $query->count(),
+            'defaultPageSize' => Yii::t('f/news', 'defaultPageSize'),
+            'forcePageParam'  => false,
+        ]);
+        $news = $query->order()->offset($pages->offset)->limit($pages->limit)->all();
+
+        return $this->render('view', ['tag' => $tag, 'news' => $news, 'pages' => $pages]);
     }
 }

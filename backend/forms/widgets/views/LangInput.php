@@ -41,7 +41,7 @@ foreach ($languages as $language) {
                 'fileUpload'       => Url::to([$options['urlPreffix'] . 'file-upload']),
                 'callbacks'        => [
                     'change' => new JsExpression('function() {
-                        alert(3);
+
                     }'),
                 ],
             ]

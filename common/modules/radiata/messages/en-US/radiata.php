@@ -30,4 +30,6 @@ return [
 
     'ROOT'                => 'Top level',
     'Go back to homepage' => 'Go back to homepage',
+    'Alert!'      => 'Alert!',
+    'Read More'   => 'Read More',
 ];

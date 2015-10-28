@@ -34,12 +34,14 @@ use frontend\modules\radiata\widgets\TextBlockWidget;
                         }
                         TextBlockWidget::end();
                         ?>
+                        <? /*
                         <div class="search">
                             <form role="form">
                                 <input type="text" class="search-form" autocomplete="off" placeholder="Search">
                                 <i class="fa fa-search"></i>
                             </form>
                         </div>
+                        */ ?>
                         <?= LangSwitcherWidget::widget(); ?>
                     </div>
                 </div>

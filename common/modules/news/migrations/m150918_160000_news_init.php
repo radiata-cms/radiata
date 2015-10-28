@@ -233,10 +233,6 @@ class m150918_160000_news_init extends Migration
         $permissionNewsModuleTape = $authManager->createPermission('News Module. News tape');
         $authManager->add($permissionNewsModuleTape);
         $authManager->addChild($permissionNewsModule, $permissionNewsModuleTape);
-
-        $permissionNewsModuleTags = $authManager->createPermission('News Module. Tags');
-        $authManager->add($permissionNewsModuleTags);
-        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTags);
     }
 
     public function safeDown()
@@ -246,5 +242,15 @@ class m150918_160000_news_init extends Migration
         $this->dropTable('{{%news_news_translation}}');
         $this->dropTable('{{%news_news}}');
         $this->dropTable('{{%news_category}}');
+
+        $authManager = Yii::$app->authManager;
+        $permission = $authManager->getPermission('News Module');
+        $authManager->remove($permission);
+
+        $permission = $authManager->getPermission('News Module. Categories');
+        $authManager->remove($permission);
+
+        $permission = $authManager->getPermission('News Module. News tape');
+        $authManager->remove($permission);
     }
 }

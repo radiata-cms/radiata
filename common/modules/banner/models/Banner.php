@@ -53,6 +53,11 @@ class Banner extends \yii\db\ActiveRecord
         return '{{%banner_banner}}';
     }
 
+    public static function find()
+    {
+        return new BannerActiveQuery(get_called_class());
+    }
+
     /**
      * @inheritdoc
      */
@@ -60,11 +65,23 @@ class Banner extends \yii\db\ActiveRecord
     {
         return [
             [['status', 'place_id', 'title'], 'required'],
-            [['place_id', 'new_wnd', 'status', 'priority'], 'integer'],
+            [['place_id', 'new_wnd', 'priority'], 'integer'],
             [['date_start', 'date_end'], 'date', 'format' => Yii::t('b/radiata/settings', 'dateFormat')],
             [['html'], 'string'],
             [['locale'], 'string', 'max' => 20],
-            [['title', 'link'], 'string', 'max' => 255]
+            [['title', 'link'], 'string', 'max' => 255],
+            ['status', 'in', 'range' => array_keys($this->getStatusesList())],
+        ];
+    }
+
+    /**
+     * Get statuses list
+     */
+    public function getStatusesList()
+    {
+        return [
+            self::STATUS_ACTIVE   => Yii::t('b/banner', 'status' . self::STATUS_ACTIVE),
+            self::STATUS_DISABLED => Yii::t('b/banner', 'status' . self::STATUS_DISABLED),
         ];
     }
 
@@ -160,22 +177,6 @@ class Banner extends \yii\db\ActiveRecord
     public function getStat()
     {
         return $this->hasOne(BannerStat::className(), ['banner_id' => 'id']);
-    }
-
-    public static function find()
-    {
-        return new BannerActiveQuery(get_called_class());
-    }
-
-    /**
-     * Get statuses list
-     */
-    public function getStatusesList()
-    {
-        return [
-            self::STATUS_ACTIVE   => Yii::t('b/banner', 'status' . self::STATUS_ACTIVE),
-            self::STATUS_DISABLED => Yii::t('b/banner', 'status' . self::STATUS_DISABLED),
-        ];
     }
 
     public function beforeSave($insert)

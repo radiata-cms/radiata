@@ -119,5 +119,9 @@ class m151020_110000_banner_init extends Migration
         $this->dropTable('{{%banner_stat}}');
         $this->dropTable('{{%banner_banner}}');
         $this->dropTable('{{%banner_place}}');
+
+        $authManager = Yii::$app->authManager;
+        $permission = $authManager->getPermission('Banners Module');
+        $authManager->remove($permission);
     }
 }

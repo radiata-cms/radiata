@@ -88,11 +88,22 @@ class m151016_090000_news_tags extends Migration
             'CASCADE',
             'CASCADE'
         );
+
+        $authManager = Yii::$app->authManager;
+        $permissionNewsModule = $authManager->getPermission('News Module');
+
+        $permissionNewsModuleTags = $authManager->createPermission('News Module. Tags');
+        $authManager->add($permissionNewsModuleTags);
+        $authManager->addChild($permissionNewsModule, $permissionNewsModuleTags);
     }
 
     public function safeDown()
     {
         $this->dropTable('{{%news_tags_translation}}');
         $this->dropTable('{{%news_tags}}');
+
+        $authManager = Yii::$app->authManager;
+        $permission = $authManager->getPermission('News Module. Tags');
+        $authManager->remove($permission);
     }
 }

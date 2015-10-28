@@ -52,9 +52,9 @@ class Menu extends \yii\db\ActiveRecord
         return new \common\modules\menu\models\active_query\MenuActiveQuery(get_called_class());
     }
 
-    static function getMenu()
+    static function getMenu($parent = '')
     {
-        return Menu::getSubMenu();
+        return Menu::getSubMenu($parent);
     }
 
     static function getSubMenu($parent = '')

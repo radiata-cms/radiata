@@ -197,5 +197,9 @@ class m151020_120000_vote_init extends Migration
         $this->dropTable('{{%vote_option}}');
         $this->dropTable('{{%vote_vote_translation}}');
         $this->dropTable('{{%vote_vote}}');
+
+        $authManager = Yii::$app->authManager;
+        $permission = $authManager->getPermission('Votes Module');
+        $authManager->remove($permission);
     }
 }
