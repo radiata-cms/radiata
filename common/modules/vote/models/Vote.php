@@ -51,15 +51,46 @@ class Vote extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     * @return \common\modules\vote\models\active_query\VoteActiveQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \common\modules\vote\models\active_query\VoteActiveQuery(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
      */
     public function rules()
     {
         return [
             [['status'], 'required'],
             [['total_votes', 'total_answers'], 'integer'],
-            [['date_start', 'date_end'], 'date', 'format' => Yii::t('b/radiata/settings', 'dateFormat')],
+            [['date_start', 'date_end'], 'date', 'format' => Yii::t('c/radiata/settings', 'dateFormat')],
             ['status', 'in', 'range' => array_keys($this->getStatusesList())],
             ['type', 'in', 'range' => array_keys($this->getTypesList())],
+        ];
+    }
+
+    /**
+     * Get statuses list
+     */
+    public function getStatusesList()
+    {
+        return [
+            self::STATUS_ACTIVE   => Yii::t('b/vote', 'status' . self::STATUS_ACTIVE),
+            self::STATUS_DISABLED => Yii::t('b/vote', 'status' . self::STATUS_DISABLED),
+        ];
+    }
+
+    /**
+     * Get types list
+     */
+    public function getTypesList()
+    {
+        return [
+            self::TYPE_SINGLE => Yii::t('b/vote', 'type' . self::TYPE_SINGLE),
+            self::TYPE_MULTI  => Yii::t('b/vote', 'type' . self::TYPE_MULTI),
         ];
     }
 
@@ -156,37 +187,6 @@ class Vote extends \yii\db\ActiveRecord
     public function getUpdatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return \common\modules\vote\models\active_query\VoteActiveQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new \common\modules\vote\models\active_query\VoteActiveQuery(get_called_class());
-    }
-
-    /**
-     * Get types list
-     */
-    public function getTypesList()
-    {
-        return [
-            self::TYPE_SINGLE => Yii::t('b/vote', 'type' . self::TYPE_SINGLE),
-            self::TYPE_MULTI  => Yii::t('b/vote', 'type' . self::TYPE_MULTI),
-        ];
-    }
-
-    /**
-     * Get statuses list
-     */
-    public function getStatusesList()
-    {
-        return [
-            self::STATUS_ACTIVE   => Yii::t('b/vote', 'status' . self::STATUS_ACTIVE),
-            self::STATUS_DISABLED => Yii::t('b/vote', 'status' . self::STATUS_DISABLED),
-        ];
     }
 
     public function beforeSave($insert)

@@ -10,6 +10,7 @@ use common\models\user\User;
 use common\modules\banner\models\active_query\BannerActiveQuery;
 use common\modules\radiata\models\Lang;
 use Yii;
+use yii\base\Exception;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
@@ -66,7 +67,7 @@ class Banner extends \yii\db\ActiveRecord
         return [
             [['status', 'place_id', 'title'], 'required'],
             [['place_id', 'new_wnd', 'priority'], 'integer'],
-            [['date_start', 'date_end'], 'date', 'format' => Yii::t('b/radiata/settings', 'dateFormat')],
+            [['date_start', 'date_end'], 'date', 'format' => Yii::t('c/radiata/settings', 'dateFormat')],
             [['html'], 'string'],
             [['locale'], 'string', 'max' => 20],
             [['title', 'link'], 'string', 'max' => 255],
@@ -186,5 +187,33 @@ class Banner extends \yii\db\ActiveRecord
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public function addView()
+    {
+        if($this->stat) {
+            $this->stat->views = $this->stat->views + 1;
+            $this->stat->ctr = $this->stat->clicks / $this->stat->views;
+            $this->stat->save();
+        } else {
+            $stat = new BannerStat;
+            $stat->banner_id = $this->id;
+            $stat->views = 1;
+            $stat->ctr = 0;
+            $stat->save();
+        }
+    }
+
+    public function addClick()
+    {
+        if($this->stat) {
+            $this->stat->clicks = $this->stat->clicks + 1;
+            if($this->stat->views > 0) {
+                $this->stat->ctr = $this->stat->clicks / $this->stat->views;
+                $this->stat->save();
+            } else {
+                throw new Exception('Banner not found!');
+            }
+        }
     }
 }

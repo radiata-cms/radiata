@@ -5,6 +5,7 @@ namespace frontend\modules\banner\controllers;
 use common\modules\banner\models\Banner;
 use common\modules\radiata\helpers\CacheHelper;
 use Yii;
+use yii\base\Exception;
 use yii\web\Controller;
 
 /**
@@ -25,6 +26,19 @@ class BannerController extends Controller
             if($updatedCnt > 0) {
                 CacheHelper::delete('Banner');
             }
+        }
+    }
+
+    public function actionClick($id)
+    {
+        $banner = Banner::find()->language()->active()->where(['id' => $id])->with('stat')->one();
+
+        if($banner && $banner->link) {
+            $banner->addClick();
+
+            return $this->redirect($banner->link);
+        } else {
+            throw new Exception('Banner not found!');
         }
     }
 }
