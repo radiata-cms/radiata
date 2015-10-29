@@ -2,6 +2,7 @@
 
 use common\models\user\User;
 use yii\db\Migration;
+use yii\helpers\ArrayHelper;
 
 class m150828_130937_rbac_init extends Migration
 {
@@ -79,8 +80,15 @@ class m150828_130937_rbac_init extends Migration
         $user->email = 'developer@site.dev';
         $user->setPassword('developer^^');
         $user->generateAuthKey();
-        $user->save();
-        $authManager->assign($developerRole, $user->id);
+        $user->status = User::STATUS_ACTIVE;
+        $user->created_at = time();
+        $user->updated_at = time();
+        Yii::$app->db->createCommand()
+            ->insert(User::tableName(),
+                $user->attributes,
+                ArrayHelper::getColumn($user, 'attributes'))
+            ->execute();
+        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
 
         $user = new User();
         $user->username = 'admin';
@@ -89,8 +97,15 @@ class m150828_130937_rbac_init extends Migration
         $user->email = 'admin@site.dev';
         $user->setPassword('admin^^');
         $user->generateAuthKey();
-        $user->save();
-        $authManager->assign($adminRole, $user->id);
+        $user->status = User::STATUS_ACTIVE;
+        $user->created_at = time();
+        $user->updated_at = time();
+        Yii::$app->db->createCommand()
+            ->insert(User::tableName(),
+                $user->attributes,
+                ArrayHelper::getColumn($user, 'attributes'))
+            ->execute();
+        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
 
         $user = new User();
         $user->username = 'manager';
@@ -99,8 +114,15 @@ class m150828_130937_rbac_init extends Migration
         $user->email = 'manager@site.dev';
         $user->setPassword('manager^^');
         $user->generateAuthKey();
-        $user->save();
-        $authManager->assign($managerRole, $user->id);
+        $user->status = User::STATUS_ACTIVE;
+        $user->created_at = time();
+        $user->updated_at = time();
+        Yii::$app->db->createCommand()
+            ->insert(User::tableName(),
+                $user->attributes,
+                ArrayHelper::getColumn($user, 'attributes'))
+            ->execute();
+        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
 
         $user = new User();
         $user->username = 'user';
@@ -109,19 +131,21 @@ class m150828_130937_rbac_init extends Migration
         $user->email = 'user@site.dev';
         $user->setPassword('user^^');
         $user->generateAuthKey();
-        $user->save();
-        $authManager->assign($userRole, $user->id);
+        $user->status = User::STATUS_ACTIVE;
+        $user->created_at = time();
+        $user->updated_at = time();
+        Yii::$app->db->createCommand()
+            ->insert(User::tableName(),
+                $user->attributes,
+                ArrayHelper::getColumn($user, 'attributes'))
+            ->execute();
+        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
     }
 
     public function safeDown()
     {
         $this->originalMigration->down();
 
-        $this->delete('{{%user}}', [
-            ['username' => 'developer'],
-            ['username' => 'admin'],
-            ['username' => 'manager'],
-            ['username' => 'user'],
-        ]);
+        $this->delete('{{%radiata_user}}', ['in', 'username', ['developer', 'admin', 'manager', 'user']]);
     }
 }

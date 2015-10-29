@@ -99,6 +99,7 @@ class m151016_090000_news_tags extends Migration
 
     public function safeDown()
     {
+        $this->dropTable('{{%news_news_tags}}');
         $this->dropTable('{{%news_tags_translation}}');
         $this->dropTable('{{%news_tags}}');
 

@@ -23,6 +23,15 @@ $config = yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/console/config/main-local.php')
 );
 
-$application = new yii\console\Application($config);
-$exitCode = $application->run();
+/*
+ * Custom Radiata configurator
+ */
+$configurator = new common\modules\radiata\components\Configurator([
+    'configPaths' => ['@common', '@backend', '@frontend']
+]);
+$configurator->loadAll();
+$finalConfig = $configurator->mergeConfig($config);
+
+$application = new yii\console\Application($finalConfig);
+$application->run();
 exit($exitCode);

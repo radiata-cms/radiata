@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m150831_135846_admin_log extends Migration
+class m150818_135846_admin_log extends Migration
 {
 
     public function safeUp()

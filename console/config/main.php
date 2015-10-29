@@ -11,7 +11,16 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
+    'modules'    => [
+        'radiata' => [
+            'class' => 'common\modules\radiata\Radiata',
+        ],
+    ],
     'components' => [
+        'cache' => [
+            'class'     => 'yii\caching\FileCache',
+            'cachePath' => '@common/runtime/cache'
+        ],
         'log' => [
             'targets' => [
                 [

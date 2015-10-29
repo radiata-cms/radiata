@@ -21,45 +21,37 @@ use yii\db\Schema;
 class Migrator extends \yii\base\Object
 {
     /**
-     * @var string Custom migration table name
-     */
-    protected $migrationTable = '{{%radiata_migrations}}';
-
-    /**
      * @var string
      */
     public $modulesDir = 'modules';
-
     /**
      * @var string
      */
     public $migrationDir = 'migrations';
-
     /**
      * @var array
      */
     public $migrationPaths = ['@frontend', '@common', '@backend'];
-
     /**
      * @var string
      */
     public $module = '';
-
     /**
      * @var string "up" or "down"
      */
     public $direction = 'up';
-
     /**
      * @var Exception
      */
     public $error;
-
     /**
      * @var string
      */
     public $connectionID = 'db';
-
+    /**
+     * @var string Custom migration table name
+     */
+    protected $migrationTable = '{{%radiata_migrations}}';
     /**
      * @var Yii\Db\Connection
      */
@@ -90,6 +82,52 @@ class Migrator extends \yii\base\Object
         }
 
         return $migrations;
+    }
+
+    /**
+     * Connect to DB
+     *
+     * @return Yii\Db\Connection connection or make exception
+     */
+    public function getDbConnection()
+    {
+        if($this->_db !== null) {
+            return $this->_db;
+        } else {
+            $connId = $this->connectionID;
+            if(($this->_db = Yii::$app->$connId) instanceof Yii\Db\Connection) {
+                return $this->_db;
+            }
+        }
+    }
+
+    /**
+     * Create migration history table
+     *
+     * @throws \yii\db\Exception
+     */
+    protected function createMigrationTable()
+    {
+        $options = $this->_db->driverName == 'mysql' ? 'ENGINE=InnoDB DEFAULT CHARSET=utf8' : '';
+
+        $this->_db->createCommand()->createTable(
+            $this->migrationTable,
+            [
+                'id'         => Schema::TYPE_PK,
+                'name'       => Schema::TYPE_STRING . '(255) NOT NULL',
+                'module'     => Schema::TYPE_STRING . '(255) NOT NULL',
+                'path_alias' => Schema::TYPE_STRING . '(255) NOT NULL',
+                'apply_time' => Schema::TYPE_INTEGER,
+            ],
+            $options
+        )->execute();
+
+        $this->_db->createCommand()->createIndex(
+            "idx_migrations_module",
+            $this->migrationTable,
+            "module",
+            false
+        )->execute();
     }
 
     /**
@@ -130,6 +168,33 @@ class Migrator extends \yii\base\Object
         ksort($migrations);
 
         return $migrations;
+    }
+
+    /**
+     * Get applied migrations from DB
+     *
+     * @return array
+     */
+    protected function getAppliedMigrations()
+    {
+        $appliedMigrations = [];
+
+        $query = (new \yii\db\Query())
+            ->from($this->migrationTable)
+            ->orderBy(['id' => SORT_DESC]);
+
+        if($this->module != '') {
+            $query->where(['module' => $this->module]);
+        }
+
+        $rows = $query->all();
+        if(count($rows) > 0) {
+            foreach ($rows as $row) {
+                $appliedMigrations[$row['name'] . '/' . $row['module']] = $row;
+            }
+        }
+
+        return $appliedMigrations;
     }
 
     /**
@@ -234,30 +299,17 @@ class Migrator extends \yii\base\Object
     }
 
     /**
-     * Get applied migrations from DB
+     * Creates a new migration instance.
      *
-     * @return array
+     * @param array $migration the migration data
+     * @return \yii\db\MigrationInterface the migration instance
      */
-    protected function getAppliedMigrations()
+    protected function createMigration($migration)
     {
-        $appliedMigrations = [];
+        $file = isset($migration['path']) ? Yii::getAlias($migration['path']) . $migration['name'] . '.php' : Yii::getAlias($migration['path_alias'] . DIRECTORY_SEPARATOR . $migration['name'] . '.php');
+        require_once($file);
 
-        $query = (new \yii\db\Query())
-            ->from($this->migrationTable)
-            ->orderBy(['apply_time' => SORT_ASC]);
-
-        if($this->module != '') {
-            $query->where(['module' => $this->module]);
-        }
-
-        $rows = $query->all();
-        if(count($rows) > 0) {
-            foreach ($rows as $row) {
-                $appliedMigrations[$row['name'] . '/' . $row['module']] = $row;
-            }
-        }
-
-        return $appliedMigrations;
+        return new $migration['name']();
     }
 
     /**
@@ -290,73 +342,13 @@ class Migrator extends \yii\base\Object
         ])->execute();
     }
 
-    /**
-     * Creates a new migration instance.
-     *
-     * @param array $migration the migration data
-     * @return \yii\db\MigrationInterface the migration instance
-     */
-    protected function createMigration($migration)
+    public function getMigrationTable()
     {
-        $file = isset($migration['path']) ? Yii::getAlias($migration['path']) . $migration['name'] . '.php' : Yii::getAlias($migration['path_alias'] . DIRECTORY_SEPARATOR . $migration['name'] . '.php');
-        require_once($file);
-
-        return new $migration['name']();
-    }
-
-    /**
-     * Connect to DB
-     *
-     * @return Yii\Db\Connection connection or make exception
-     */
-    public function getDbConnection()
-    {
-        if($this->_db !== null) {
-            return $this->_db;
-        } else {
-            $connId = $this->connectionID;
-            if(($this->_db = Yii::$app->$connId) instanceof Yii\Db\Connection) {
-                return $this->_db;
-            }
-        }
-    }
-
-    /**
-     * Create migration history table
-     *
-     * @throws \yii\db\Exception
-     */
-    protected function createMigrationTable()
-    {
-        $options = $this->_db->driverName == 'mysql' ? 'ENGINE=InnoDB DEFAULT CHARSET=utf8' : '';
-
-        $this->_db->createCommand()->createTable(
-            $this->migrationTable,
-            [
-                'id'     => Schema::TYPE_PK,
-                'name'   => Schema::TYPE_STRING . '(255) NOT NULL',
-                'module' => Schema::TYPE_STRING . '(255) NOT NULL',
-                'path_alias' => Schema::TYPE_STRING . '(255) NOT NULL',
-                'apply_time' => Schema::TYPE_INTEGER,
-            ],
-            $options
-        )->execute();
-
-        $this->_db->createCommand()->createIndex(
-            "idx_migrations_module",
-            $this->migrationTable,
-            "module",
-            false
-        )->execute();
+        return $this->migrationTable;
     }
 
     public function setMigrationTable($tableName)
     {
         $this->migrationTable = $tableName;
-    }
-
-    public function getMigrationTable()
-    {
-        return $this->migrationTable;
     }
 }
