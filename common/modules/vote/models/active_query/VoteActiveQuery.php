@@ -2,6 +2,7 @@
 
 namespace common\modules\vote\models\active_query;
 
+use common\modules\vote\models\Vote;
 use Yii;
 
 /**
@@ -18,5 +19,19 @@ class VoteActiveQuery extends \yii\db\ActiveQuery
         }
 
         return $this->joinWith(['translations'])->andWhere(['locale' => $locale]);
+    }
+
+    public function active()
+    {
+        $this->andWhere(['status' => Vote::STATUS_ACTIVE]);
+
+        return $this;
+    }
+
+    public function order()
+    {
+        $this->orderBy(['date_start' => SORT_ASC]);
+
+        return $this;
     }
 }

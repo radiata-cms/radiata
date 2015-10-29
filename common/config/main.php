@@ -17,6 +17,10 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'assetManager' => [
+            'class'     => 'yii\web\AssetManager',
+            'forceCopy' => YII_DEBUG ? true : false,
+        ],
         'formatter' => [
             'class'          => 'yii\i18n\Formatter',
             'dateFormat'     => 'm/j/Y',

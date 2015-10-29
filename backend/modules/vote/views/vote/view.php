@@ -39,11 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => Yii::t('b/vote', 'Status'),
-                'value' => Yii::t('b/vote', 'status' . $model->status),
+                'value' => Yii::t('c/vote', 'status' . $model->status),
             ],
             [
                 'label' => Yii::t('b/vote', 'Type'),
-                'value' => Yii::t('b/vote', 'type' . $model->type),
+                'value' => Yii::t('c/vote', 'type' . $model->type),
             ],
         ],
     ]) ?>

@@ -7,10 +7,12 @@ use backend\modules\radiata\behaviors\CacheBehavior;
 use backend\modules\radiata\behaviors\DateTimeBehavior;
 use backend\modules\radiata\behaviors\TranslateableBehavior;
 use common\models\user\User;
+use common\modules\radiata\helpers\CacheHelper;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
+use yii\web\Cookie;
 
 /**
  * This is the model class for table "{{%vote_vote}}".
@@ -41,12 +43,27 @@ class Vote extends \yii\db\ActiveRecord
     const TYPE_SINGLE = 1;
     const TYPE_MULTI = 2;
 
+    const VOTE_OPTIONS_CACHE_KEY = 'voteOptions';
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%vote_vote}}';
+    }
+
+    public static function getActiveVotes()
+    {
+        $cacheKey = "activeVotes";
+        $allVotes = CacheHelper::get($cacheKey);
+
+        if(false === $allVotes) {
+            $allVotes = Vote::find()->active()->language()->order()->all();
+            CacheHelper::set($cacheKey, $allVotes, CacheHelper::getTag(Vote::className()));
+        }
+
+        return $allVotes;
     }
 
     /**
@@ -56,6 +73,31 @@ class Vote extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\modules\vote\models\active_query\VoteActiveQuery(get_called_class());
+    }
+
+    public static function getValidVotes($allVotes = [])
+    {
+        $validVotes = [];
+        foreach ($allVotes as $vote) {
+            if(!isset(Yii::$app->request->cookies["voted_" . $vote->id]->value)) {
+                $validVotes[$vote->id] = $vote->id;
+            }
+        }
+
+        $voted = (new \yii\db\Query())
+            ->select('vote_id')
+            ->from(VoteLog::tableName())
+            ->where(['in', 'vote_id', $validVotes])
+            ->andWhere(['ip' => ip2long(Yii::$app->request->getUserIP())])
+            ->all();
+
+        if(!empty($voted)) {
+            foreach ($voted as $votedRow) {
+                unset($validVotes[$votedRow['vote_id']]);
+            }
+        }
+
+        return $validVotes;
     }
 
     /**
@@ -78,8 +120,8 @@ class Vote extends \yii\db\ActiveRecord
     public function getStatusesList()
     {
         return [
-            self::STATUS_ACTIVE   => Yii::t('b/vote', 'status' . self::STATUS_ACTIVE),
-            self::STATUS_DISABLED => Yii::t('b/vote', 'status' . self::STATUS_DISABLED),
+            self::STATUS_ACTIVE   => Yii::t('c/vote', 'status' . self::STATUS_ACTIVE),
+            self::STATUS_DISABLED => Yii::t('c/vote', 'status' . self::STATUS_DISABLED),
         ];
     }
 
@@ -89,8 +131,8 @@ class Vote extends \yii\db\ActiveRecord
     public function getTypesList()
     {
         return [
-            self::TYPE_SINGLE => Yii::t('b/vote', 'type' . self::TYPE_SINGLE),
-            self::TYPE_MULTI  => Yii::t('b/vote', 'type' . self::TYPE_MULTI),
+            self::TYPE_SINGLE => Yii::t('c/vote', 'type' . self::TYPE_SINGLE),
+            self::TYPE_MULTI  => Yii::t('c/vote', 'type' . self::TYPE_MULTI),
         ];
     }
 
@@ -197,7 +239,7 @@ class Vote extends \yii\db\ActiveRecord
 
         return parent::beforeSave($insert);
     }
-
+    
     public function saveOptions()
     {
         $position = 1;
@@ -259,5 +301,93 @@ class Vote extends \yii\db\ActiveRecord
         }
 
         return true;
+    }
+
+    public function getMaxPercent()
+    {
+        $maxPercent = 0.00;
+
+        if(!empty($this->voteOptions)) {
+            foreach ($this->voteOptions as $option) {
+                if($option->percent > $maxPercent) {
+                    $maxPercent = $option->percent;
+                }
+            }
+        }
+
+        return $maxPercent;
+    }
+
+    public function isVoted()
+    {
+        $isVoted = (new \yii\db\Query())
+            ->select('vote_id')
+            ->from(VoteLog::tableName())
+            ->andWhere(['vote_id' => $this->id])
+            ->andWhere(['ip' => ip2long(Yii::$app->request->getUserIP())])
+            ->one();
+
+        return $isVoted;
+    }
+
+    public function rememberAnswer()
+    {
+        $cookie = new Cookie([
+            'name'   => "voted_" . $this->id,
+            'value'  => true,
+            'expire' => $this->date_end ? strtotime($this->date_end) : time() + 3600 * 24 * 365,
+            'domain' => '.' . Yii::$app->request->getServerName(),
+            'path'   => '/',
+        ]);
+        Yii::$app->getResponse()->getCookies()->add($cookie);
+    }
+
+
+    public function statistics()
+    {
+        $statistics = [];
+        $totalAnswers = 0;
+
+        $rows = (new \yii\db\Query())
+            ->select('option_id, count(*) as cnt')
+            ->from(VoteLog::tableName())
+            ->where(['vote_id' => $this->id])
+            ->groupBy('option_id')
+            ->all();
+        foreach ($rows as $row) {
+            $statistics[$row['option_id']] = $row['cnt'];
+            $totalAnswers += $row['cnt'];
+        }
+
+        if($this->type == self::TYPE_SINGLE) {
+            $totalCnt = $totalAnswers;
+        } else {
+            $totalCnt = (new \yii\db\Query())
+                ->select('count(distinct(ip)) as cnt')
+                ->from(VoteLog::tableName())
+                ->where(['vote_id' => $this->id])
+                ->one();
+        }
+
+        $this->setAttribute('total_votes', $totalCnt);
+        $this->setAttribute('total_answers', $totalAnswers);
+
+        if($this->save() && !empty($this->voteOptions) > 0) {
+            foreach ($this->voteOptions as $k => $voteOptions) {
+                if($totalAnswers > 0 && isset($statistics[$voteOptions->id])) {
+                    $this->voteOptions[$k]->setAttributes([
+                        'total_votes' => $statistics[$voteOptions->id],
+                        'percent'     => round($statistics[$voteOptions->id] / $totalAnswers * 100, 2),
+                    ]);
+                } else {
+                    $this->voteOptions[$k]->setAttributes([
+                        'total_votes' => 0,
+                        'percent'     => 0,
+                    ]);
+                }
+                $this->voteOptions[$k]->save();
+            }
+            CacheHelper::set(Vote::VOTE_OPTIONS_CACHE_KEY . $this->id, $this->voteOptions, CacheHelper::getTag(Vote::className()));
+        }
     }
 }

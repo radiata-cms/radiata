@@ -1,0 +1,47 @@
+.vote-block {
+    border: 1px solid darkgrey;
+    padding: 10px;
+    margin: 10px;
+}
+
+.vote-error {
+    display: none;
+    color: red;
+}
+
+.vote-option-block {
+    border: 1px dotted gray;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.vote-option-block span, .vote-option-total span {
+    font-weight: bold;
+    color: red;
+}
+
+.vote-bar {
+    height: 15px;
+    background: green;
+}
+
+.vote-option-left {
+    float: left;
+}
+
+.vote-option-right {
+    float: right;
+    text-wrap: none;
+}
+
+.vote-option-total {
+    margin-top: 10px;
+}
+
+.vote-results-lnk {
+    text-decoration: underline;
+}
+
+div.vote-input label {
+    display: block;
+}

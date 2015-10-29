@@ -59,6 +59,22 @@ class VoteController extends BackendController
     }
 
     /**
+     * Finds the Vote model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Vote the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if(($model = Vote::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
      * Creates a new Vote model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -109,7 +125,7 @@ class VoteController extends BackendController
         $modelOption = new VoteOption();
 
         if(Yii::$app->request->isPost) {
-            foreach (Yii::$app->request->post('NewsTranslation', []) as $language => $data) {
+            foreach (Yii::$app->request->post('VoteTranslation', []) as $language => $data) {
                 foreach ($data as $attribute => $translation) {
                     $model->translate($language)->$attribute = $translation;
                 }
@@ -145,21 +161,5 @@ class VoteController extends BackendController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Vote model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Vote the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if(($model = Vote::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

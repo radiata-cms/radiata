@@ -37,7 +37,7 @@ $this->title = Yii::t('b/vote', 'Votes');
             [
                 'label' => Yii::t('b/vote', 'Status'),
                 'value' => function ($model) {
-                    return Yii::t('b/vote', 'status' . $model->status);
+                    return Yii::t('c/vote', 'status' . $model->status);
                 }
             ],
             'total_answers',

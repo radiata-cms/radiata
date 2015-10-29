@@ -55,4 +55,16 @@ class VoteLog extends \yii\db\ActiveRecord
     {
         return $this->hasOne(VoteOption::className(), ['id' => 'option_id']);
     }
+
+    /**
+     * @return void
+     */
+    public function addAnswer($voteId, $optionId)
+    {
+        $this->vote_id = $voteId;
+        $this->option_id = $optionId;
+        $this->ip = ip2long(Yii::$app->request->getUserIP());
+        $this->date = time();
+        $this->save();
+    }
 }
