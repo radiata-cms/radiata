@@ -4,10 +4,11 @@
 /* @var array $options */
 /* @var integer $type */
 
-use frontend\modules\radiata\widgets\NavBarWidget;
+use frontend\modules\menu\widgets\NavBarWidget;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
+use yii\widgets\Menu;
 
 switch ($type) {
     case NavBarWidget::BOOTSTRAP_NAVBAR:
@@ -32,11 +33,10 @@ switch ($type) {
         break;
 
     case NavBarWidget::LINEAR_MENU:
-        echo '<ul' . (isset($options['class']) ? ' class="' . $options['class'] . '"' : '') . '>';
-        foreach ($menuItems as $menuItem) {
-            echo '<li>' . Html::a($menuItem['label'], $menuItem['url']) . '</li>';
-        }
-        echo '</ul>';
+        echo Menu::widget([
+            'items'   => $menuItems,
+            'options' => $options,
+        ]);
 
         break;
 }

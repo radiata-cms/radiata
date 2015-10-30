@@ -1,7 +1,7 @@
 <?
 /* @var $this \yii\web\View */
 
-use frontend\modules\radiata\widgets\NavBarWidget;
+use frontend\modules\menu\widgets\NavBarWidget;
 
 ?>
 

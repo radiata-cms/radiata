@@ -49,6 +49,13 @@ return [
             'viewPath'            => '@frontend/modules/slider/views',
             'defaultRoute'        => 'slider',
         ],
+        'menu' => [
+            'class'               => 'common\modules\menu\Menu',
+            'controllerNamespace' => 'frontend\modules\menu\controllers',
+            'layoutPath'          => '@frontend/views/layouts',
+            'viewPath'            => '@frontend/modules/menu/views',
+            'defaultRoute'        => 'menu',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

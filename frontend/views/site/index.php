@@ -1,8 +1,10 @@
 <?
 /* @var $this \yii\web\View */
 /* @var $page \common\modules\page\models\Page */
+use frontend\modules\radiata\widgets\MetaTagsWidget;
 use frontend\modules\slider\widgets\SliderWidget;
 
+MetaTagsWidget::widget(['item' => $page]);
 ?>
 
 <?= SliderWidget::widget([

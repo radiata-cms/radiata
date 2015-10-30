@@ -2,7 +2,6 @@
 /* @var $this yii\web\View */
 /* @var $news common\modules\news\models\News */
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 ?>
 
@@ -16,7 +15,7 @@ use yii\helpers\Url;
 
         <div class="col-xs-12 col-sm-10 blog-content">
             <? if(!empty($news->image)) { ?>
-                <a href="<?= Url::to(['/news/news/view', 'slug' => $news->slug]); ?>">
+                <a href="<?= $news->getUrl(); ?>">
                     <?= Html::img($news->getThumbFileUrl('image', 'big'), ['class' => 'img-responsive img-blog', 'alt' => $news->image_description, 'width' => '100%']) ?>
                 </a>
                 <? if($news->image_description) { ?>
@@ -26,10 +25,10 @@ use yii\helpers\Url;
                 <? } ?>
             <? } ?>
 
-            <h2><?= Html::a($news->title, ['/news/news/view', 'slug' => $news->slug]); ?></h2>
+            <h2><?= Html::a($news->title, $news->getUrl()); ?></h2>
 
             <h3><?= $news->description; ?></h3>
-            <a class="btn btn-primary readmore" href="<?= Url::to(['/news/news/view', 'slug' => $news->slug]); ?>"><?= Yii::t('f/news', 'Read More') ?>
+            <a class="btn btn-primary readmore" href="<?= $news->getUrl(); ?>"><?= Yii::t('f/news', 'Read More') ?>
                 <i class="fa fa-angle-right"></i></a>
         </div>
     </div>

@@ -3,7 +3,7 @@
 /* @var $content string */
 
 use common\modules\radiata\widgets\LangSwitcherWidget;
-use frontend\modules\radiata\widgets\NavBarWidget;
+use frontend\modules\menu\widgets\NavBarWidget;
 use frontend\modules\radiata\widgets\TextBlockWidget;
 
 ?>

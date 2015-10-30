@@ -28,7 +28,7 @@ class NewsActiveQuery extends ActiveQuery
 
     public function active()
     {
-        $this->andWhere(['status' => News::STATUS_ACTIVE]);
+        $this->andWhere([News::tableName() . '.status' => News::STATUS_ACTIVE]);
 
         return $this;
     }
@@ -47,7 +47,13 @@ class NewsActiveQuery extends ActiveQuery
         }
 
         $children = array_merge([$category->id], $category->getChildrenData());
-        $this->andWhere(['in', 'category_id', $children]);
+
+        $this->joinWith(['categories']);
+        $this->andWhere([
+            'or',
+            ['in', News::tableName() . '.category_id', $children],
+            ['in', '{{%news_news_category}}.category_id', $children]
+        ]);
 
         return $this;
     }

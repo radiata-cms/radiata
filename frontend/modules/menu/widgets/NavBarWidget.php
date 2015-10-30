@@ -1,5 +1,5 @@
 <?php
-namespace frontend\modules\radiata\widgets;
+namespace frontend\modules\menu\widgets;
 
 use common\modules\menu\models\Menu;
 use Yii;

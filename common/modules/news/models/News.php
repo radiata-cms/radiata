@@ -16,6 +16,7 @@ use common\modules\news\models\active_query\NewsActiveQuery;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%news_news}}".
@@ -299,5 +300,10 @@ class News extends \yii\db\ActiveRecord
         }
 
         return true;
+    }
+
+    public function getUrl()
+    {
+        return !empty($this->redirect) ? $this->redirect : Url::to(['/news/news/view', 'slug' => $this->slug]);
     }
 }
