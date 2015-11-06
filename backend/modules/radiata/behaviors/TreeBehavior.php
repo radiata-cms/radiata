@@ -127,18 +127,10 @@ class TreeBehavior extends Behavior
             ]
         ];
 
-        if($this->translationRelation) {
-            $allItems = $this->owner->find()
-                ->language()
-                ->joinWith($this->translationRelation)
-                ->orderBy([$this->positionFieldName => SORT_ASC])
-                ->all();
-        } else {
-            $allItems = $this->owner->find()
-                ->language()
-                ->orderBy([$this->positionFieldName => SORT_ASC])
-                ->all();
-        }
+        $allItems = $this->owner->find()
+            ->language()
+            ->orderBy([$this->positionFieldName => SORT_ASC])
+            ->all();
 
         if($allItems) {
             foreach ($allItems as $item) {
