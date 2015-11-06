@@ -306,4 +306,12 @@ class News extends \yii\db\ActiveRecord
     {
         return !empty($this->redirect) ? $this->redirect : Url::to(['/news/news/view', 'slug' => $this->slug]);
     }
+
+    public function afterSave()
+    {
+        if(empty($this->categories) || !empty($this->categories) && !$this->categories[$this->category_id]) {
+            $mainCategory = NewsCategory::findOne($this->category_id);
+            $this->link('categories', $mainCategory);
+        }
+    }
 }

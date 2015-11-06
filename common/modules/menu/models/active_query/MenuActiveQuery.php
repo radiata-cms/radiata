@@ -18,7 +18,7 @@ class MenuActiveQuery extends \yii\db\ActiveQuery
             $locale = Yii::$app->language;
         }
 
-        return $this->joinWith(['translations'])->andWhere(['locale' => $locale]);
+        return $this->innerJoinWith(['translations'])->andWhere(['locale' => $locale]);
     }
 
     public function active()
