@@ -6,6 +6,10 @@ use Yii;
 
 class TextBlockWidget extends \yii\bootstrap\Widget
 {
+    public $name = '';
+
+    public $key = '';
+
     /**
      * @inheritdoc
      */
@@ -27,7 +31,7 @@ class TextBlockWidget extends \yii\bootstrap\Widget
      */
     public function run()
     {
-        return '';
+        return TextBlock::getBlockData($this->name, $this->key);
     }
 }
 

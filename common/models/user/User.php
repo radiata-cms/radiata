@@ -62,102 +62,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public static function findIdentity($id)
     {
-        return [
-            TimestampBehavior::className(),
-            [
-                'class'          => AdminLogBehavior::className(),
-                'titleAttribute' => 'email',
-                'icon'           => 'fa-user bg-blue',
-            ],
-            [
-                'class'     => ImageUploadBehavior::className(),
-                'attribute' => 'image',
-                'defaultImage' => '/images/avatar.jpg',
-                'thumbs'    => [
-                    'avatar' => ['width' => 100, 'height' => 100],
-                ],
-                'filePath'  => '@frontend/web/uploads/users/[[pk]]/[[pk]].[[extension]]',
-                'fileUrl'   => '/uploads/users/[[pk]]/[[pk]].[[extension]]',
-                'thumbPath' => '@frontend/web/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
-                'thumbUrl'  => '/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
-            ],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => array_keys(self::getStatusesList())],
-
-            [['username', 'first_name', 'last_name'], 'filter', 'filter' => 'trim'],
-            [['username', 'first_name', 'last_name'], 'required'],
-            [['username', 'first_name', 'last_name'], 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-
-            [['username', 'email'], 'unique'],
-
-            ['new_password', 'required', 'on' => [self::SCENARIO_CREATE]],
-            ['new_password_again', 'required', 'on' => [self::SCENARIO_CREATE]],
-            ['new_password_again', 'compare', 'compareAttribute' => 'new_password', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
-            [['new_password', 'new_password_again'], 'string', 'min' => 6],
-
-            ['roles', 'default', 'value' => ['user']],
-            ['roles', function ($attribute, $params) {
-                if(is_array($this->$attribute)) {
-                    $roles = Yii::$app->authManager->getRoles();
-                    foreach ($this->$attribute as $value) {
-                        if(!isset($roles[$value])) {
-                            $this->addError('Invalide role');
-                        }
-                    }
-                }
-            }
-            ],
-            ['permissions', function ($attribute, $params) {
-                if(is_array($this->$attribute)) {
-                    $roles = Yii::$app->authManager->getPermissions();
-                    foreach ($this->$attribute as $value) {
-                        if(!isset($roles[$value])) {
-                            $this->addError('Invalide permission');
-                        }
-                    }
-                }
-            }
-            ],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id'            => Yii::t('b/radiata/user', 'ID'),
-            'username'      => Yii::t('b/radiata/user', 'Username'),
-            'first_name'    => Yii::t('b/radiata/user', 'First name'),
-            'last_name'     => Yii::t('b/radiata/user', 'Last name'),
-            'auth_key'      => Yii::t('b/radiata/user', 'Auth key'),
-            'password_hash' => Yii::t('b/radiata/user', 'Passsword hash'),
-            'password_reset_token' => Yii::t('b/radiata/user', 'Passsword reset hash'),
-            'email'         => Yii::t('b/radiata/user', 'Email'),
-            'status'        => Yii::t('b/radiata/user', 'Status'),
-            'updated_at'    => Yii::t('b/radiata/user', 'Update Date'),
-            'created_at'    => Yii::t('b/radiata/user', 'Create Date'),
-            'image'         => Yii::t('b/radiata/user', 'Avatar'),
-            'roles'         => Yii::t('b/radiata/user', 'Roles'),
-            'permissions'   => Yii::t('b/radiata/user', 'Permissions'),
-        ];
+        return static::makeUser(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -176,15 +83,6 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         return $user;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return static::makeUser(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -256,6 +154,120 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            [
+                'class'          => AdminLogBehavior::className(),
+                'titleAttribute' => 'email',
+                'icon'           => 'fa-user bg-blue',
+            ],
+            [
+                'class'        => ImageUploadBehavior::className(),
+                'attribute'    => 'image',
+                'defaultImage' => '/images/avatar.jpg',
+                'thumbs'       => [
+                    'avatar' => ['width' => 100, 'height' => 100],
+                ],
+                'filePath'     => '@frontend/web/uploads/users/[[pk]]/[[pk]].[[extension]]',
+                'fileUrl'      => '/uploads/users/[[pk]]/[[pk]].[[extension]]',
+                'thumbPath'    => '@frontend/web/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
+                'thumbUrl'     => '/uploads/users/[[pk]]/[[profile]]_[[pk]].[[extension]]',
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => array_keys(self::getStatusesList())],
+
+            [['username', 'first_name', 'last_name'], 'filter', 'filter' => 'trim'],
+            [['username', 'first_name', 'last_name'], 'required'],
+            [['username', 'first_name', 'last_name'], 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'filter', 'filter' => 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+
+            [['username', 'email'], 'unique'],
+
+            ['new_password', 'required', 'on' => [self::SCENARIO_CREATE]],
+            ['new_password_again', 'required', 'on' => [self::SCENARIO_CREATE]],
+            ['new_password_again', 'compare', 'compareAttribute' => 'new_password', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['new_password', 'new_password_again'], 'string', 'min' => 6],
+
+            ['roles', 'default', 'value' => ['user']],
+            ['roles', function ($attribute, $params) {
+                if(is_array($this->$attribute)) {
+                    $roles = Yii::$app->authManager->getRoles();
+                    foreach ($this->$attribute as $value) {
+                        if(!isset($roles[$value])) {
+                            $this->addError('Invalide role');
+                        }
+                    }
+                }
+            }
+            ],
+            ['permissions', function ($attribute, $params) {
+                if(is_array($this->$attribute)) {
+                    $roles = Yii::$app->authManager->getPermissions();
+                    foreach ($this->$attribute as $value) {
+                        if(!isset($roles[$value])) {
+                            $this->addError('Invalide permission');
+                        }
+                    }
+                }
+            }
+            ],
+        ];
+    }
+
+    /**
+     * Get statuses list
+     */
+    public function getStatusesList()
+    {
+        return [
+            self::STATUS_DISABLED => Yii::t('b/radiata/user', 'status' . self::STATUS_DISABLED),
+            self::STATUS_ACTIVE   => Yii::t('b/radiata/user', 'status' . self::STATUS_ACTIVE),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id'                   => Yii::t('b/radiata/user', 'ID'),
+            'username'             => Yii::t('b/radiata/user', 'Username'),
+            'first_name'           => Yii::t('b/radiata/user', 'First name'),
+            'last_name'            => Yii::t('b/radiata/user', 'Last name'),
+            'auth_key'             => Yii::t('b/radiata/user', 'Auth key'),
+            'password_hash'        => Yii::t('b/radiata/user', 'Passsword hash'),
+            'password_reset_token' => Yii::t('b/radiata/user', 'Passsword reset hash'),
+            'new_password'         => Yii::t('b/radiata/user', 'New password'),
+            'new_password_again'   => Yii::t('b/radiata/user', 'New password again'),
+            'email'                => Yii::t('b/radiata/user', 'Email'),
+            'status'               => Yii::t('b/radiata/user', 'Status'),
+            'updated_at'           => Yii::t('b/radiata/user', 'Update Date'),
+            'created_at'           => Yii::t('b/radiata/user', 'Create Date'),
+            'image'                => Yii::t('b/radiata/user', 'Avatar'),
+            'roles'                => Yii::t('b/radiata/user', 'Roles'),
+            'permissions'          => Yii::t('b/radiata/user', 'Permissions'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getId()
     {
         return $this->getPrimaryKey();
@@ -264,17 +276,17 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function getAuthKey()
+    public function validateAuthKey($authKey)
     {
-        return $this->auth_key;
+        return $this->getAuthKey() === $authKey;
     }
 
     /**
      * @inheritdoc
      */
-    public function validateAuthKey($authKey)
+    public function getAuthKey()
     {
-        return $this->getAuthKey() === $authKey;
+        return $this->auth_key;
     }
 
     /**
@@ -320,17 +332,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
-    }
-
-    /**
-     * Get statuses list
-     */
-    public function getStatusesList()
-    {
-        return [
-            self::STATUS_DISABLED => Yii::t('b/radiata/user', 'status' . self::STATUS_DISABLED),
-            self::STATUS_ACTIVE => Yii::t('b/radiata/user', 'status' . self::STATUS_ACTIVE),
-        ];
     }
 
     /**

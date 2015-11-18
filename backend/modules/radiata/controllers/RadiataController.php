@@ -48,7 +48,10 @@ class RadiataController extends BackendController
     {
         if(in_array($action->id, ['login'])) {
             $this->layout = 'forbidden';
-        } elseif(in_array($action->id, ['error']) && Yii::$app->errorHandler->exception->statusCode == 403) {
+        } elseif(in_array($action->id, ['error'])
+            && Yii::$app->errorHandler->exception instanceof HttpException
+            && Yii::$app->errorHandler->exception->statusCode == 403
+        ) {
             $this->layout = 'forbidden';
         }
 

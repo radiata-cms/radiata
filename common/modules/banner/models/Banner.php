@@ -70,6 +70,7 @@ class Banner extends \yii\db\ActiveRecord
             [['date_start', 'date_end'], 'date', 'format' => Yii::t('c/radiata/settings', 'dateFormat')],
             [['html'], 'string'],
             [['locale'], 'string', 'max' => 20],
+            [['locale'], 'default', 'value' => null],
             [['title', 'link'], 'string', 'max' => 255],
             ['status', 'in', 'range' => array_keys($this->getStatusesList())],
         ];

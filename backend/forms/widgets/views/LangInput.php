@@ -1,4 +1,4 @@
-<?
+<?php
 use vova07\imperavi\Widget;
 use yii\bootstrap\Tabs;
 use yii\helpers\Html;
@@ -11,9 +11,7 @@ use yii\web\JsExpression;
  * @var array $options
  * @var array $languages
  */
-?>
 
-<?
 $tabs = [];
 foreach ($languages as $language) {
     if($options['redactor']) {
@@ -60,5 +58,9 @@ foreach ($languages as $language) {
 
 }
 
-echo Tabs::widget(['items' => $tabs, 'id' => $options['id']]);
+if(count($languages) > 1) {
+    echo Tabs::widget(['items' => $tabs, 'id' => $options['id']]);
+} else {
+    echo $tabs[0]['content'];
+}
 ?>

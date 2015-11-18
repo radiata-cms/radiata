@@ -10,4 +10,5 @@ return [
     'Please specify at least one language values set' => 'Please specify at least one language values set',
     'Please choose'                        => 'Please choose',
     'Tip'                                  => 'Tip',
+    'Image text'                           => 'Text',
 ];

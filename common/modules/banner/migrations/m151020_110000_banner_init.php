@@ -21,7 +21,7 @@ class m151020_110000_banner_init extends Migration
         
         $this->createTable('{{%banner_banner}}', [
             'id'         => Schema::TYPE_PK,
-            'locale'     => Schema::TYPE_STRING . '(20) NOT NULL',
+            'locale' => Schema::TYPE_STRING . '(20) DEFAULT NULL',
             'place_id'   => Schema::TYPE_INTEGER . " NOT NULL DEFAULT '0'",
             'date_start' => Schema::TYPE_INTEGER,
             'date_end'   => Schema::TYPE_INTEGER,

@@ -13,7 +13,7 @@ AdminLteAsset::register($this);
 backend\assets\AppAsset::register($this);
 JuiAsset::register($this);
 
-$this->title = Yii::t('c/radiata', 'CMS');
+$this->title = Yii::t('c/radiata', 'Site name') . ' / ' . Yii::t('c/radiata', 'CMS');
 
 ?>
 <?php $this->beginPage() ?>

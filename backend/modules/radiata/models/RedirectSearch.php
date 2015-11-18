@@ -2,15 +2,15 @@
 
 namespace backend\modules\radiata\models;
 
-use common\modules\radiata\models\TextBlock;
+use common\modules\radiata\models\Redirect;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * TextBlockSearch represents the model behind the search form about `common\modules\radiata\models\TextBlock`.
+ * RedirectSearch represents the model behind the search form about `common\modules\radiata\models\Redirect`.
  */
-class TextBlockSearch extends TextBlock
+class RedirectSearch extends Redirect
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class TextBlockSearch extends TextBlock
     public function rules()
     {
         return [
-            [['name', 'key', 'text'], 'safe'],
+            [['old_url', 'new_url'], 'safe'],
         ];
     }
 
@@ -48,11 +48,9 @@ class TextBlockSearch extends TextBlock
      */
     public function search($params)
     {
-        $query = TextBlock::find();
+        $query = Redirect::find();
 
-        $query->language();
-
-        $query->orderBy(['name' => SORT_ASC]);
+        $query->orderBy(['old_url' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -66,9 +64,8 @@ class TextBlockSearch extends TextBlock
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'old_url', $this->old_url])
+            ->andFilterWhere(['like', 'new_url', $this->new_url]);
 
         return $dataProvider;
     }

@@ -42,7 +42,7 @@ class GalleryInputWidget extends \yii\widgets\InputWidget
                     '{TAG_CSS_NEW}'     => 'hide',
                     '{TAG_CSS_INIT}'    => '',
                     '{CUSTOM_TAG_NEW}'  => '',
-                    '{CUSTOM_TAG_INIT}' => '' . $form->field($value, '[' . $value->id . ']image_text')->widget(LangInputWidget::classname(), [
+                    '{CUSTOM_TAG_INIT}' => '' . $form->field($value, '[' . $value->id . ']image_text')->label(Yii::t('b/radiata/common', 'Image text'))->widget(LangInputWidget::classname(), [
                             'options' => [
                                 'type'                 => 'activeTextInput',
                                 'additionalCssClasses' => 'kv-input kv-new form-control input-sm',

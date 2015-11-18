@@ -77,4 +77,8 @@ return [
         ],
     ],
     'params' => $params,
+
+    'on beforeRequest' => function ($event) {
+        \common\modules\radiata\models\Redirect::processRedirect();
+    },
 ];

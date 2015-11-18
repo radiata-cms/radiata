@@ -18,15 +18,11 @@ use yii\web\UploadedFile;
 class FileUploadBehavior extends \yii\base\Behavior
 {
     const EVENT_AFTER_FILE_SAVE = 'afterFileSave';
-
+    const DELETED_PREFIX = '_deleted';
     /** @var string Name of attribute which holds the attachment. */
     public $attribute = 'upload';
-
     /** @var string Name of attribute which holds the attachment (tabular mode). */
     public $tabularAttribute = '';
-
-    const DELETED_PREFIX = '_deleted';
-
     /** @var string Path template to use in storing files.5 */
     public $filePath = '@webroot/uploads/[[pk]].[[extension]]';
     /** @var string Where to store images. */
@@ -86,9 +82,7 @@ class FileUploadBehavior extends \yii\base\Behavior
     {
         if($this->file instanceof UploadedFile) {
             if(!$this->owner->isNewRecord) {
-                /** @var static $oldModel */
-                $oldModel = $this->owner->findOne($this->owner->primaryKey);
-                $oldModel->cleanFiles();
+                $this->cleanFiles();
             }
             $this->owner->{$this->attribute} = $this->file->baseName . '.' . $this->file->extension;
         } else { // Fix html forms bug, when we have empty file field

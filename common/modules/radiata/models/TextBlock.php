@@ -68,7 +68,7 @@ class TextBlock extends \yii\db\ActiveRecord
             self::saveBlockToCache($cacheKey, $returnData);
         }
 
-        return $returnData;
+        return empty($key) ? $returnData : $returnData[$key];
     }
 
     static function getBlockFromCache($cacheKey)

@@ -9,9 +9,9 @@ use yii\helpers\Url;
     <!-- Logo -->
     <a href="<?= Url::to(['/']) ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>R</b></span>
+        <span class="logo-mini"><b><?= mb_substr(Yii::t('c/radiata', 'Site name'), 0, 1) ?></b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b><?= Yii::t('c/radiata', 'CMS') ?></b></span>
+        <span class="logo-lg"><b><?= Yii::t('c/radiata', 'Site name') ?></b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">

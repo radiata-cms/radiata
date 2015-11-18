@@ -7,6 +7,8 @@ use backend\assets\AdminLteAsset;
 use yii\helpers\Html;
 
 AdminLteAsset::register($this);
+
+$this->title = Yii::t('c/radiata', 'Site name') . ' / ' . Yii::t('c/radiata', 'CMS');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

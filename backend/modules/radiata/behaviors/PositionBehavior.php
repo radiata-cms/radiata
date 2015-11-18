@@ -27,10 +27,12 @@ class PositionBehavior extends AttributeBehavior
      */
     protected function getValue($event)
     {
-        $max = $this->owner
-            ->find()
-            ->andWhere([$this->parentIdAttribute => $this->owner->{$this->parentIdAttribute} ? $this->owner->{$this->parentIdAttribute} : null])
-            ->max($this->positionAttribute);
+        $query = $this->owner->find();
+        if($this->parentIdAttribute) {
+            $query->andWhere([$this->parentIdAttribute => $this->owner->{$this->parentIdAttribute} ? $this->owner->{$this->parentIdAttribute} : null]);
+        }
+
+        $max = $query->max($this->positionAttribute);
 
         return $max ? ($max + 1) : 1;
     }
