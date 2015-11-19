@@ -18,6 +18,7 @@ Password: developer^^
 ####Installation:
 * git init
 * git clone https://github.com/radiata-cms/radiata.git
+* composer global require "fxp/composer-asset-plugin:~1.1.0"
 * composer install
 * php ./init (choose prod environment)
 * DB init: 
