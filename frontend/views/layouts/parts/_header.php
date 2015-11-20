@@ -4,7 +4,6 @@
 
 use common\modules\radiata\widgets\LangSwitcherWidget;
 use frontend\modules\menu\widgets\NavBarWidget;
-use frontend\modules\radiata\widgets\TextBlockWidget;
 
 ?>
 <header id="header">
@@ -20,7 +19,7 @@ use frontend\modules\radiata\widgets\TextBlockWidget;
                         /**
                          * @var array $socialData
                          */
-                        $socialData = TextBlockWidget::begin(['name' => 'socials']);
+                        $socialData = Yii::$app->tb->v('socials');
                         if(!empty($socialData)) {
                             ?>
                             <ul class="social-share">
@@ -32,7 +31,6 @@ use frontend\modules\radiata\widgets\TextBlockWidget;
                             </ul>
                         <?
                         }
-                        TextBlockWidget::end();
                         ?>
                         <? /*
                         <div class="search">

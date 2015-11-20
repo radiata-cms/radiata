@@ -4,11 +4,11 @@ return [
     'sourceLanguage' => 'en-US',
     'language'   => 'en-US',
     'components' => [
-        'cache'      => [
+        'cache'       => [
             'class'     => 'yii\caching\FileCache',
             'cachePath' => '@common/runtime/cache'
         ],
-        'urlManager' => [
+        'urlManager'  => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'enableStrictParsing' => false,
@@ -21,11 +21,14 @@ return [
             'class'     => 'yii\web\AssetManager',
             'forceCopy' => YII_DEBUG ? true : false,
         ],
-        'formatter' => [
+        'formatter'   => [
             'class'          => 'yii\i18n\Formatter',
             'dateFormat'     => 'm/j/Y',
             'datetimeFormat' => 'php: M j, Y H:i:s',
             'timeFormat'     => 'H:i:s',
-        ]
+        ],
+        'tb'          => [
+            'class' => 'common\modules\radiata\components\TextBlock',
+        ],
     ],
 ];
