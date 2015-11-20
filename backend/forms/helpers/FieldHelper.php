@@ -83,4 +83,13 @@ class FieldHelper
 
         return join("\n", $lines);
     }
+
+    public static function getDateFromTimestamp($date, $format)
+    {
+        if(strpos($date, '/') === false) {
+            return date(Yii::t('c/radiata/settings', $format), $date);
+        } else {
+            return $date;
+        }
+    }
 }

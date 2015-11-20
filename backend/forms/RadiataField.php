@@ -58,6 +58,8 @@ class RadiataField extends ActiveField
         $options['class'] .= ' datetime-object';
         $this->adjustLabelFor($options);
 
+        $this->model->setAttributes([$this->attribute => FieldHelper::getDateFromTimestamp($this->model['attributes'][$this->attribute], 'dateTimePHPFormat')]);
+
         $input = '';
         $input .= '<div class="input-group">';
         $input .= '<div class="input-group-addon"><i class="fa fa-calendar"></i></div>';
@@ -83,6 +85,8 @@ class RadiataField extends ActiveField
         $options = array_merge($this->inputOptions, $options);
         $options['class'] .= ' date-object';
         $this->adjustLabelFor($options);
+
+        $this->model['attributes'][$this->attribute] = FieldHelper::getDateFromTimestamp($this->model['attributes'][$this->attribute], 'datePHPFormat');
 
         $input = '';
         $input .= '<div class="input-group">';

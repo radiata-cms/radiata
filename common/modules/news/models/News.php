@@ -9,6 +9,7 @@ use backend\modules\news\behaviors\TaggableBehavior;
 use backend\modules\radiata\behaviors\AdminLogBehavior;
 use backend\modules\radiata\behaviors\CacheBehavior;
 use backend\modules\radiata\behaviors\DateTimeBehavior;
+use backend\modules\radiata\behaviors\GalleryBehavior;
 use backend\modules\radiata\behaviors\ImageUploadBehavior;
 use backend\modules\radiata\behaviors\TranslateableBehavior;
 use common\models\user\User;
@@ -88,9 +89,9 @@ class News extends \yii\db\ActiveRecord
                 'titleAttribute' => 'title',
                 'icon'           => 'fa-bars bg-olive',
             ],
-            ['class' => TranslateableBehavior::className(),
-                'translationAttributes'        => ['title', 'slug', 'description', 'content', 'image_description', 'redirect', 'meta_title', 'meta_keywords', 'meta_description'],
-                'translationLanguageAttribute' => 'locale',
+            ['class'                        => TranslateableBehavior::className(),
+             'translationAttributes'        => ['title', 'slug', 'description', 'content', 'image_description', 'redirect', 'meta_title', 'meta_keywords', 'meta_description'],
+             'translationLanguageAttribute' => 'locale',
             ],
             [
                 'class'     => ImageUploadBehavior::className(),
@@ -123,6 +124,10 @@ class News extends \yii\db\ActiveRecord
             ],
             [
                 'class' => TaggableBehavior::className(),
+            ],
+            [
+                'class'        => GalleryBehavior::className(),
+                'galleryClass' => NewsGallery::className(),
             ],
         ];
     }
@@ -230,88 +235,18 @@ class News extends \yii\db\ActiveRecord
         ];
     }
 
-    public function saveGallery()
-    {
-        $fileIndex = 0;
-        $position = 1;
-        $activeLocale = Yii::$app->getModule('radiata')->activeLanguage['locale'];
-        $galleryDeletedItems = Yii::$app->request->post('GalleryDeletedItems', []);
-
-        $newsGalleryTranslation = Yii::$app->request->post('NewsGalleryTranslation', []);
-        if(isset($newsGalleryTranslation[$activeLocale])) {
-            foreach ($newsGalleryTranslation[$activeLocale] as $galId => $data) {
-                if(in_array($galId, $galleryDeletedItems)) {
-                    if($galId < 0) {
-                        $fileIndex++;
-                    }
-                    continue;
-                }
-
-                if($galId < 0) {
-                    $galleryModel = new NewsGallery();
-                } else {
-                    $galleryModel = NewsGallery::findOne($galId);
-                }
-
-                if(!$galleryModel) {
-                    $this->addError('gallery', Yii::t('b/news/gallery', 'Failed to load gallery'));
-
-                    return false;
-                }
-
-                if($galId < 0) {
-                    $galleryModel->gallery_id = $fileIndex++;
-                } else {
-                    $galleryModel->gallery_id = -1;
-                }
-
-                foreach (Yii::$app->request->post('NewsGalleryTranslation', []) as $language => $translateData) {
-                    $translateData = $translateData[$galId];
-                    foreach ($translateData as $attribute => $translation) {
-                        if($translation) {
-                            $galleryModel->translate($language)->$attribute = $translation;
-                        }
-                    }
-                }
-
-                $galleryModel->load($data);
-                $galleryModel->position = $position++;
-                $galleryModel->parent_id = $this->id;
-
-                if(!$galleryModel->save()) {
-                    foreach ($galleryModel->getErrors() as $error) {
-                        $this->addError('gallery', $error[0]);
-                    }
-
-                    return false;
-                }
-            }
-        }
-
-        if($galleryDeletedItems) {
-            foreach ($galleryDeletedItems as $galId) {
-                if($galId > 0) {
-                    $galleryModel = NewsGallery::findOne($galId);
-                    if(!$galleryModel->delete()) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
     public function getUrl()
     {
         return !empty($this->redirect) ? $this->redirect : Url::to(['/news/news/view', 'slug' => $this->slug]);
     }
 
-    public function afterSave()
+    public function afterSave($insert, $changedAttributes)
     {
         if(empty($this->categories) || !empty($this->categories) && !$this->categories[$this->category_id]) {
             $mainCategory = NewsCategory::findOne($this->category_id);
             $this->link('categories', $mainCategory);
         }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 }
