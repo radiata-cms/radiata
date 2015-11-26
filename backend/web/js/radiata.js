@@ -43,13 +43,15 @@ radiata = (function ($) {
         initErrorsInTabs: function (selector) {
             var form = $(selector);
             form.on('submit', function (e) {
-                var tabsDivs = form.find('div.tab-content:first').find('div.tab-pane');
-                tabsDivs.each(function () {
-                    if ($(this).find('div.has-error').length > 0) {
-                        var tabId = $(this).attr('id');
-                        $('a[href="#' + tabId + '"]').tab('show');
-                    }
-                });
+                window.setTimeout(function () {
+                    var tabsDivs = form.find('div.tab-content:first').find('div.tab-pane');
+                    tabsDivs.each(function () {
+                        if ($(this).find('div.has-error').length > 0) {
+                            var tabId = $(this).attr('id');
+                            $('a[href="#' + tabId + '"]').tab('show');
+                        }
+                    });
+                }, 200);
             });
         },
 

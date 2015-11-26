@@ -33,6 +33,11 @@ class NewsGallery extends \yii\db\ActiveRecord
         return '{{%news_gallery}}';
     }
 
+    public static function find()
+    {
+        return new NewsGalleryActiveQuery(get_called_class());
+    }
+
     /**
      * @inheritdoc
      */
@@ -77,10 +82,10 @@ class NewsGallery extends \yii\db\ActiveRecord
                     'small' => ['width' => 150, 'height' => 100],
                     'big'   => ['width' => 450, 'height' => 150],
                 ],
-                'filePath'         => '@frontend/web/uploads/news_gallery/[[pk]]/[[pk]].[[extension]]',
-                'fileUrl'          => '/uploads/news_gallery/[[pk]]/[[pk]].[[extension]]',
-                'thumbPath'        => '@frontend/web/uploads/news_gallery/[[pk]]/[[profile]]_[[pk]].[[extension]]',
-                'thumbUrl'         => '/uploads/news_gallery/[[pk]]/[[profile]]_[[pk]].[[extension]]',
+                'filePath'  => '@frontend/web/uploads/news_gallery/[[id_path]]/[[pk]].[[extension]]',
+                'fileUrl'   => '/uploads/news_gallery/[[id_path]]/[[pk]].[[extension]]',
+                'thumbPath' => '@frontend/web/uploads/news_gallery/[[id_path]]/[[profile]]_[[pk]].[[extension]]',
+                'thumbUrl'  => '/uploads/news_gallery/[[id_path]]/[[profile]]_[[pk]].[[extension]]',
             ],
             [
                 'class'                        => TranslateableBehavior::className(),
@@ -96,11 +101,6 @@ class NewsGallery extends \yii\db\ActiveRecord
     public function getTranslations()
     {
         return $this->hasMany(NewsGalleryTranslation::className(), ['parent_id' => 'id']);
-    }
-
-    public static function find()
-    {
-        return new NewsGalleryActiveQuery(get_called_class());
     }
 
     /**

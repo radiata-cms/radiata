@@ -86,7 +86,7 @@ class FieldHelper
 
     public static function getDateFromTimestamp($date, $format)
     {
-        if(strpos($date, '/') === false) {
+        if($date && strpos($date, '/') === false && strpos($date, '.') === false) {
             return date(Yii::t('c/radiata/settings', $format), $date);
         } else {
             return $date;

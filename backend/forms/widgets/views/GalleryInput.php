@@ -35,9 +35,9 @@ echo FileInput::widget([
         'initialPreviewConfig'    => $initialPreviewConfig,
         'autoReplace'             => true,
         'maxFileCount'            => 100,
-        'language'                => Yii::$app->language,
+        'language'                => Yii::$app->getModule('radiata')->activeLanguage['code'],
         'previewThumbTags'        => [
-            '{CUSTOM_TAG_NEW}'  => Html::hiddenInput($fieldName . '[][gallery_id]', 'NEW_IND') . '' . $form->field($newsGallery, '[NEW_IND]image_text')->widget(LangInputWidget::classname(), [
+            '{CUSTOM_TAG_NEW}' => Html::hiddenInput($fieldName . '[][gallery_id]', 'NEW_IND') . '' . $form->field($newsGallery, '[NEW_IND]image_text')->label(Yii::t('b/radiata/common', 'Image text'))->widget(LangInputWidget::classname(), [
                     'options' => [
                         'id'                   => 'galTabsNEW_IND',
                         'type'                 => 'activeTextInput',

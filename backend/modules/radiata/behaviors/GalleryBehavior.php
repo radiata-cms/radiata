@@ -15,6 +15,16 @@ class GalleryBehavior extends Behavior
     public $galleryClass;
 
     /**
+     * @inheritdoc
+     */
+    public function events()
+    {
+        return [
+            ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
+        ];
+    }
+
+    /**
      * @return void
      */
     public function saveGallery()
@@ -91,4 +101,12 @@ class GalleryBehavior extends Behavior
         return true;
     }
 
+    public function beforeDelete()
+    {
+        if(!empty($this->owner->gallery)) {
+            foreach ($this->owner->gallery as $gallery) {
+                $gallery->delete();
+            }
+        }
+    }
 }
