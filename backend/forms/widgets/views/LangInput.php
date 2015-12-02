@@ -27,6 +27,7 @@ foreach ($languages as $language) {
                 'minHeight'        => 300,
                 'pastePlainText'   => true,
                 'buttonSource'     => true,
+                'replaceDivs' => false,
                 'plugins'          => [
                     //'clips',
                     'fullscreen',

@@ -105,7 +105,7 @@ class m150828_130937_rbac_init extends Migration
                 $user->attributes,
                 ArrayHelper::getColumn($user, 'attributes'))
             ->execute();
-        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
+        $authManager->assign($adminRole, Yii::$app->db->getLastInsertID());
 
         $user = new User();
         $user->username = 'manager';
@@ -122,7 +122,7 @@ class m150828_130937_rbac_init extends Migration
                 $user->attributes,
                 ArrayHelper::getColumn($user, 'attributes'))
             ->execute();
-        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
+        $authManager->assign($managerRole, Yii::$app->db->getLastInsertID());
 
         $user = new User();
         $user->username = 'user';
@@ -139,7 +139,7 @@ class m150828_130937_rbac_init extends Migration
                 $user->attributes,
                 ArrayHelper::getColumn($user, 'attributes'))
             ->execute();
-        $authManager->assign($developerRole, Yii::$app->db->getLastInsertID());
+        $authManager->assign($userRole, Yii::$app->db->getLastInsertID());
     }
 
     public function safeDown()

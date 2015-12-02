@@ -95,7 +95,7 @@ class ModulesBar extends Widget
             &&
             defined(get_class(Yii::$app->getModule($moduleId)) . '::BACKEND_PERMISSION')
             &&
-            !Yii::$app->user->can(constant(get_class(Yii::$app->getModule($moduleId)) . '::BACKEND_PERMISSION'))
+            Yii::$app->user->can(constant(get_class(Yii::$app->getModule($moduleId)) . '::BACKEND_PERMISSION'))
         ) {
 
             return true;

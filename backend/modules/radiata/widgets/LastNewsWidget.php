@@ -15,7 +15,7 @@ class LastNewsWidget extends \yii\bootstrap\Widget
         if(BackendAccessControl::checkPermissionAccess(UserController::BACKEND_PERMISSION)) {
             $news = News::find()
                 ->language()
-                ->orderBy('date', SORT_DESC)
+                ->orderBy(['date' => SORT_DESC])
                 ->limit($this->limit)
                 ->all();
 
