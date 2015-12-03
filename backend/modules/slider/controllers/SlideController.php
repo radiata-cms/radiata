@@ -3,10 +3,10 @@
 namespace backend\modules\slider\controllers;
 
 use backend\modules\radiata\components\BackendController;
-use backend\modules\slider\models\SlideSearch;
 use common\modules\slider\models\Slide;
 use himiklab\sortablegrid\SortableGridAction;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
@@ -43,19 +43,16 @@ class SlideController extends BackendController
      * Lists all Slide models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($slider_id)
     {
-        $searchModel = new SlideSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->sort = false;
-        if(Yii::$app->request->queryParams['SlideSearch']['slider_id']) {
-            $dataProvider->pagination = false;
-        }
+        $dataProvider = new ActiveDataProvider([
+            'query'      => Slide::find()->where(['slider_id' => $slider_id])->orderBy(['position' => SORT_ASC]),
+            'pagination' => false,
+        ]);
 
         return $this->render('index', [
-            'searchModel'    => $searchModel,
-            'dataProvider'   => $dataProvider,
-            'showSearchForm' => Yii::$app->request->queryParams,
+            'dataProvider' => $dataProvider,
+            'slider_id'    => $slider_id,
         ]);
     }
 
@@ -92,7 +89,7 @@ class SlideController extends BackendController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($slider_id = '')
     {
         $model = new Slide();
 
@@ -107,6 +104,10 @@ class SlideController extends BackendController
         if($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if(!empty($slider_id)) {
+                $model->slider_id = $slider_id;
+            }
+
             return $this->render('create', [
                 'model' => $model,
             ]);

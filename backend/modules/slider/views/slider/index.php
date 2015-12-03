@@ -21,6 +21,13 @@ $this->title = Yii::t('b/slider', 'Sliders');
         'columns'      => [
             'id',
             'title',
+            [
+                'label'  => Yii::t('b/slider', 'Slides'),
+                'format' => 'raw',
+                'value'  => function ($model, $index, $widget) {
+                    return Html::a(count($model->slides), ['/slider/slide/index', 'slider_id' => $model->id]);
+                },
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

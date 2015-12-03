@@ -148,7 +148,7 @@ class Slide extends \yii\db\ActiveRecord
      */
     public function getSlider()
     {
-        return $this->hasOne(slider::className(), ['id' => 'slider_id']);
+        return $this->hasOne(Slider::className(), ['id' => 'slider_id']);
     }
 
     /**

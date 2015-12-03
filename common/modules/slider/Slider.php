@@ -54,26 +54,9 @@ class Slider extends \yii\base\Module implements RadiataModuleInterface
             [
                 'title'      => Yii::t($this->moduleMessages, 'Module name'),
                 'icon'       => $this->moduleIcon,
-                'link'       => Url::to(['slider/slider/index']),
+                'link' => Url::to(['.slider/slider/index']),
                 'permission' => self::BACKEND_PERMISSION,
                 'isModule'   => true,
-                'children'   => [
-
-                    [
-                        'title'           => Yii::t('b/slider', 'Sliders'),
-                        'icon'            => 'fa fa-sliders',
-                        'link'            => Url::to(['/slider/slider/index']),
-                        'permission'      => self::BACKEND_PERMISSION,
-                        'isActiveUrlPart' => '/slider/slider/',
-                    ],
-                    [
-                        'title'           => Yii::t('b/slider/slide', 'Slides'),
-                        'icon'            => 'fa fa-sticky-note-o',
-                        'link'            => Url::to(['/slider/slide/index']),
-                        'permission'      => self::BACKEND_PERMISSION,
-                        'isActiveUrlPart' => '/slider/slide/',
-                    ],
-                ],
             ],
         ];
     }

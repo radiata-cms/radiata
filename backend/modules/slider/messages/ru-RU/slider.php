@@ -11,4 +11,5 @@ return [
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить слайдер?',
 
     'Title'                                      => 'Название',
+    'Slides' => 'Слайды',
 ];

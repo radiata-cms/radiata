@@ -61,6 +61,6 @@ class Slider extends \yii\db\ActiveRecord
      */
     public function getSlides()
     {
-        return $this->hasMany(Slide::className(), ['place_id' => 'id']);
+        return $this->hasMany(Slide::className(), ['slider_id' => 'id']);
     }
 }
