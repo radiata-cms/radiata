@@ -27,14 +27,14 @@ class MetaTagsWidget extends \yii\bootstrap\Widget
             default:
                 $metaTags[] = [
                     'name'    => 'meta_title',
-                    'content' => $this->item->meta_title,
+                    'content' => !empty($this->item->meta_title) ? $this->item->meta_title : $this->item->title,
                 ];
                 $metaTags[] = [
-                    'name'    => 'meta_keywords',
+                    'name' => 'keywords',
                     'content' => $this->item->meta_keywords,
                 ];
                 $metaTags[] = [
-                    'name'    => 'meta_description',
+                    'name' => 'description',
                     'content' => $this->item->meta_description,
                 ];
                 break;

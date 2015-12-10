@@ -105,7 +105,7 @@ class TreeBehavior extends Behavior
     public function getStructure()
     {
         $owner = $this->owner;
-        $cacheKey = CacheHelper::getTag($owner::className()) . '_items_tree';
+        $cacheKey = CacheHelper::getTag($owner::className()) . '_items_tree' . Yii::$app->language;
         $structure = CacheHelper::get($cacheKey);
         if(!$structure) {
             $structure = $this->makeStructure();

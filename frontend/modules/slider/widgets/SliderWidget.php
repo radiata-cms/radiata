@@ -22,7 +22,7 @@ class SliderWidget extends \yii\bootstrap\Widget
 
         $slider = Slider::findOne($this->slider_id);
         if($slider) {
-            $slides = Slide::find()->active()->where(['slider_id' => $this->slider_id])->order()->all();
+            $slides = Slide::find()->active()->where(['slider_id' => $this->slider_id])->language()->order()->all();
 
             if(!empty($slides)) {
                 return $this->render('Slider', [

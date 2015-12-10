@@ -3,8 +3,12 @@
 /* @var array $metaTags */
 
 foreach ($metaTags as $metaTag) {
-    $this->registerMetaTag([
-        'name'    => $metaTag['name'],
-        'content' => $metaTag['content']
-    ]);
+    if($metaTag['name'] == 'meta_title') {
+        $this->title = $metaTag['content'];
+    } else {
+        $this->registerMetaTag([
+            'name'    => $metaTag['name'],
+            'content' => $metaTag['content']
+        ]);
+    }
 }
