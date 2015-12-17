@@ -149,8 +149,10 @@ class SlideController extends BackendController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $slider_id = $model->slider_id;
+        $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'slider_id' => $slider_id]);
     }
 }
