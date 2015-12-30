@@ -67,14 +67,16 @@ class Menu extends \yii\db\ActiveRecord
         if(!empty($children)) {
             foreach ($children as $child) {
                 $item = $menuStructure[$child];
-                $menuItem = [
-                    'label' => $item['title'],
-                    'url'   => [$item['data']->link]
-                ];
-                if(!empty($menuStructure[$child]['children'])) {
-                    $menuItem['items'] = Menu::getSubMenu($child);
+                if($item['data']['status'] == Menu::STATUS_ACTIVE) {
+                    $menuItem = [
+                        'label' => $item['title'],
+                        'url'   => [$item['data']->link]
+                    ];
+                    if(!empty($menuStructure[$child]['children'])) {
+                        $menuItem['items'] = Menu::getSubMenu($child);
+                    }
+                    $menuItems[] = $menuItem;
                 }
-                $menuItems[] = $menuItem;
             }
         }
 

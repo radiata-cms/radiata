@@ -172,5 +172,6 @@ use yii\web\View;
 
     <? $this->registerJs('radiata.initErrorsInTabs("#news-form");', View::POS_READY); ?>
     <? $this->registerJs('radiata.updateWysiwygTextArea("#news-form");', View::POS_READY); ?>
+    <? $this->registerJs('radiata.cleanMultipleFiles("#news-form");', View::POS_READY); ?>
 
 </div>

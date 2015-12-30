@@ -63,6 +63,15 @@ radiata = (function ($) {
                     jQuery("#" + id).redactor('code.sync');
                 });
             });
+        },
+
+        cleanMultipleFiles: function (selector) {
+            var form = $(selector);
+            form.on('submit', function (e) {
+                $('input[type=file].multiple').each(function () {
+                    $(this).remove();
+                });
+            });
         }
     }
 

@@ -29,7 +29,6 @@ class GalleryBehavior extends Behavior
      */
     public function saveGallery()
     {
-        $fileIndex = 0;
         $position = 1;
         $activeLocale = Yii::$app->getModule('radiata')->activeLanguage['locale'];
         $galleryDeletedItems = Yii::$app->request->post('GalleryDeletedItems', []);
@@ -40,9 +39,6 @@ class GalleryBehavior extends Behavior
         if(isset($newsGalleryTranslation[$activeLocale])) {
             foreach ($newsGalleryTranslation[$activeLocale] as $galId => $data) {
                 if(in_array($galId, $galleryDeletedItems)) {
-                    if($galId < 0) {
-                        $fileIndex++;
-                    }
                     continue;
                 }
 
@@ -59,9 +55,9 @@ class GalleryBehavior extends Behavior
                 }
 
                 if($galId < 0) {
-                    $galleryModel->gallery_id = $fileIndex++;
+                    $galleryModel->gallery_id = $galId;
                 } else {
-                    $galleryModel->gallery_id = -1;
+                    $galleryModel->gallery_id = 0;
                 }
 
                 foreach (Yii::$app->request->post($formPrefix . 'Translation', []) as $language => $translateData) {

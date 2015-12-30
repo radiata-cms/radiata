@@ -23,6 +23,8 @@ class FileUploadBehavior extends \yii\base\Behavior
     public $attribute = 'upload';
     /** @var string Name of attribute which holds the attachment (tabular mode). */
     public $tabularAttribute = '';
+    /** @var string Name of source variable. */
+    public $source = '';
     /** @var string Path template to use in storing files.5 */
     public $filePath = '@webroot/uploads/[[pk]].[[extension]]';
     /** @var string Where to store images. */
@@ -55,21 +57,29 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function beforeValidate()
     {
-        $attribute = $this->tabularAttribute ? '[' . $this->owner->{$this->tabularAttribute} . ']' . $this->attribute : $this->attribute;
+        $source = Yii::$app->getRequest()->post($this->source, []);
+        if(!empty($source) && !empty($source[$this->owner->{$this->tabularAttribute}])) {
+            list($filename, $type, $data) = explode(';', $source[$this->owner->{$this->tabularAttribute}]);
+            list(, $data) = explode(',', $data);
+            $this->file = base64_decode($data);
+            $this->owner->{$this->attribute} = $filename;
+        } else {
+            $attribute = $this->tabularAttribute ? '[' . $this->owner->{$this->tabularAttribute} . ']' . $this->attribute : $this->attribute;
 
-        if($this->owner->{$this->attribute} instanceof UploadedFile) {
-            $this->file = $this->owner->{$this->attribute};
+            if($this->owner->{$this->attribute} instanceof UploadedFile) {
+                $this->file = $this->owner->{$this->attribute};
 
-            return;
-        }
-        $this->file = UploadedFile::getInstance($this->owner, $attribute);
+                return;
+            }
+            $this->file = UploadedFile::getInstance($this->owner, $attribute);
 
-        if(empty($this->file)) {
-            $this->file = UploadedFile::getInstanceByName($this->attribute);
-        }
+            if(empty($this->file)) {
+                $this->file = UploadedFile::getInstanceByName($this->attribute);
+            }
 
-        if($this->file instanceof UploadedFile) {
-            $this->owner->{$this->attribute} = $this->file;
+            if($this->file instanceof UploadedFile) {
+                $this->owner->{$this->attribute} = $this->file;
+            }
         }
     }
 
@@ -173,7 +183,9 @@ class FileUploadBehavior extends \yii\base\Behavior
         $id = is_array($id) ? implode('', $id) : $id;
         $result = [];
         $result[] = substr($id, 0, 2);
-        $result[] = substr($id, 2);
+        if(strlen($id) > 2) {
+            $result[] = substr($id, 2);
+        }
 
         return implode('/', $result);
     }
@@ -183,11 +195,15 @@ class FileUploadBehavior extends \yii\base\Behavior
      */
     public function afterSave()
     {
-        if($this->file instanceof UploadedFile) {
+        if($this->file instanceof UploadedFile || is_string($this->file)) {
             $path = $this->getUploadedFilePath($this->attribute);
             FileHelper::createDirectory(pathinfo($path, PATHINFO_DIRNAME), 0775, true);
-            if(!$this->file->saveAs($path, true)) {
-                throw new Exception('File saving error. ' . $path . ' / ' . $this->file->error);
+            if($this->file instanceof UploadedFile) {
+                if(!$this->file->saveAs($path, true)) {
+                    throw new Exception('File saving error. ' . $path . ' / ' . $this->file->error);
+                }
+            } else {
+                file_put_contents($path, $this->file);
             }
             $this->owner->trigger(static::EVENT_AFTER_FILE_SAVE);
         }

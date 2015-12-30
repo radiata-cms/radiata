@@ -78,6 +78,7 @@ class NewsGallery extends \yii\db\ActiveRecord
                 'class'            => ImageUploadBehavior::className(),
                 'attribute'        => 'image',
                 'tabularAttribute' => 'gallery_id',
+                'source'    => 'GalleryFilesSources',
                 'thumbs'           => [
                     'small' => ['width' => 150, 'height' => 100],
                     'big'   => ['width' => 450, 'height' => 150],

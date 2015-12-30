@@ -10,12 +10,14 @@ use yii\helpers\Html;
  */
 
 echo '<div id="gallery-deleted-items"></div>';
+echo '<div id="gallery-added-items"></div>';
 
 echo FileInput::widget([
     'name'          => $fieldName . '[][image]',
     'options'       => [
         'accept'   => 'image/*',
         'multiple' => true,
+        'class' => 'multiple',
     ],
     'pluginOptions' => [
         'layoutTemplates'         => [
@@ -37,7 +39,7 @@ echo FileInput::widget([
         'maxFileCount'            => 100,
         'language'                => Yii::$app->getModule('radiata')->activeLanguage['code'],
         'previewThumbTags'        => [
-            '{CUSTOM_TAG_NEW}' => Html::hiddenInput($fieldName . '[][gallery_id]', 'NEW_IND') . '' . $form->field($newsGallery, '[NEW_IND]image_text')->label(Yii::t('b/radiata/common', 'Image text'))->widget(LangInputWidget::classname(), [
+            '{CUSTOM_TAG_NEW}' => Html::hiddenInput('GalleryFilesSources[NEW_IND]', '') . $form->field($newsGallery, '[NEW_IND]image_text')->label(Yii::t('b/radiata/common', 'Image text'))->widget(LangInputWidget::classname(), [
                     'options' => [
                         'id'                   => 'galTabsNEW_IND',
                         'type'                 => 'activeTextInput',
@@ -98,6 +100,18 @@ echo FileInput::widget([
                     });
                 }
             });
+
+            // Only process image files.
+            if (file.type.match('image.*')) {
+                var reader = new FileReader();
+                reader.onload = (function(theFile) {
+                    var _theFile = theFile;
+                    return function (e) {
+                        $('input[name=\"GalleryFilesSources['+galInd+']\"]').val(theFile.name + ';' + e.target.result);
+                    }
+                })(file);
+                reader.readAsDataURL(file);
+            }
 
             radiata.initLangTabs();
             radiata.makeSortable('.file-preview-thumbnails');

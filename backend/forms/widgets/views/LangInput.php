@@ -23,7 +23,7 @@ foreach ($languages as $language) {
                 'class' => 'wysiwygTextArea',
             ],
             'settings'  => [
-                'lang'             => $language->code,
+                'lang' => Yii::$app->getModule('radiata')->activeLanguage['code'],
                 'minHeight'        => 300,
                 'pastePlainText'   => true,
                 'buttonSource'     => true,

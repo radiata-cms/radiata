@@ -50,28 +50,6 @@ class ImageUploadBehavior extends FileUploadBehavior
     }
 
     /**
-     * Resolves profile path for thumbnail profile.
-     *
-     * @param string $path
-     * @param string $profile
-     * @return string
-     */
-    public function resolveProfilePath($path, $profile)
-    {
-        $path = $this->resolvePath($path);
-
-        return preg_replace_callback('|\[\[([\w\_/]+)\]\]|', function ($matches) use ($profile) {
-            $name = $matches[1];
-            switch ($name) {
-                case 'profile':
-                    return $profile;
-            }
-
-            return '[[' . $name . ']]';
-        }, $path);
-    }
-
-    /**
      * @param string $attribute
      * @param string $profile
      * @return string
@@ -81,6 +59,27 @@ class ImageUploadBehavior extends FileUploadBehavior
         $behavior = static::getInstance($this->owner, $attribute);
 
         return $behavior->resolveProfilePath($behavior->thumbPath, $profile);
+    }
+
+    /**
+     * Resolves profile path for thumbnail profile.
+     *
+     * @param string $path
+     * @param string $profile
+     * @return string
+     */
+    public function resolveProfilePath($path, $profile)
+    {
+        $path = $this->resolvePath($path);
+        return preg_replace_callback('|\[\[([\w\_/]+)\]\]|', function ($matches) use ($profile) {
+            $name = $matches[1];
+            switch ($name) {
+                case 'profile':
+                    return $profile;
+            }
+
+            return '[[' . $name . ']]';
+        }, $path);
     }
 
     /**
@@ -119,16 +118,6 @@ class ImageUploadBehavior extends FileUploadBehavior
     }
 
     /**
-     * After file save event handler.
-     */
-    public function afterFileSave()
-    {
-        if($this->createThumbsOnSave == true) {
-            $this->createThumbs();
-        }
-    }
-
-    /**
      * Creates image thumbnails
      */
     public function createThumbs()
@@ -143,6 +132,16 @@ class ImageUploadBehavior extends FileUploadBehavior
                 FileHelper::createDirectory(pathinfo($thumbPath, PATHINFO_DIRNAME), 0775, true);
                 $thumb->save($thumbPath);
             }
+        }
+    }
+
+    /**
+     * After file save event handler.
+     */
+    public function afterFileSave()
+    {
+        if($this->createThumbsOnSave == true) {
+            $this->createThumbs();
         }
     }
 }
