@@ -97,13 +97,13 @@ class FileUploadBehavior extends \yii\base\Behavior
             $this->owner->{$this->attribute} = $this->file->baseName . '.' . $this->file->extension;
         } else { // Fix html forms bug, when we have empty file field
             if(!$this->owner->isNewRecord && empty($this->owner->{$this->attribute})) {
-                if(Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
+                if(empty($this->tabularAttribute) && Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
                     $this->cleanFiles();
                     $this->owner->{$this->attribute} = null;
                 } else {
                     $this->owner->{$this->attribute} = ArrayHelper::getValue($this->owner->oldAttributes, $this->attribute, null);
                 }
-            } elseif(Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
+            } elseif(empty($this->tabularAttribute) && Yii::$app->getRequest()->post($this->attribute . self::DELETED_PREFIX)) {
                 $this->cleanFiles();
                 $this->owner->{$this->attribute} = null;
             }

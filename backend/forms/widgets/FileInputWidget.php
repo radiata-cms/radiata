@@ -18,6 +18,7 @@ class FileInputWidget extends \yii\widgets\InputWidget
 
         $pluginOptions = ArrayHelper::merge([
             'showUpload' => false,
+            'dropZoneEnabled' => false,
             'browseClass' => 'btn btn-success',
             'removeClass' => 'btn btn-danger',
             'removeIcon' => '<i class="glyphicon glyphicon-trash"></i> ',
