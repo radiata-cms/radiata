@@ -50,7 +50,9 @@ SliderAsset::register($this);
         <!--/.carousel-inner-->
     </div>
     <!--/.carousel-->
-
-    <a class="prev hidden-xs" href="#<?= $id ?>" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
-    <a class="next hidden-xs" href="#<?= $id ?>" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+    
+    <? if(count($slides) > 1) { ?>
+        <a class="prev hidden-xs" href="#<?= $id ?>" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+        <a class="next hidden-xs" href="#<?= $id ?>" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+    <? } ?>
 </section><!--/#main-slider-->
