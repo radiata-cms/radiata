@@ -123,8 +123,10 @@ class ImageUploadBehavior extends FileUploadBehavior
     public function createThumbs()
     {
         $path = $this->getUploadedFilePath($this->attribute);
-        $thumb = new GD($path, ['interlace' => true, 'jpegQuality' => 90]);
-        $thumb->save($path);
+        if(file_exists($path)) {
+            $thumb = new GD($path, ['interlace' => true, 'jpegQuality' => 90]);
+            $thumb->save($path);
+        }
 
         foreach ($this->thumbs as $profile => $config) {
             $thumbPath = static::getThumbFilePath($this->attribute, $profile);
